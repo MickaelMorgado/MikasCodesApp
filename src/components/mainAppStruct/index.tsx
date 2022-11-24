@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Sidebar from 'components/sidebar';
@@ -25,13 +25,13 @@ export default function MainAppStruct({
   content = <>This page is empty</>
 }: IMainAppStruct) {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <S.Main>
       <CssBaseline />
       <Sidebar />
       <S.Box>
         <DrawerHeader />
         {content}
       </S.Box>
-    </Box>
+    </S.Main>
   );
 }
