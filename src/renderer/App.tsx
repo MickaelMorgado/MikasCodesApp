@@ -1,26 +1,17 @@
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import Sidebar from '../components/sidebar'
 import MainAppStruct from '../components/mainAppStruct'
-import icon from '../../assets/icon.svg';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Login from 'pages/login';
-import Home from 'pages/home';
+import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
-import GeneratedScriptBase from 'pages/scripts/generatedScripts/generatedScriptBase';
-import GeneratedScriptBase2 from 'pages/scripts/generatedScripts/generatedScriptBase2';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
-
-
-const renderedElement = () => {
-  return (formFields: any) => (<>lorem {formFields[0].name == false ? 'yey': 'nop'} fsodf</>)
-}
 
 export default function App() {
   return (
@@ -32,26 +23,17 @@ export default function App() {
             path="/"
             element={
               <MainAppStruct
-                title={'Home'}
-                content={<Home />}
+                title={'Notes App'}
+                content={<NotesApp />}
               />
             }
           />
           <Route
-            path="/login"
+            path="/notesApp"
             element={
               <MainAppStruct
-                title={'Login'}
-                content={<Login />}
-              />
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <MainAppStruct
-                title={'Home'}
-                content={<Home />}
+                title={'Notes App'}
+                content={<NotesApp />}
               />
             }
           />

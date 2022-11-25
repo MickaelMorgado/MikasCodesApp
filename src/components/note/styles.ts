@@ -10,6 +10,6 @@ export const Action = styled.div`
   flex-grow: 0;
 `;
 
-export const Content = styled.div`
+export const Content = styled.pre`
   flex-grow: 1;  
 `;

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Divider,
   IconButton,
   List,
@@ -8,17 +7,15 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar,
-  Typography
+  Toolbar
 } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import HomeIcon from '@mui/icons-material/Home';
-import KeyIcon from '@mui/icons-material/Key';
-import ListIcon from '@mui/icons-material/List';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import CodeIcon from '@mui/icons-material/Code';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
@@ -133,9 +130,8 @@ export const Sidebar = () => {
         <Divider />
         <List>
           {[
-            { name: 'Login', icon: <KeyIcon /> },
-            { name: 'Home', icon: <HomeIcon /> },
-            { name: 'Scripts', icon: <ListIcon /> }
+            { name: 'NotesApp', icon: <ContentPasteIcon /> },
+            { name: 'Scripts', icon: <CodeIcon /> }
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase()
             return (

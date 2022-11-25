@@ -10,6 +10,7 @@ import { Button, Input, Switch, TextareaAutosize, TextField } from "@mui/materia
 import downloadFile from "../../components/downloadableFile";
 
 import * as GS from "../globalStyles";
+import randomizedId from "utils";
 
 export interface IScriptItem {
   id: string,
@@ -64,7 +65,7 @@ export const Scripts = () => {
           return item.title.toLowerCase().includes(searchTerm) || item.category.toLowerCase().includes(searchTerm) && searchTerm !== ''
         }).map(
           ({ category, component, script, title, file }, index) => (
-            <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+            <Accordion key={randomizedId()} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`panel${index}bh-header`}

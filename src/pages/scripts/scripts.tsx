@@ -1,11 +1,8 @@
 import { Enum_scriptsCategory } from "components/accordion/accordionItem"
-import AutoUpdateSubmodules from "./generatedScripts/autoUpdateSubmodules"
-import GeneratedScriptBase from "./generatedScripts/generatedScriptBase"
-import { GeneratedScriptBase2 } from "./generatedScripts/generatedScriptBase2"
-import GitStash from "./generatedScripts/gitStash"
-import NewStyledComponent from "./generatedScripts/newStyledComponent"
+import GeneratedScriptBase from "../../components/generatedScripts/generatedScriptBase"
 
 import * as GS from "../globalStyles";
+import { Enum_MyFormFieldType } from "components/myForm/field";
 
 export interface IScriptItem {
   title: string,
@@ -35,10 +32,12 @@ export const scriptsCodes: IScriptItem[] = [
         [
           {
             name: 'message',
+            formFieldType: Enum_MyFormFieldType.input,
             callBack: () => {}
           },
           {
             name: 'show message',
+            formFieldType: Enum_MyFormFieldType.checkBox,
             callBack: () => {}
           }
         ]
@@ -72,10 +71,12 @@ export const scriptsCodes: IScriptItem[] = [
         [
           {
             name: 'stash name',
+            formFieldType: Enum_MyFormFieldType.input,
             callBack: () => {}
           },
           {
             name: 'add untracked files',
+            formFieldType: Enum_MyFormFieldType.checkBox,
             callBack: () => {}
           }
         ]
@@ -106,6 +107,7 @@ export const scriptsCodes: IScriptItem[] = [
         [
           {
             name: 'gitmodules content',
+            formFieldType: Enum_MyFormFieldType.input,
             callBack: () => {}
           }
         ]
@@ -145,18 +147,21 @@ cd ../
     title: 'New styled component',
     category: Enum_scriptsCategory.react,
     // file: filePath('autoUpdateSubmodules.js'),
-        component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase 
       description={
         () => (
           <>
-            Simple snippet to create styled component for <GS.React>react</GS.React> your styles.ts file.
+            Simple snippet to create a styled component for your styles.ts file.
           </>
         )
       }
+      videoUrl='https://awevideo.s3.amazonaws.com/video-12359094-10425607fe783ae369a21e929b59ec8d.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20221125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221125T140450Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3DSelect%2520Page%2520to%2520change%2520%257C%2520Admin.mp4&X-Amz-Signature=4214e6c0269bf724916cae831a94d0ea572d9901bc7cf87aa6cfc1b5967928ba'
       initialFormFields={
         [
           {
             name: 'component Name',
+            formFieldType: Enum_MyFormFieldType.input,
+            tooltip: 'Dont use spaces',
             callBack: () => {}
           }
         ]
@@ -166,6 +171,43 @@ cd ../
           {`import styled from "styled-components";
           
 export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
+        </>
+      )}
+    />
+  },
+  {
+    title: 'New react component',
+    category: Enum_scriptsCategory.react,
+    component: <GeneratedScriptBase 
+      description={() => (<>Simple snippet to create a <GS.React>react</GS.React> component.</>)}
+      initialFormFields={
+        [
+          {
+            name: 'component Name',
+            formFieldType: Enum_MyFormFieldType.input,
+            tooltip: 'Dont use spaces',
+            callBack: () => {}
+          }
+        ]
+      }
+      renderedScript={(formFields) => (
+        <>
+          {`import React from 'react';
+
+export interface I${formFields[0].value}Props {
+  id: string;
+}
+
+export const ${formFields[0].value} = ({ id }: I${formFields[0].value}Props) => {
+  return (
+    <>
+
+    </>
+  );
+};
+
+export default ${formFields[0].value};
+`}
         </>
       )}
     />

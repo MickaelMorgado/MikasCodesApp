@@ -6,6 +6,7 @@ export const MyFormField = styled.div`
   align-items: center;
   gap: 25px;
   margin-bottom: 15px;
+  justify-content: space-between;
 
   & > :nth-child(1) {
     width: 30%

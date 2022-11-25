@@ -11,10 +11,6 @@ export const Pre = styled.pre<{oneLine: boolean}>`
   ${props => props.oneLine ? 'white-space: nowrap; white-space: inherit;' : 'white-space: break-spaces;'}
 `;
 
-export const Description = styled.i`
-  color: grey;
-`;
-
 export const ChildContent = styled.div`
   display: block;
   padding: 0 25px 25px 25px;
