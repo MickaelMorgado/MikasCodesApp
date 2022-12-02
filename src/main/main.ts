@@ -15,6 +15,11 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+log.transports.file.resolvePath = () => path.join('/home/lenovo2019/dengun/gabs_project/your-project-name', 'logs/main.log')
+
+
+log.log("Application Version: " + app.getVersion())
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -71,7 +76,7 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
+    width: 1250,
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -80,6 +85,8 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
@@ -135,3 +142,19 @@ app
     });
   })
   .catch(console.log);
+
+autoUpdater.on("update-available", () => {
+  log.info("update-available")
+})
+
+autoUpdater.on("checking-for-update", () => {
+  log.info("checking-for-update")
+})
+
+autoUpdater.on("download-progress", () => {
+  log.info("download-progress")
+})
+
+autoUpdater.on("update-downloaded", () => {
+  log.info("update-downloaded")
+})

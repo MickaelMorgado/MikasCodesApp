@@ -1,0 +1,9 @@
+package.json backup:
+
+  "build": {
+  ...
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],

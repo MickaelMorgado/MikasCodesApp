@@ -5,6 +5,7 @@ import MyFormField, { Enum_MyFormFieldType } from "components/myForm/field"
 import {
   Enum_StorageSlot,
   getLocalStorageItem,
+  validation,
   randomizedId,
   setLocalStorageItem
 } from '../../utils'
@@ -14,14 +15,13 @@ import Description from "components/description";
 
 export interface INote {
   id: string,
+  date: Date,
   content: string
 }
 
-export interface INotesAppProps {}
-
 export const NotesApp = () => {
   const getInitialNotes = getLocalStorageItem(Enum_StorageSlot.notes)
-  console.log('get initial notes: ', getInitialNotes)
+  // console.log('get initial notes: ', getInitialNotes)
   const [notes, setNotes] = useState<INote[]>(JSON.parse(getInitialNotes))
   const [currentNote, setCurrentNote] = useState('')
 
@@ -33,6 +33,7 @@ export const NotesApp = () => {
   const handleAddNote = () => {
     const newNote: INote = {
       id: randomizedId(),
+      date: new Date,
       content: `${currentNote}`
     }
     addNote(newNote)
@@ -70,18 +71,19 @@ export const NotesApp = () => {
       <br />
       <PaddedContent>
         <Stack spacing={2}>
-          {notes
-            .map(item => <Note
-              key={item.id}
-              id={item.id}
-              content={item.content}
-              deleteCallBack={(id) => handleDeleteNote(id)}
-              />)
-            }
+          {validation.isValid(notes)
+            ? notes
+                .map(item => <Note
+                  key={item.id}
+                  id={item.id}
+                  date={item.date}
+                  content={item.content}
+                  deleteCallBack={(id) => handleDeleteNote(id)}
+                />)
+            : validation.invalidMessage('No notes saved')
+          }
         </Stack>
       </PaddedContent>
     </>
   );
 };
-
-export default NotesApp;

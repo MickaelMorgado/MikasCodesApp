@@ -12,9 +12,16 @@ export const Sidebar = styled.div`
   transform: translateX(calc(-100% + 70px));
   transition: all .25s ease-out;
   box-shadow: 0 0 5px 0 black;
-  
+
   &:hover {
     transform: translateX(0%);
     box-shadow: 0 0 300px -10px black;
+  }
+`;
+
+export const Link = styled.div`
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 `;

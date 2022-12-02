@@ -26,7 +26,7 @@ const appColor = {
 }
 
 export const Tag = styled.span`
-  padding: 3px 8px;
+  padding: 3px 5px;
   border-radius: 3px;
   font-style: normal;
 `

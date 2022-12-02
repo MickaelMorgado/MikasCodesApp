@@ -9,32 +9,54 @@ export enum Enum_MyFormFieldType {
   checkBox
 }
 
+export enum Enum_MyFormFieldTransformationType {
+  default,
+  noSpaces
+}
+
 export interface IMyFormField {
   name: string,
   formFieldType: Enum_MyFormFieldType,
   callBack: (e: any) => void,
   value?: string,
   tooltip?: string,
+  transformationType?: Enum_MyFormFieldTransformationType
 }
 
 export const MyFormField = ({
   formFieldType = Enum_MyFormFieldType.input,
   name,
   callBack,
-  tooltip
+  tooltip,
+  transformationType = Enum_MyFormFieldTransformationType.default
 }: IMyFormField) => {
+
+  const fieldEventModifier = (e: any, transformationType: Enum_MyFormFieldTransformationType) => {
+    transformationType == Enum_MyFormFieldTransformationType.noSpaces
+    switch (transformationType) {
+      case Enum_MyFormFieldTransformationType.noSpaces: {
+        e.target.value = e.target.value.replace(/\s/g, '')
+        break
+      }
+      default: {
+        break
+      }
+    }
+
+    return callBack(e)
+  }
 
   const renderFieldBasedOnType = (myFormFieldType: Enum_MyFormFieldType) => {
     switch (myFormFieldType) {
       case Enum_MyFormFieldType.input:
         return <TextField
-          onKeyUp={(e) => callBack(e)}
+          onKeyUp={(e) => fieldEventModifier(e, transformationType)}
           placeholder={name}
           fullWidth
           >{name}</TextField>
       case Enum_MyFormFieldType.textArea:
         return <TextField
-          onKeyUp={(e) => callBack(e)}
+          onKeyUp={(e) => fieldEventModifier(e, transformationType)}
           placeholder={name}
           fullWidth
           multiline

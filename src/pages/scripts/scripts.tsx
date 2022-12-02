@@ -2,7 +2,7 @@ import { Enum_scriptsCategory } from "components/accordion/accordionItem"
 import GeneratedScriptBase from "../../components/generatedScripts/generatedScriptBase"
 
 import * as GS from "../globalStyles";
-import { Enum_MyFormFieldType } from "components/myForm/field";
+import { Enum_MyFormFieldTransformationType, Enum_MyFormFieldType } from "components/myForm/field";
 
 export interface IScriptItem {
   title: string,
@@ -20,7 +20,7 @@ export const scriptsCodes: IScriptItem[] = [
   {
     title: 'Random',
     category: Enum_scriptsCategory.js,
-    component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase
       description={
         () => (
           <>
@@ -45,7 +45,7 @@ export const scriptsCodes: IScriptItem[] = [
       renderedScript={(formFields) => (
         <>
           {
-            formFields[1].value == 'true' 
+            formFields[1].value == 'true'
               ? formFields[0].value
               : 'no message to display'
           }
@@ -54,9 +54,110 @@ export const scriptsCodes: IScriptItem[] = [
     />
   },
   {
+    title: 'Switch statement',
+    category: Enum_scriptsCategory.js,
+    component: <GeneratedScriptBase
+      description={
+        () => (
+          <>
+            This is an example of a <GS.Js>switch</GS.Js> statement.
+          </>
+        )
+      }
+      initialFormFields={
+        [
+          {
+            name: 'Switch parameter',
+            formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
+            callBack: () => {}
+          }
+        ]
+      }
+      renderedScript={(formFields) => (
+        <>
+          {`switch (${formFields[0].value}) {
+  case matchingValue:
+    // any code
+    break;
+  default:
+    // any code
+    break;
+}
+          `}
+        </>
+      )}
+    />
+  },
+  {
+    title: 'Form validation script',
+    category: Enum_scriptsCategory.browserDevTool,
+    component: <GeneratedScriptBase
+      description={
+        () => (
+          <pre>
+            This is an example of a <GS.BrowserDevTool>browser dev tool</GS.BrowserDevTool> script to validate any form and scroll to field if errors.<br/><br/>
+            Example of usage: <br/><br/>
+            {`  myForm = new formWithValidation()
+  myForm.onValidated(myForm.scrollToIt())
+`}
+          </pre>
+        )
+      }
+      initialFormFields={
+        []
+      }
+      renderedScript={(formFields) => (
+        <>
+          {`class formWithValidation {
+    constructor() {
+        this.form = document.querySelector("#program-form-4")
+        this.hasErrors = false
+    }
+
+    validate() {
+        document
+            .querySelectorAll("form input[type='text'], form textarea:nth-child(1)")
+            .forEach(
+                item => {
+                    if (item.value.length == 0) {
+                        console.log("failed at: ", item)
+                        this.hasErrors = true
+                    }
+                }
+            )
+    }
+
+    // TODO: need to make as an event
+    onValidated() {
+        customFunction => { customFunction() }
+    }
+
+    get position() {
+        return this.form.getBoundingClientRect()
+    }
+
+    scrollToIt(
+        speed = 2000,
+        offset = 0
+    ) {
+        $('html, body').animate({
+            scrollTop: this.position.top - offset
+        }, speed);
+    }
+}
+
+
+myForm = new formWithValidation()
+// myForm.onValidated(myForm.scrollToIt())`}
+        </>
+      )}
+    />
+  },
+  {
     title: 'Stash',
     category: Enum_scriptsCategory.git,
-    component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase
       description={
         () => (
           <>
@@ -94,7 +195,7 @@ export const scriptsCodes: IScriptItem[] = [
   {
     title: 'Auto update submodules',
     category: Enum_scriptsCategory.terminal,
-    component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase
       description={
         () => (
           <>
@@ -107,7 +208,7 @@ export const scriptsCodes: IScriptItem[] = [
         [
           {
             name: 'gitmodules content',
-            formFieldType: Enum_MyFormFieldType.input,
+            formFieldType: Enum_MyFormFieldType.textArea,
             callBack: () => {}
           }
         ]
@@ -125,7 +226,9 @@ export const scriptsCodes: IScriptItem[] = [
               if (submoduleObject) {
                 var path = submoduleObject.split('path')[1].split('\n')[0].split("= ")[1].split(" ")[0]
                 var url = submoduleObject.split('url')[1].split('\n')[0].split("= ")[1]
-                var branch = submoduleObject.split('branch')[1].split('\n')[0].split("= ")[1] == undefined ? "master" : submoduleObject.split('branch')[1].split('\n')[0].split("= ")[1] 
+                var branch = submoduleObject.split('branch')[1] == undefined
+                  ? "master"
+                  : submoduleObject.split('branch')[1].split('\n')[0].split("= ")[1]
               }
               resultedScript = resultedScript + `cd ${path}
 git checkout ${branch}
@@ -147,7 +250,7 @@ cd ../
     title: 'New styled component',
     category: Enum_scriptsCategory.react,
     // file: filePath('autoUpdateSubmodules.js'),
-    component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase
       description={
         () => (
           <>
@@ -155,12 +258,12 @@ cd ../
           </>
         )
       }
-      videoUrl='https://awevideo.s3.amazonaws.com/video-12359094-10425607fe783ae369a21e929b59ec8d.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJSCJQ2NM3XLFPVKA%2F20221125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221125T140450Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3DSelect%2520Page%2520to%2520change%2520%257C%2520Admin.mp4&X-Amz-Signature=4214e6c0269bf724916cae831a94d0ea572d9901bc7cf87aa6cfc1b5967928ba'
       initialFormFields={
         [
           {
             name: 'component Name',
             formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
             tooltip: 'Dont use spaces',
             callBack: () => {}
           }
@@ -169,7 +272,7 @@ cd ../
       renderedScript={(formFields) => (
         <>
           {`import styled from "styled-components";
-          
+
 export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
         </>
       )}
@@ -178,13 +281,14 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
   {
     title: 'New react component',
     category: Enum_scriptsCategory.react,
-    component: <GeneratedScriptBase 
+    component: <GeneratedScriptBase
       description={() => (<>Simple snippet to create a <GS.React>react</GS.React> component.</>)}
       initialFormFields={
         [
           {
             name: 'component Name',
             formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
             tooltip: 'Dont use spaces',
             callBack: () => {}
           }

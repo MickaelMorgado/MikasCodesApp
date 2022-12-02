@@ -54,29 +54,42 @@ export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
         </>
       </PaddedContent>
       <Divider light />
-      <h4>Parameters:</h4>
-      <PaddedContent>
+      {formFields.length > 0 && (
         <>
-          {formFields.map(({ formFieldType, name, tooltip }, index) => <MyFormField 
-            name={name}
-            formFieldType={formFieldType}
-            tooltip={tooltip}
-            callBack={
-              (e: any) => {
-                const incomingInputValue = translateIncomingValueToString(e, formFieldType)
-                
-                formFields[index].value = incomingInputValue
-                setFormFields([...formFields])
+          <h4>Parameters:</h4>
+          <PaddedContent>
+            <>
+              {formFields
+                .map(({
+                  formFieldType,
+                  name,
+                  tooltip,
+                  transformationType
+                }, index) => <MyFormField
+                  key={index}
+                  name={name}
+                  formFieldType={formFieldType}
+                  tooltip={tooltip}
+                  transformationType={transformationType}
+                  callBack={
+                    (e: any) => {
+                      const incomingInputValue = translateIncomingValueToString(e, formFieldType)
+
+                      formFields[index].value = incomingInputValue
+                      setFormFields([...formFields])
+                    }
+                  }
+                />)
               }
-            }
-          />)}
+            </>
+          </PaddedContent>
+          <Divider light />
         </>
-      </PaddedContent>
-      <Divider light />
+      )}
       <h4>Generated Code:</h4>
       <PaddedContent>
         <>
-          <FormControlLabel 
+          <FormControlLabel
             label="Toggle One Line"
             control={<Checkbox onChange={() => { setToggleOneLine(!toggleOneLine)}} />}
             />
@@ -119,7 +132,7 @@ export default GeneratedScriptBase;
     <Divider light />
     <h4>Generated Code:</h4>
     <S.ChildContent>
-      <FormControlLabel 
+      <FormControlLabel
         label="Toggle One Line"
         control={<Checkbox onChange={() => { setToggleOneLine(!toggleOneLine)}} />}
       />

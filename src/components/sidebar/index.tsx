@@ -19,6 +19,8 @@ import CodeIcon from '@mui/icons-material/Code';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
+import * as S from "./styles";
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -136,12 +138,14 @@ export const Sidebar = () => {
             const lowercasedName = name.toLowerCase()
             return (
               <ListItem key={lowercasedName} disablePadding sx={{ display: 'block' }}>
-                <Link to={`/${lowercasedName}`}>
-                  <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
-                    <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>{icon}</ListItemIcon>
-                    <ListItemText primary={lowercasedName} sx={{ opacity: open ? 1 : 0 }} />
-                  </ListItemButton>
-                </Link>
+                <S.Link>
+                  <Link to={`/${lowercasedName}`}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>{icon}</ListItemIcon>
+                      <ListItemText primary={lowercasedName} sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </Link>
+                </S.Link>
               </ListItem>
             )
           })}
