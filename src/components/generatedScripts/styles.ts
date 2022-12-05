@@ -15,3 +15,7 @@ export const ChildContent = styled.div`
   display: block;
   padding: 0 25px 25px 25px;
 `;
+
+export const WrapperGeneratedCode = styled.div`
+  position: relative;
+`;

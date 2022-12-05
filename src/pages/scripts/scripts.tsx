@@ -42,15 +42,12 @@ export const scriptsCodes: IScriptItem[] = [
           }
         ]
       }
-      renderedScript={(formFields) => (
-        <>
-          {
-            formFields[1].value == 'true'
-              ? formFields[0].value
-              : 'no message to display'
-          }
-        </>
-      )}
+      renderedScript={(formFields) => (`${
+        formFields[1].value == 'true'
+          ? formFields[0].value
+          : 'no message to display'
+        }
+      `)}
     />
   },
   {
@@ -75,8 +72,7 @@ export const scriptsCodes: IScriptItem[] = [
         ]
       }
       renderedScript={(formFields) => (
-        <>
-          {`switch (${formFields[0].value}) {
+          `switch (${formFields[0].value}) {
   case matchingValue:
     // any code
     break;
@@ -84,8 +80,7 @@ export const scriptsCodes: IScriptItem[] = [
     // any code
     break;
 }
-          `}
-        </>
+          `
       )}
     />
   },
@@ -107,9 +102,7 @@ export const scriptsCodes: IScriptItem[] = [
       initialFormFields={
         []
       }
-      renderedScript={(formFields) => (
-        <>
-          {`class formWithValidation {
+      renderedScript={(formFields) => (`class formWithValidation {
     constructor() {
         this.form = document.querySelector("#program-form-4")
         this.hasErrors = false
@@ -149,8 +142,7 @@ export const scriptsCodes: IScriptItem[] = [
 
 
 myForm = new formWithValidation()
-// myForm.onValidated(myForm.scrollToIt())`}
-        </>
+// myForm.onValidated(myForm.scrollToIt())`
       )}
     />
   },
@@ -182,14 +174,10 @@ myForm = new formWithValidation()
           }
         ]
       }
-      renderedScript={(formFields) => (
-        <>
-          {formFields[1].value == "true"
-            ? `git stash save -u \"${formFields[0].value}\"`
-            : `git stash save \"${formFields[0].value}\"`
-          }
-        </>
-      )}
+      renderedScript={(formFields) => (`${formFields[1].value == "true"
+        ? `git stash save -u \"${formFields[0].value}\"`
+        : `git stash save \"${formFields[0].value}\"`
+      }`)}
     />
   },
   {
@@ -238,11 +226,7 @@ cd ../
 `}
           })
 
-        return (
-          <>
-            {`${resultedScript}`}
-          </>
-        )
+        return `${resultedScript}`
       }}
     />
   },
@@ -269,13 +253,9 @@ cd ../
           }
         ]
       }
-      renderedScript={(formFields) => (
-        <>
-          {`import styled from "styled-components";
+      renderedScript={(formFields) => `import styled from "styled-components";
 
 export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
-        </>
-      )}
     />
   },
   {
@@ -294,9 +274,7 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
           }
         ]
       }
-      renderedScript={(formFields) => (
-        <>
-          {`import React from 'react';
+      renderedScript={(formFields) => `import React from 'react';
 
 export interface I${formFields[0].value}Props {
   id: string;
@@ -312,8 +290,6 @@ export const ${formFields[0].value} = ({ id }: I${formFields[0].value}Props) => 
 
 export default ${formFields[0].value};
 `}
-        </>
-      )}
     />
   },
 ]

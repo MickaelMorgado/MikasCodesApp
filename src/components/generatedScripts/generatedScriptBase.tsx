@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as S from "./styles";
 import {
   Checkbox,
   Divider,
@@ -7,9 +8,8 @@ import {
 import Description from "components/description";
 import MyFormField, { Enum_MyFormFieldType, IMyFormField } from "components/myForm/field";
 import PaddedContent from "components/paddedContent";
-
-import * as S from "./styles";
 import VideoPlayer from "components/videoPlayer";
+import CopyToClipboardButton from "components/CopyToClipboardButton";
 
 /*
 interface IMyFormField {
@@ -23,7 +23,7 @@ interface IMyFormField {
 interface IGeneratedScriptBaseProps {
   description: () => JSX.Element,
   initialFormFields: IMyFormField[],
-  renderedScript: (formFields: IMyFormField[]) => JSX.Element,
+  renderedScript: (formFields: IMyFormField[]) => string,
   videoUrl? :string
 }
 
@@ -92,10 +92,15 @@ export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
           <FormControlLabel
             label="Toggle One Line"
             control={<Checkbox onChange={() => { setToggleOneLine(!toggleOneLine)}} />}
+          />
+          <S.WrapperGeneratedCode>
+            <S.Pre oneLine={toggleOneLine}>
+              {renderedScript(formFields)}
+            </S.Pre>
+            <CopyToClipboardButton
+              contentToCopy={renderedScript(formFields)}
             />
-          <S.Pre oneLine={toggleOneLine}>
-            {renderedScript(formFields)}
-          </S.Pre>
+          </S.WrapperGeneratedCode>
         </>
       </PaddedContent>
     </>
@@ -103,44 +108,3 @@ export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
 }
 
 export default GeneratedScriptBase;
-
-/*
-
-
-
-: IGeneratedScriptBaseProps) => {
-  const [toggleOneLine, setToggleOneLine] = useState(false)
-
-  const variablesLibrary = {
-    ...
-  }
-
-  return (
-    <>
-    <S.ChildContent>
-      <S.Description>
-        This script allows you to update your project gitmodules with correct branches in case of --remote doesnt work. <br />
-        Paste any project .gitmodules content and copy-paste the following generated code into any <GS.BrowserDevTool>browser dev tool</GS.BrowserDevTool> to get terminal code with automatically update submodule with correct remote branches.</S.Description>
-    </S.ChildContent>
-    <Divider light />
-    <h4>Parameters:</h4>
-    <S.ChildContent>
-      {myFunctions.map(({ varName, cb }) => {
-        return <MyFormField variableName={varName} callback={cb} />
-      })}
-    </S.ChildContent>
-    <Divider light />
-    <h4>Generated Code:</h4>
-    <S.ChildContent>
-      <FormControlLabel
-        label="Toggle One Line"
-        control={<Checkbox onChange={() => { setToggleOneLine(!toggleOneLine)}} />}
-      />
-<S.Pre oneLine={toggleOneLine}>
-{`any code content`}
-</S.Pre>
-    </S.ChildContent>
-  </>
-  );
-};
-*/
