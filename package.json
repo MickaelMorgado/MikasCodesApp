@@ -139,6 +139,7 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "^5.1.26",
     "@types/terser-webpack-plugin": "^5.0.4",
+    "@types/uuid": "^9.0.0",
     "@types/webpack-bundle-analyzer": "^4.4.2",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
@@ -260,7 +261,7 @@
         "owner": "MickaelMorgado",
         "repo": "MikasCodesApp"
       }
-  ]
+    ]
   },
   "collective": {
     "url": "https://opencollective.com/electron-react-boilerplate-594"

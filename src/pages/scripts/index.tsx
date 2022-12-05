@@ -10,7 +10,7 @@ import { Button, Input, Switch, TextareaAutosize, TextField } from "@mui/materia
 import downloadFile from "../../components/downloadableFile";
 
 import * as GS from "../globalStyles";
-import randomizedId from "utils";
+import randomizedId, { validation } from "utils";
 
 export interface IScriptItem {
   id: string,
@@ -60,8 +60,8 @@ export const Scripts = () => {
       <TextField fullWidth type="text" placeholder="search" onKeyUp={(e) => handleSearchScripts(e)} />
       <br />
       <br />
-      {
-        scriptsCodes.filter((item) => {
+      {validation.isValid(scriptsCodes)
+        ? scriptsCodes.filter((item) => {
           return item.title.toLowerCase().includes(searchTerm) || item.category.toLowerCase().includes(searchTerm) && searchTerm !== ''
         }).map(
           ({ category, component, script, title, file }, index) => (
@@ -84,6 +84,7 @@ export const Scripts = () => {
             </Accordion>
           )
         )
+        : validation.invalidMessage('No scripts found!')
       }
     </div>
   );

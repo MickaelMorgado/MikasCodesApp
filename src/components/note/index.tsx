@@ -13,7 +13,7 @@ export interface INoteProps {
   id: string,
   date: Date,
   content: string,
-  deleteCallBack: (id: string) => {}
+  deleteCallBack: (id: string) => void
 }
 
 export const Note = ({
