@@ -12,9 +12,7 @@ export const CopyToClipboardButton = ({ contentToCopy }: ICopyToClipboardButton)
       <Tooltip title='Copy to clipboard'>
         <Button
           onClick={() => {
-            const a = contentToCopy
             navigator.clipboard.writeText(contentToCopy)
-            console.log("copy: ", a)
           }}
         >Copy</Button>
       </Tooltip>
