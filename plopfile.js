@@ -23,7 +23,7 @@ module.exports = plop => {
       }, {
         type: 'add',
         path: 'src/components/{{pascalCase name}}/styles.ts',
-        templateFile: 'plop-templates/Component.js.hbs',
+        templateFile: 'plop-templates/Styles.js.hbs',
       }
     ],
   });

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Button, Divider, Stack } from "@mui/material"
+import React, { useState } from "react"
+import { Button, Divider, Paper, Stack } from "@mui/material"
 import { Add } from "@mui/icons-material"
+import Masonry from '@mui/lab/Masonry'
 import MyFormField, { Enum_MyFormFieldType } from "components/myForm/field"
 import {
   Enum_StorageSlot,
@@ -19,11 +20,19 @@ export interface INote {
   content: string
 }
 
+export enum Enum_FilterBy {
+  orderAZ = 'orderAZ',
+  orderZA = 'orderZA',
+  dateASC = 'dateASC',
+  dateDESC = 'dateDESC'
+}
+
 export const NotesApp = () => {
   const getInitialNotes = getLocalStorageItem(Enum_StorageSlot.notes)
   // console.log('get initial notes: ', getInitialNotes)
   const [notes, setNotes] = useState<INote[]>(JSON.parse(getInitialNotes))
   const [currentNote, setCurrentNote] = useState('')
+  const [filterBy, setFilterBy] = useState(Enum_FilterBy.dateDESC)
 
   const addNote = (newNote: INote) => {
     setNotes([...notes, newNote])
@@ -43,6 +52,35 @@ export const NotesApp = () => {
     const result = notes.filter((note) => note.id != id)
     setNotes(result)
     setLocalStorageItem(Enum_StorageSlot.notes, JSON.stringify(result))
+  }
+
+  const renderNotes = (orderType: Enum_FilterBy) => {
+    switch (orderType) {
+      case Enum_FilterBy.dateDESC:
+        notes.sort((n1, n2) => (n1.date < n2.date) ? 1 : (n1.date > n2.date) ? -1 : 0) // Order by Date
+        break;
+      case Enum_FilterBy.dateASC:
+        notes.sort((n1, n2) => (n1.date > n2.date) ? 1 : (n1.date < n2.date) ? -1 : 0) // Order by Date
+        break;
+      case Enum_FilterBy.orderZA:
+        notes.sort((n1, n2) => (n1.content < n2.content) ? 1 : (n1.content > n2.content) ? -1 : 0) // Order by Content
+        break;
+        case Enum_FilterBy.orderAZ:
+        notes.sort((n1, n2) => (n1.content > n2.content) ? 1 : (n1.content < n2.content) ? -1 : 0) // Order by Content
+        break;
+      default:
+        // any code
+        break;
+    }
+
+    return notes
+      .map(item => <Note
+        key={item.id}
+        id={item.id}
+        date={item.date}
+        content={item.content}
+        deleteCallBack={(id) => handleDeleteNote(id)}
+      />)
   }
 
   return (
@@ -68,21 +106,25 @@ export const NotesApp = () => {
       <br />
       <br />
       <Divider light />
+      <PaddedContent>
+        <MyFormField
+          name='Filter by'
+          formFieldType={Enum_MyFormFieldType.select}
+          options={Enum_FilterBy}
+          defaultValue={filterBy ? filterBy : Enum_FilterBy.dateDESC}
+          callBack={(e) => setFilterBy(e.target.value)}
+        />
+      </PaddedContent>
+      <br />
+      <Divider light />
       <br />
       <PaddedContent>
-        <Stack spacing={2}>
+        <Masonry columns={2} spacing={2}>
           {validation.isValid(notes)
-            ? notes
-                .map(item => <Note
-                  key={item.id}
-                  id={item.id}
-                  date={item.date}
-                  content={item.content}
-                  deleteCallBack={(id) => handleDeleteNote(id)}
-                />)
+            ? <>{renderNotes(filterBy)}</>
             : validation.invalidMessage('No notes saved')
           }
-        </Stack>
+        </Masonry>
       </PaddedContent>
     </>
   );

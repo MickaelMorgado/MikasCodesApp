@@ -13,6 +13,7 @@ export const Action = styled.div`
 
 export const Content = styled.pre`
   flex-grow: 1;
+  white-space: break-spaces;
 `;
 
 export const Date = styled.span`

@@ -12,3 +12,10 @@ export const MyFormField = styled.div`
     width: 30%
   }
 `;
+
+export const MySelect = styled.div`
+  &,
+  & > * {
+    width: 100%
+  }
+`;
