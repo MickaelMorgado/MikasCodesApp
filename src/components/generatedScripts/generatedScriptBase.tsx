@@ -3,22 +3,14 @@ import * as S from "./styles";
 import {
   Checkbox,
   Divider,
-  FormControlLabel
+  FormControlLabel,
+  SelectChangeEvent
 } from "@mui/material";
 import Description from "components/description";
 import MyFormField, { Enum_MyFormFieldType, IMyFormField } from "components/myForm/field";
 import PaddedContent from "components/paddedContent";
 import VideoPlayer from "components/videoPlayer";
 import CopyToClipboardButton from "components/CopyToClipboardButton";
-
-/*
-interface IMyFormField {
-  name: string,
-  callBack: (e:any) => void,
-  formFieldType: Enum_MyFormFieldType,
-  value?: string
-}
-*/
 
 interface IGeneratedScriptBaseProps {
   description: () => JSX.Element,
@@ -27,21 +19,23 @@ interface IGeneratedScriptBaseProps {
   videoUrl? :string
 }
 
-export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
+export const GeneratedScriptBase: React.FC<IGeneratedScriptBaseProps> = ({
   description,
   initialFormFields,
   renderedScript,
   videoUrl
-}:IGeneratedScriptBaseProps) =>  {
+}: IGeneratedScriptBaseProps) =>  {
   const [toggleOneLine, setToggleOneLine] = useState(false)
   const [formFields, setFormFields] = useState<IMyFormField[]>([...initialFormFields])
 
-  const translateIncomingValueToString = (incomingValue: any, formFieldType: Enum_MyFormFieldType) => {
+  const translateIncomingEventToString = (incomingEvent: any, formFieldType: Enum_MyFormFieldType) => {
+    const incomingEventTarget = incomingEvent?.target
+
     switch (formFieldType) {
       case Enum_MyFormFieldType.checkBox:
-        return JSON.stringify(incomingValue.target.checked)
+        return JSON.stringify(incomingEventTarget.checked)
       default:
-        return incomingValue.target.value
+        return incomingEventTarget.value
     }
   }
 
@@ -64,6 +58,8 @@ export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
                   formFieldType,
                   name,
                   tooltip,
+                  options,
+                  defaultValue,
                   transformationType
                 }, index) => <MyFormField
                   key={index}
@@ -71,10 +67,11 @@ export const GeneratedScriptBase:React.FC<IGeneratedScriptBaseProps> = ({
                   formFieldType={formFieldType}
                   tooltip={tooltip}
                   transformationType={transformationType}
-                  callBack={
-                    (e: any) => {
-                      const incomingInputValue = translateIncomingValueToString(e, formFieldType)
-
+                  options={options}
+                  defaultValue={defaultValue}
+                  callback={
+                    (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent) => {
+                      const incomingInputValue = translateIncomingEventToString(e, formFieldType)
                       formFields[index].value = incomingInputValue
                       setFormFields([...formFields])
                     }

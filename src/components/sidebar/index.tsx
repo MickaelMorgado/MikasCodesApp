@@ -16,6 +16,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import CodeIcon from '@mui/icons-material/Code';
+import TimelapseIcon from '@mui/icons-material/Timelapse';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
@@ -133,7 +134,8 @@ export const Sidebar = () => {
         <List>
           {[
             { name: 'NotesApp', icon: <ContentPasteIcon /> },
-            { name: 'Scripts', icon: <CodeIcon /> }
+            { name: 'Scripts', icon: <CodeIcon /> },
+            { name: 'HourLogging', icon: <TimelapseIcon /> }
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase()
             return (

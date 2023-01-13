@@ -8,10 +8,12 @@ export const Wrapper = styled.div`
 `;
 
 export const Action = styled.div`
+  display: flex;
   flex-grow: 0;
+  flex-direction: column;
 `;
 
-export const Content = styled.pre`
+export const Content = styled.div`
   flex-grow: 1;
   white-space: break-spaces;
 `;

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Checkbox,
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Tooltip
 } from "@mui/material";
+import { KeyPairObject } from "../../../utils";
 import * as S from "./styles";
 
 export enum Enum_MyFormFieldTransformationType {
@@ -24,9 +26,9 @@ export enum Enum_MyFormFieldType {
 export interface IMyFormField {
   name: string,
   formFieldType: Enum_MyFormFieldType,
-  callBack: (e: any) => void,
+  callback: (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent) => void,
   value?: string,
-  options?: any,
+  options?: KeyPairObject,
   defaultValue?: string,
   tooltip?: string,
   transformationType?: Enum_MyFormFieldTransformationType
@@ -35,26 +37,33 @@ export interface IMyFormField {
 export const MyFormField = ({
   formFieldType = Enum_MyFormFieldType.input,
   name,
-  callBack,
+  callback,
   tooltip,
   transformationType = Enum_MyFormFieldTransformationType.default,
   options,
   defaultValue
 }: IMyFormField) => {
-
+  const [tmpDefaultValue, setTmpDefaultValue] = useState<string | undefined>(defaultValue)
   const fieldEventModifier = (e: any, transformationType: Enum_MyFormFieldTransformationType) => {
-    transformationType == Enum_MyFormFieldTransformationType.noSpaces
     switch (transformationType) {
       case Enum_MyFormFieldTransformationType.noSpaces: {
         e.target.value = e.target.value.replace(/\s/g, '')
-        break
+        return callback(e)
       }
-      default: {
-        break
+      default: { // keep updating the new value field based on user typing
+        e.target.value = e.target.value
+        return callback(e)
       }
     }
+  }
 
-    return callBack(e)
+  const generatedSelectOptions = (options: KeyPairObject) => {
+    return Object
+      .keys(options)
+      .map((item, index) => {
+        const { label, value } = options[item]
+        return <MenuItem key={index} value={value}>{label}</MenuItem>
+      })
   }
 
   const renderFieldBasedOnType = (myFormFieldType: Enum_MyFormFieldType) => {
@@ -62,7 +71,7 @@ export const MyFormField = ({
       case Enum_MyFormFieldType.checkBox:
         return <Checkbox
           aria-label={name}
-          onChange={(e) => callBack(e)}
+          onChange={e => callback(e)}
         />
       case Enum_MyFormFieldType.input:
         return <TextField
@@ -75,17 +84,10 @@ export const MyFormField = ({
           <S.MySelect>
             <Select
               aria-label={name}
-              onChange={(e) => callBack(e)}
-              defaultValue={defaultValue}
+              onChange={e => callback(e)}
+              defaultValue={tmpDefaultValue}
             >
-              {Object.keys(options)
-                .map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item}
-                  >{item}</MenuItem>
-                ))
-              }
+              {options && generatedSelectOptions(options)}
             </Select>
           </S.MySelect>
         )
@@ -96,7 +98,8 @@ export const MyFormField = ({
           fullWidth
           multiline
           maxRows={4}
-          >{name}</TextField>
+          defaultValue={tmpDefaultValue}
+        />
     }
   }
 

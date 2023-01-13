@@ -7,3 +7,9 @@ package.json backup:
         "AppImage",
         "deb"
       ],
+
+
+cd MikasCodesApp/
+
+nvm use v16.16.0
+npm start

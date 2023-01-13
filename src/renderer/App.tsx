@@ -4,6 +4,7 @@ import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Login from 'pages/login';
+import HourLogging from 'pages/hourLogging';
 import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
 
@@ -43,6 +44,15 @@ export default function App() {
               <MainAppStruct
                 title={'Scripts'}
                 content={<Scripts />}
+              />
+            }
+          />
+          <Route
+            path="/hourLogging"
+            element={
+              <MainAppStruct
+                title={'hourLogging'}
+                content={<HourLogging />}
               />
             }
           />

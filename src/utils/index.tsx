@@ -1,5 +1,10 @@
+import react from "react"
 import { v4 as uuidv4 } from 'uuid'
-import InvalidMessage from 'components/invalidMessage';
+import InvalidMessage from 'components/invalidMessage'
+import { React } from 'pages/globalStyles'
+import React from "react";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import internal from "stream";
 
 export const randomizedId = () => {
   return uuidv4()
@@ -24,11 +29,64 @@ export const validation = {
 }
 
 // Format Date:
-export const formatDate = (date: Date) => {
+export const enum Enum_FormatDate {
+  default,
+  timeOnly
+}
+interface IFormatDateOptions {
+  format: Enum_FormatDate
+}
+export const formatDate = (date: Date, options?: IFormatDateOptions) => {
   const dt = new Date(date)
-  const formatedDate = dt.getDate() + "-" + (dt.getMonth()+1) + "-" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes();
+  let formatedDate = undefined
+
+  switch (options?.format) {
+    case Enum_FormatDate.timeOnly:
+      formatedDate = dt.getHours() + ":" + dt.getMinutes()
+      break
+    default:
+      formatedDate = dt.getDate() + "-" + (dt.getMonth()+1) + "-" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes()
+      break
+  }
 
   return `${formatedDate}`
+}
+
+export type KeyPairObject = {
+  [key: string]: {
+    label: string,
+    value: string
+  }
+}
+
+export const sortBy: KeyPairObject = {
+  orderAZ: {
+    label: 'Content [A-Z]',
+    value: 'orderAZ'
+  },
+  orderZA: {
+    label: 'Content [Z-A]',
+    value: 'orderZA'
+  },
+  dateASC: {
+    label: 'Ascending Date',
+    value: 'dateASC'
+  },
+  dateDESC: {
+    label: 'Descending Date',
+    value: 'dateDESC'
+  },
+}
+
+export const RenderReactElementFromMap = (
+  children: JSX.Element,
+  index: number
+) => {
+  return (
+    <div key={index}>
+      {children}
+    </div>
+  )
 }
 
 export default randomizedId;

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Divider, Paper, Stack } from "@mui/material"
+import { Button, Divider } from "@mui/material"
 import { Add } from "@mui/icons-material"
 import Masonry from '@mui/lab/Masonry'
 import MyFormField, { Enum_MyFormFieldType } from "components/myForm/field"
@@ -8,7 +8,8 @@ import {
   getLocalStorageItem,
   validation,
   randomizedId,
-  setLocalStorageItem
+  setLocalStorageItem,
+  sortBy
 } from '../../utils'
 import Note from "components/note"
 import PaddedContent from "components/paddedContent";
@@ -20,19 +21,11 @@ export interface INote {
   content: string
 }
 
-export enum Enum_FilterBy {
-  orderAZ = 'orderAZ',
-  orderZA = 'orderZA',
-  dateASC = 'dateASC',
-  dateDESC = 'dateDESC'
-}
-
 export const NotesApp = () => {
   const getInitialNotes = getLocalStorageItem(Enum_StorageSlot.notes)
-  // console.log('get initial notes: ', getInitialNotes)
   const [notes, setNotes] = useState<INote[]>(JSON.parse(getInitialNotes))
-  const [currentNote, setCurrentNote] = useState('')
-  const [filterBy, setFilterBy] = useState(Enum_FilterBy.dateDESC)
+  const [newNoteContent, setNewNoteContent] = useState('')
+  const [filterBy, setFilterBy] = useState(sortBy.dateDESC.value)
 
   const addNote = (newNote: INote) => {
     setNotes([...notes, newNote])
@@ -43,9 +36,16 @@ export const NotesApp = () => {
     const newNote: INote = {
       id: randomizedId(),
       date: new Date,
-      content: `${currentNote}`
+      content: `${newNoteContent}`
     }
     addNote(newNote)
+  }
+
+  const updateNote = (currentNote: INote, newContent: string) => {
+    const selectedNote = notes.filter(item => item.id == currentNote.id)[0]
+    selectedNote.content = newContent
+    setNotes([...notes])
+    setLocalStorageItem(Enum_StorageSlot.notes, JSON.stringify([...notes]))
   }
 
   const handleDeleteNote = (id: string) => {
@@ -54,18 +54,18 @@ export const NotesApp = () => {
     setLocalStorageItem(Enum_StorageSlot.notes, JSON.stringify(result))
   }
 
-  const renderNotes = (orderType: Enum_FilterBy) => {
-    switch (orderType) {
-      case Enum_FilterBy.dateDESC:
+  const renderNotes = (item: string) => {
+    switch (item) {
+      case sortBy.dateDESC.value:
         notes.sort((n1, n2) => (n1.date < n2.date) ? 1 : (n1.date > n2.date) ? -1 : 0) // Order by Date
         break;
-      case Enum_FilterBy.dateASC:
+      case sortBy.dateASC.value:
         notes.sort((n1, n2) => (n1.date > n2.date) ? 1 : (n1.date < n2.date) ? -1 : 0) // Order by Date
         break;
-      case Enum_FilterBy.orderZA:
+      case sortBy.orderZA.value:
         notes.sort((n1, n2) => (n1.content < n2.content) ? 1 : (n1.content > n2.content) ? -1 : 0) // Order by Content
         break;
-        case Enum_FilterBy.orderAZ:
+      case sortBy.orderAZ.value:
         notes.sort((n1, n2) => (n1.content > n2.content) ? 1 : (n1.content < n2.content) ? -1 : 0) // Order by Content
         break;
       default:
@@ -74,11 +74,17 @@ export const NotesApp = () => {
     }
 
     return notes
-      .map(item => <Note
-        key={item.id}
-        id={item.id}
-        date={item.date}
-        content={item.content}
+      .map(note => <Note
+        key={note.id}
+        id={note.id}
+        date={note.date}
+        content={note.content}
+        editCallback={
+          (e: React.ChangeEvent<HTMLInputElement>) => {
+            const newNoteContent = e.target.value ? e.target.value : ""
+            updateNote(note, newNoteContent)
+          }
+        }
         deleteCallBack={(id) => handleDeleteNote(id)}
       />)
   }
@@ -96,7 +102,7 @@ export const NotesApp = () => {
           <MyFormField
             name={'Note content'}
             formFieldType={Enum_MyFormFieldType.textArea}
-            callBack={(e) => setCurrentNote(e.target.value)}
+            callback={e => setNewNoteContent(e.target.value)}
           />
           <Button variant="contained" onClick={() => handleAddNote()}>
             <Add />
@@ -106,13 +112,14 @@ export const NotesApp = () => {
       <br />
       <br />
       <Divider light />
+      <br />
       <PaddedContent>
         <MyFormField
           name='Filter by'
           formFieldType={Enum_MyFormFieldType.select}
-          options={Enum_FilterBy}
-          defaultValue={filterBy ? filterBy : Enum_FilterBy.dateDESC}
-          callBack={(e) => setFilterBy(e.target.value)}
+          options={sortBy}
+          defaultValue={filterBy ? filterBy : sortBy.dateDESC.value}
+          callback={e => setFilterBy(e.target.value) }
         />
       </PaddedContent>
       <br />

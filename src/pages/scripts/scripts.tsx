@@ -33,12 +33,12 @@ export const scriptsCodes: IScriptItem[] = [
           {
             name: 'message',
             formFieldType: Enum_MyFormFieldType.input,
-            callBack: () => {}
+            callback: () => {}
           },
           {
             name: 'show message',
             formFieldType: Enum_MyFormFieldType.checkBox,
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -67,7 +67,7 @@ export const scriptsCodes: IScriptItem[] = [
             name: 'Switch parameter',
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.noSpaces,
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -165,12 +165,12 @@ myForm = new formWithValidation()
           {
             name: 'stash name',
             formFieldType: Enum_MyFormFieldType.input,
-            callBack: () => {}
+            callback: () => {}
           },
           {
             name: 'add untracked files',
             formFieldType: Enum_MyFormFieldType.checkBox,
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -197,7 +197,7 @@ myForm = new formWithValidation()
           {
             name: 'gitmodules content',
             formFieldType: Enum_MyFormFieldType.textArea,
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -249,7 +249,7 @@ cd ../
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.noSpaces,
             tooltip: 'Dont use spaces',
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -270,7 +270,7 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.noSpaces,
             tooltip: 'Dont use spaces',
-            callBack: () => {}
+            callback: () => {}
           }
         ]
       }
@@ -290,6 +290,45 @@ export const ${formFields[0].value} = ({ id }: I${formFields[0].value}Props) => 
 
 export default ${formFields[0].value};
 `}
+    />
+  },
+  {
+    title: 'Basic Rest API request',
+    category: Enum_scriptsCategory.js,
+    component: <GeneratedScriptBase
+      description={
+        () => (
+          <>
+            A basic Rest API code snippet
+          </>
+        )
+      }
+      initialFormFields={
+        [
+          {
+            name: 'Endpoint URL',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          },
+          {
+            name: 'Type',
+            formFieldType: Enum_MyFormFieldType.select,
+            options: {
+              "XMLHttpRequest": {
+                label: "XMLHttpRequest",
+                value: "XMLHttpRequest"
+              },
+              "GraphQL": {
+                label: "GraphQL",
+                value: "GraphQL"
+              }
+            },
+            defaultValue: "XMLHttpRequest",
+            callback: () => {}
+          }
+        ]
+      }
+      renderedScript={(formFields) => (`${ formFields[1].value + ': ' + formFields[0].value }`)}
     />
   },
 ]
