@@ -1,4 +1,4 @@
-package.json backup:
+Backup of package.json:
 
   "build": {
   ...
@@ -8,8 +8,16 @@ package.json backup:
         "deb"
       ],
 
+Run project development:
 
-cd MikasCodesApp/
+  cd MikasCodesApp/
+  nvm use v16.16.0
+  npm start
 
-nvm use v16.16.0
-npm start
+Package the project:
+
+  Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
+
+    npm run rebuild
+    npm run package
+    npm run publish
