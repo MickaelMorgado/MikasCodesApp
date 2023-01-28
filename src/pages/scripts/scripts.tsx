@@ -454,30 +454,34 @@ export default ${formFields[0].value};
     category: Enum_scriptsCategory.terminal,
     component: (
       <GeneratedScriptBase
-        description={() => (
-          <>
-            Some personal useful bash scripts{' '}
-            <GS.Terminal>'GeneratedScriptBase'</GS.Terminal> functionalities.
-          </>
-        )}
+        description={() => <>WIP: Some personal useful bash scripts</>}
         initialFormFields={[
           {
-            name: 'message',
-            formFieldType: Enum_MyFormFieldType.input,
+            name: 'platform upload',
+            formFieldType: Enum_MyFormFieldType.select,
+            options: {
+              steamUpload: { label: 'Upload to Steam', value: 'steam' },
+              ultraUpload: { label: 'Upload to Ultra', value: 'ultra' },
+            },
             callback: () => {},
           },
           {
-            name: 'show message',
-            formFieldType: Enum_MyFormFieldType.checkBox,
+            name: 'folder 1',
+            formFieldType: Enum_MyFormFieldType.file,
+            transformationType: Enum_MyFormFieldTransformationType.path,
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields: IMyFormField[]) => `${
-          formFields[1].value == 'true'
-            ? formFields[0].value
-            : 'no message to display'
-        }
-      `}
+        renderedScript={(formFields: IMyFormField[]) => {
+          switch (formFields[0].value) {
+            case 'ultra':
+              return `ultra: ${formFields[1].value}`;
+              break;
+            default:
+              return `steam`;
+              break;
+          }
+        }}
       />
     ),
   },

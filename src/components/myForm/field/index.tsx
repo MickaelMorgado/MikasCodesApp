@@ -14,10 +14,12 @@ import * as S from './styles';
 export enum Enum_MyFormFieldTransformationType {
   default,
   noSpaces,
+  path,
 }
 
 export enum Enum_MyFormFieldType {
   checkBox,
+  file,
   input,
   select,
   textArea,
@@ -57,6 +59,16 @@ export const MyFormField = ({
         e.target.value = e.target.value.replace(/\s/g, '');
         return callback(e);
       }
+      case Enum_MyFormFieldTransformationType.path: {
+        const word = e.target.value;
+        const firstLetter = word.charAt(0);
+        const firstLetterCap = firstLetter.toUpperCase();
+        const remainingLetters = word.slice(1);
+        const capitalizedWord = firstLetterCap + remainingLetters;
+
+        e.target.value = capitalizedWord.replaceAll(' ', '\\');
+        return callback(e);
+      }
       default: {
         // keep updating the new value field based on user typing
         e.target.value = e.target.value;
@@ -80,6 +92,16 @@ export const MyFormField = ({
     switch (myFormFieldType) {
       case Enum_MyFormFieldType.checkBox:
         return <Checkbox aria-label={name} onChange={(e) => callback(e)} />;
+      case Enum_MyFormFieldType.file:
+        return (
+          <TextField
+            onKeyUp={(e) => fieldEventModifier(e, transformationType)}
+            placeholder={name}
+            fullWidth
+          >
+            {name}
+          </TextField>
+        );
       case Enum_MyFormFieldType.input:
         return (
           <TextField
