@@ -15,10 +15,13 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
-log.transports.file.resolvePath = () => path.join('/home/lenovo2019/dengun/gabs_project/your-project-name', 'logs/main.log')
+log.transports.file.resolvePath = () =>
+  path.join(
+    '/home/lenovo2019/dengun/gabs_project/your-project-name',
+    'logs/main.log'
+  );
 
-
-log.log("Application Version: " + app.getVersion())
+log.log('Application Version: ' + app.getVersion());
 
 class AppUpdater {
   constructor() {
@@ -143,18 +146,18 @@ app
   })
   .catch(console.log);
 
-autoUpdater.on("update-available", () => {
-  log.info("update-available")
-})
+autoUpdater.on('update-available', () => {
+  log.info('update-available');
+});
 
-autoUpdater.on("checking-for-update", () => {
-  log.info("checking-for-update")
-})
+autoUpdater.on('checking-for-update', () => {
+  log.info('checking-for-update');
+});
 
-autoUpdater.on("download-progress", () => {
-  log.info("download-progress")
-})
+autoUpdater.on('download-progress', () => {
+  log.info('download-progress');
+});
 
-autoUpdater.on("update-downloaded", () => {
-  log.info("update-downloaded")
-})
+autoUpdater.on('update-downloaded', () => {
+  log.info('update-downloaded');
+});

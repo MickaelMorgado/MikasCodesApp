@@ -6,6 +6,7 @@ import * as GS from '../globalStyles';
 import {
   Enum_MyFormFieldTransformationType,
   Enum_MyFormFieldType,
+  IMyFormField,
 } from 'components/myForm/field';
 
 export interface IScriptItem {
@@ -44,7 +45,7 @@ export const scriptsCodes: IScriptItem[] = [
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields: { value: any }[]) => `${
+        renderedScript={(formFields: IMyFormField[]) => `${
           formFields[1].value == 'true'
             ? formFields[0].value
             : 'no message to display'
@@ -71,7 +72,7 @@ export const scriptsCodes: IScriptItem[] = [
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) =>
+        renderedScript={(formFields: IMyFormField[]) =>
           `switch (${formFields[0].value}) {
   case matchingValue:
     // any code
@@ -105,7 +106,9 @@ export const scriptsCodes: IScriptItem[] = [
           </pre>
         )}
         initialFormFields={[]}
-        renderedScript={(formFields) => `class formWithValidation {
+        renderedScript={(
+          formFields: IMyFormField[]
+        ) => `class formWithValidation {
     constructor() {
         this.form = document.querySelector("#program-form-4")
         this.hasErrors = false
@@ -177,7 +180,7 @@ myForm = new formWithValidation()
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) =>
+        renderedScript={(formFields: IMyFormField[]) =>
           `${
             formFields[1].value == 'true'
               ? `git stash save -u \"${formFields[0].value}\"`
@@ -210,7 +213,7 @@ myForm = new formWithValidation()
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) => {
+        renderedScript={(formFields: IMyFormField[]) => {
           const fileContent = formFields[0].value || '';
           let resultedScript = '';
           fileContent.split('[submodule ').forEach((i) => {
@@ -285,7 +288,7 @@ cd ../
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) => {
+        renderedScript={(formFields: IMyFormField[]) => {
           let resultedScript = `docker cp '/home/lenovo2019/Documents/dumps/${formFields[0].value}.sql' ${formFields[1].value}:tmp/dump.sql
 
 docker exec -ti ${formFields[1].value} /bin/bash
@@ -317,7 +320,9 @@ psql -U ${formFields[3].value} -h localhost -d ${formFields[2].value} -f /tmp/du
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) => `import styled from "styled-components";
+        renderedScript={(
+          formFields: IMyFormField[]
+        ) => `import styled from "styled-components";
 
 export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
       />
@@ -342,7 +347,9 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) => `import React from 'react';
+        renderedScript={(
+          formFields: IMyFormField[]
+        ) => `import React from 'react';
 
 export interface I${formFields[0].value}Props {
   id: string;
@@ -390,7 +397,7 @@ export default ${formFields[0].value};
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) =>
+        renderedScript={(formFields: IMyFormField[]) =>
           `${formFields[1].value + ': ' + formFields[0].value}`
         }
       />
@@ -409,7 +416,7 @@ export default ${formFields[0].value};
             callback: () => {},
           },
         ]}
-        renderedScript={(formFields) => {
+        renderedScript={(formFields: IMyFormField[]) => {
           let incomingValue = formFields[0].value ? formFields[0].value : '';
 
           const replaceTags = (
@@ -439,6 +446,38 @@ export default ${formFields[0].value};
         </mjml>
         `;
         }}
+      />
+    ),
+  },
+  {
+    title: 'Windows Bash',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            Some personal useful bash scripts{' '}
+            <GS.Terminal>'GeneratedScriptBase'</GS.Terminal> functionalities.
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'message',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+          {
+            name: 'show message',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => `${
+          formFields[1].value == 'true'
+            ? formFields[0].value
+            : 'no message to display'
+        }
+      `}
       />
     ),
   },

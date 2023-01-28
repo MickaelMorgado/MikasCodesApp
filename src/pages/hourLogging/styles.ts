@@ -4,13 +4,13 @@ export const Points = styled.div`
   padding: 20px 0;
 
   & > *:not(:last-child) {
-    opacity: 0.3
+    opacity: 0.3;
   }
   & > * {
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
   }
   &:hover > * {
-    opacity: 1
+    opacity: 1;
   }
 `;
 
@@ -33,7 +33,7 @@ export const CheckpointAction = styled.div`
   left: 65px;
   box-shadow: 0 0 40px black;
   align-items: center;
-  gap: 10px
+  gap: 10px;
 `;
 
 export const FirstCol = styled.div`

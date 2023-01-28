@@ -1,92 +1,103 @@
-import { v4 as uuidv4 } from 'uuid'
-import InvalidMessage from 'components/invalidMessage'
+import { v4 as uuidv4 } from 'uuid';
+import InvalidMessage from 'components/invalidMessage';
 
 export const randomizedId = () => {
-  return uuidv4()
+  return uuidv4();
 };
 
 export enum Enum_StorageSlot {
   notes = 'notes',
-  hourLogs = 'hour logs'
+  hourLogs = 'hour logs',
 }
 
 export const getLocalStorageItem = (storageSlot: Enum_StorageSlot) => {
-  return window.localStorage[storageSlot] == undefined ? "[]" : window.localStorage[storageSlot]
-}
+  return window.localStorage[storageSlot] == undefined
+    ? '[]'
+    : window.localStorage[storageSlot];
+};
 
-export const setLocalStorageItem = (storageSlot: Enum_StorageSlot, value: string) => {
-  window.localStorage.setItem(storageSlot, value)
-}
+export const setLocalStorageItem = (
+  storageSlot: Enum_StorageSlot,
+  value: string
+) => {
+  window.localStorage.setItem(storageSlot, value);
+};
 
 // Validations:
 export const validation = {
   isValid: (array: any[]) => array.length > 0,
-  invalidMessage: (message: string) => <InvalidMessage message={message} />
-}
+  invalidMessage: (message: string) => <InvalidMessage message={message} />,
+};
 
 // Format Date:
 export const enum Enum_FormatDate {
   default,
   timeOnly,
-  exactTime
+  exactTime,
 }
 interface IFormatDateOptions {
-  format: Enum_FormatDate
+  format: Enum_FormatDate;
 }
 export const formatDate = (date: Date, options?: IFormatDateOptions) => {
-  const dt = new Date(date)
-  let formatedDate = undefined
+  const dt = new Date(date);
+  let formatedDate = undefined;
 
   switch (options?.format) {
     case Enum_FormatDate.timeOnly:
-      formatedDate = dt.getHours() + ":" + dt.getMinutes()
-      break
+      formatedDate = dt.getHours() + ':' + dt.getMinutes();
+      break;
     case Enum_FormatDate.exactTime:
-      formatedDate = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds()
-      break
+      formatedDate =
+        dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+      break;
     default:
-      formatedDate = dt.getDate() + "-" + (dt.getMonth()+1) + "-" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes()
-      break
+      formatedDate =
+        dt.getDate() +
+        '-' +
+        (dt.getMonth() + 1) +
+        '-' +
+        dt.getFullYear() +
+        ' ' +
+        dt.getHours() +
+        ':' +
+        dt.getMinutes();
+      break;
   }
 
-  return `${formatedDate}`
-}
+  return `${formatedDate}`;
+};
 
 export type KeyPairObject = {
   [key: string]: {
-    label: string,
-    value: string
-  }
-}
+    label: string;
+    value: string;
+  };
+};
 
 export const sortBy: KeyPairObject = {
   orderAZ: {
     label: 'Content [A-Z]',
-    value: 'orderAZ'
+    value: 'orderAZ',
   },
   orderZA: {
     label: 'Content [Z-A]',
-    value: 'orderZA'
+    value: 'orderZA',
   },
   dateASC: {
     label: 'Ascending Date',
-    value: 'dateASC'
+    value: 'dateASC',
   },
   dateDESC: {
     label: 'Descending Date',
-    value: 'dateDESC'
+    value: 'dateDESC',
   },
-}
+};
 
 export const RenderReactElementFromMap = (
   children: JSX.Element,
   index: number
 ) => {
-  return (
-    <div key={index}>
-      {children}
-    </div>
-  )
-}
+  return <div key={index}>{children}</div>;
+};
 
 export default randomizedId;

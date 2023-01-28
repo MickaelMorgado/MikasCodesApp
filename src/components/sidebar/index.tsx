@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Divider,
   IconButton,
@@ -7,7 +7,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar
+  Toolbar,
 } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
@@ -21,7 +21,7 @@ import TimelapseIcon from '@mui/icons-material/Timelapse';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 const drawerWidth = 240;
 
@@ -55,7 +55,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -78,22 +77,22 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
 
 export const Sidebar = () => {
   const theme = useTheme();
@@ -128,7 +127,11 @@ export const Sidebar = () => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -137,21 +140,42 @@ export const Sidebar = () => {
             { name: 'NotesApp', icon: <ContentPasteIcon /> },
             { name: 'Scripts', icon: <CodeIcon /> },
             { name: 'HourLogging', icon: <TimelapseIcon /> },
-            { name: 'TemplateCreator', icon: <EditIcon /> }
+            { name: 'TemplateCreator', icon: <EditIcon /> },
           ].map(({ name, icon }) => {
-            const lowercasedName = name.toLowerCase()
+            const lowercasedName = name.toLowerCase();
             return (
-              <ListItem key={lowercasedName} disablePadding sx={{ display: 'block' }}>
+              <ListItem
+                key={lowercasedName}
+                disablePadding
+                sx={{ display: 'block' }}
+              >
                 <S.Link>
                   <Link to={`/${lowercasedName}`}>
-                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
-                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>{icon}</ListItemIcon>
-                      <ListItemText primary={lowercasedName} sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemButton
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5,
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : 'auto',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={lowercasedName}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
                     </ListItemButton>
                   </Link>
                 </S.Link>
               </ListItem>
-            )
+            );
           })}
         </List>
       </Drawer>

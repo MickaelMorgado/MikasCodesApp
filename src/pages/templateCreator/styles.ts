@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const Pre = styled.pre<{oneLine: boolean}>`
+export const Pre = styled.pre<{ oneLine: boolean }>`
   border: 1px solid grey;
   border-radius: 5px;
   padding: 25px;
@@ -8,7 +8,10 @@ export const Pre = styled.pre<{oneLine: boolean}>`
   max-width: 100%;
   overflow: hidden;
 
-  ${props => props.oneLine ? 'white-space: nowrap; white-space: inherit;' : 'white-space: break-spaces;'}
+  ${(props) =>
+    props.oneLine
+      ? 'white-space: nowrap; white-space: inherit;'
+      : 'white-space: break-spaces;'}
 `;
 
 export const ChildContent = styled.div`

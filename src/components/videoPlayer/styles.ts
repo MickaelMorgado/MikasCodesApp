@@ -1,12 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledPlayer = styled.div`
-
   position: relative;
   margin-top: 20px;
 
   & > * {
-    padding-top: 0 !important
+    padding-top: 0 !important;
   }
 
   video {

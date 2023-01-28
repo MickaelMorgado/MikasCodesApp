@@ -1,5 +1,5 @@
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import MainAppStruct from '../components/mainAppStruct'
+import MainAppStruct from '../components/mainAppStruct';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,37 +24,23 @@ export default function App() {
           <Route
             path="/"
             element={
-              <MainAppStruct
-                title={'Notes App'}
-                content={<NotesApp />}
-              />
+              <MainAppStruct title={'Notes App'} content={<NotesApp />} />
             }
           />
           <Route
             path="/notesApp"
             element={
-              <MainAppStruct
-                title={'Notes App'}
-                content={<NotesApp />}
-              />
+              <MainAppStruct title={'Notes App'} content={<NotesApp />} />
             }
           />
           <Route
             path="/scripts"
-            element={
-              <MainAppStruct
-                title={'Scripts'}
-                content={<Scripts />}
-              />
-            }
+            element={<MainAppStruct title={'Scripts'} content={<Scripts />} />}
           />
           <Route
             path="/hourLogging"
             element={
-              <MainAppStruct
-                title={'hourLogging'}
-                content={<HourLogging />}
-              />
+              <MainAppStruct title={'hourLogging'} content={<HourLogging />} />
             }
           />
           <Route

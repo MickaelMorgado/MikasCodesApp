@@ -1,15 +1,13 @@
-import React from "react";
+import React from 'react';
 import { Player } from 'video-react';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 export interface IVideoPlayerProps {
   src: string;
 }
 
-export const VideoPlayer = ({
-  src
-}: IVideoPlayerProps) => {
+export const VideoPlayer = ({ src }: IVideoPlayerProps) => {
   return (
     <>
       <S.StyledPlayer>

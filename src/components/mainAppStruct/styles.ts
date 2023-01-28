@@ -1,5 +1,5 @@
-import { OverridableComponent } from "@mui/material/OverridableComponent";
-import styled from "styled-components";
+import { OverridableComponent } from '@mui/material/OverridableComponent';
+import styled from 'styled-components';
 
 export const Main = styled.div`
   display: flex;
