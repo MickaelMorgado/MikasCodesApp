@@ -7,6 +7,7 @@ import Login from 'pages/login';
 import HourLogging from 'pages/hourLogging';
 import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
+import TemplateCreator from 'pages/templateCreator';
 
 const darkTheme = createTheme({
   palette: {
@@ -53,6 +54,15 @@ export default function App() {
               <MainAppStruct
                 title={'hourLogging'}
                 content={<HourLogging />}
+              />
+            }
+          />
+          <Route
+            path="/templateCreator"
+            element={
+              <MainAppStruct
+                title={'templateCreator'}
+                content={<TemplateCreator />}
               />
             }
           />

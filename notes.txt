@@ -21,3 +21,126 @@ Package the project:
     npm run rebuild
     npm run package
     npm run publish
+
+Running mjml:
+
+  in MikasCodesApp run:
+
+    ./node_modules/.bin/mjml index.mjml
+
+
+
+
+
+
+
+CODE EXAMPLES:
+
+  interface ProductProperty {
+      log: Function
+      render: Function
+  }
+
+  // types/col.ts
+  enum Colors {
+      RED,
+      BLUE,
+      YELLOW
+  }
+
+  class ColorProperty implements ProductProperty {
+      value: Colors
+
+      constructor (value: Colors) {
+          this.value = value
+      }
+
+      log() {
+          console.log("The color is: " + this.value)
+      }
+
+      render() {
+          return "<b>test</b>"
+      }
+  }
+
+  // types/property/whatever
+  enum Sizes {
+      XL,
+      L,
+      S
+  }
+
+  class SizeProperty implements ProductProperty {
+      value: Sizes
+
+      constructor (value: Sizes) {
+          this.value = value
+      }
+
+      log() {
+          console.log("The size is: " + this.value)
+      }
+
+      render() {
+          return "<p>Shit</p>"
+      }
+  }
+
+  // types/property/shapes
+  enum Shapes {
+      CIRCLE,
+      SQUARE
+  }
+
+  class ShapeProperty implements ProductProperty {
+      value: Shapes
+
+      constructor (value: Shapes) {
+          this.value = value
+      }
+
+      log() {
+          console.log("The shape is: " + this.value)
+      }
+
+      render() {
+          return "<svg>Shit</svg>"
+      }
+  }
+
+
+  // types/Product
+  type Product = {
+      property: ProductProperty
+  }
+
+  // utils/logProperty
+  function logProperty(product:Product) {
+      product.property.log();
+  }
+
+  // main.ts
+  const colorProperty = new ColorProperty(Colors.YELLOW);
+  const sizeProperty = new SizeProperty(Sizes.L);
+
+  const product:Product = {
+      property: colorProperty
+  }
+
+  const productWithSize:Product = {
+      property: sizeProperty
+  }
+
+  logProperty(product);
+  logProperty(productWithSize);
+
+  // components/Product
+  function ProductComponent(product: Product) {
+      return `<p>${ProductProperty(product.property)}</p>`
+  }
+
+  // components/Product/ProductProperty
+  function ProductProperty(property: ProductProperty) {
+      return property.render()
+  }

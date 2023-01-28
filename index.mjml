@@ -1,0 +1,35 @@
+<mjml>
+  <mj-style>
+      .red-text div {
+      	color: red !important;
+      	text-decoration: underline !important;
+      }
+  </mj-style>
+  <mj-body>
+    <mj-section>
+      <mj-column></mj-column>
+      <mj-column>
+        <mj-column>
+          <mj-column>
+            <mj-column>
+              <mj-image src="{% static 'images/logo-email.png' %}" />
+            </mj-column>
+          </mj-column>
+        </mj-column>
+      </mj-column>
+      <mj-wrapper>
+        <mj-section>
+          <mj-section>
+            <mj-text>{% block action_logo %}{% endblock %}</mj-text>
+            <mj-column>
+              {% block content %}
+                <mj-text>{% block email_title %} Email Template {% endblock %}</mj-text>
+                <mj-text>{% block email_description %} Email Description {% endblock %}</mj-text>
+              {% endblock %}
+            </mj-column>
+          </mj-section>
+        </mj-section>
+      </mj-wrapper>
+    </mj-section>
+  </mj-body>
+</mjml>

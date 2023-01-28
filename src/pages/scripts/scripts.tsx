@@ -231,6 +231,57 @@ cd ../
     />
   },
   {
+    title: 'Import Postgres DB',
+    category: Enum_scriptsCategory.terminal,
+    component: <GeneratedScriptBase
+      description={
+        () => (
+          <>
+            Manually import postgres db
+          </>
+        )
+      }
+      initialFormFields={
+        [
+          {
+            name: 'Downloaded DB Name',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          },
+          {
+            name: 'Docker Database container ID',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          },
+          {
+            name: 'Project Database Name (settings.py)',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          },
+          {
+            name: 'Project Database User (settings.py)',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          },
+          {
+            name: 'Project Database Password (settings.py)',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {}
+          }
+        ]
+      }
+      renderedScript={(formFields) => {
+        let resultedScript = `docker cp '/home/lenovo2019/Documents/dumps/${formFields[0].value}.sql' ${formFields[1].value}:tmp/dump.sql
+
+docker exec -ti ${formFields[1].value} /bin/bash
+
+psql -U ${formFields[3].value} -h localhost -d ${formFields[2].value} -f /tmp/dump.sql`
+
+        return `${resultedScript}`
+      }}
+    />
+  },
+  {
     title: 'New styled component',
     category: Enum_scriptsCategory.react,
     // file: filePath('autoUpdateSubmodules.js'),
@@ -331,6 +382,54 @@ export default ${formFields[0].value};
       renderedScript={(formFields) => (`${ formFields[1].value + ': ' + formFields[0].value }`)}
     />
   },
+  {
+    title: 'HTML to MJML converter',
+    category: Enum_scriptsCategory.js,
+    component: <GeneratedScriptBase
+      description={
+        () => (
+          <>
+            WIP
+          </>
+        )
+      }
+      initialFormFields={
+        [
+          {
+            name: 'HTML',
+            formFieldType: Enum_MyFormFieldType.textArea,
+            callback: () => {}
+          }
+        ]
+      }
+      renderedScript={(formFields) => {
+        let incomingValue = formFields[0].value ? formFields[0].value : ''
+
+        const replaceTags = (incomingVal: any, originalTag: string, replaceTag: string) => {
+          let result = incomingVal.replaceAll(originalTag, replaceTag)
+          return result
+        }
+
+        incomingValue = replaceTags(incomingValue, "<div", "<mj-wrapper");
+        incomingValue = replaceTags(incomingValue, "</div>", "</mj-wrapper>");
+
+        incomingValue = replaceTags(incomingValue, "<p", "<mj-text");
+        incomingValue = replaceTags(incomingValue, "</p>", "</mj-text>");
+
+        incomingValue = replaceTags(incomingValue, "<img", "<mj-image");
+
+        const mjmlResult = incomingValue
+
+        return (`
+        <mjml>
+          <mj-body>
+            ${ mjmlResult }
+          </mj-body>
+        </mjml>
+        `)
+      }}
+    />
+  }
 ]
 
 export default scriptsCodes

@@ -11,7 +11,8 @@ export const randomizedId = () => {
 };
 
 export enum Enum_StorageSlot {
-  notes = 'notes'
+  notes = 'notes',
+  hourLogs = 'hour logs'
 }
 
 export const getLocalStorageItem = (storageSlot: Enum_StorageSlot) => {
@@ -31,7 +32,8 @@ export const validation = {
 // Format Date:
 export const enum Enum_FormatDate {
   default,
-  timeOnly
+  timeOnly,
+  exactTime
 }
 interface IFormatDateOptions {
   format: Enum_FormatDate
@@ -43,6 +45,9 @@ export const formatDate = (date: Date, options?: IFormatDateOptions) => {
   switch (options?.format) {
     case Enum_FormatDate.timeOnly:
       formatedDate = dt.getHours() + ":" + dt.getMinutes()
+      break
+    case Enum_FormatDate.exactTime:
+      formatedDate = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds()
       break
     default:
       formatedDate = dt.getDate() + "-" + (dt.getMonth()+1) + "-" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes()
