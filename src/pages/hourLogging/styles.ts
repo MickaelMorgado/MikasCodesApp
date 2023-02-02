@@ -4,13 +4,13 @@ export const Points = styled.div`
   padding: 20px 0;
 
   & > *:not(:last-child) {
-    opacity: 0.3
+    opacity: 0.3;
   }
   & > * {
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
   }
   &:hover > * {
-    opacity: 1
+    opacity: 1;
   }
 `;
 
@@ -19,6 +19,10 @@ export const PointLine = styled.div`
   align-items: center;
   position: relative;
   padding: 5px 0;
+
+  & > *:not(:last-child) {
+    width: 33.33333%;
+  }
 `;
 
 export const CheckpointAction = styled.div`
@@ -33,12 +37,20 @@ export const CheckpointAction = styled.div`
   left: 65px;
   box-shadow: 0 0 40px black;
   align-items: center;
-  gap: 10px
+  gap: 10px;
 `;
 
 export const FirstCol = styled.div`
   display: flex;
-  width: 200px;
+  max-width: 200px;
   gap: 10px;
   align-items: center;
+`;
+
+export const GeneratedLogDetails = styled.pre`
+  padding: 0 20px;
+  color: grey;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;

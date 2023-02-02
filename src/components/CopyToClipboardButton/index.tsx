@@ -3,18 +3,22 @@ import React from 'react';
 import * as S from './styles';
 
 export interface ICopyToClipboardButton {
-  contentToCopy: any
+  contentToCopy: any;
 }
 
-export const CopyToClipboardButton = ({ contentToCopy }: ICopyToClipboardButton) => {
+export const CopyToClipboardButton = ({
+  contentToCopy,
+}: ICopyToClipboardButton) => {
   return (
     <S.CopyToClipboardButton>
-      <Tooltip title='Copy to clipboard'>
+      <Tooltip title="Copy to clipboard">
         <Button
           onClick={() => {
-            navigator.clipboard.writeText(contentToCopy)
+            navigator.clipboard.writeText(contentToCopy);
           }}
-        >Copy</Button>
+        >
+          Copy
+        </Button>
       </Tooltip>
     </S.CopyToClipboardButton>
   );
