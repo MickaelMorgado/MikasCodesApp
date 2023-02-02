@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const MyFormField = styled.div`
   display: flex;
@@ -9,13 +9,13 @@ export const MyFormField = styled.div`
   justify-content: space-between;
 
   & > :nth-child(1) {
-    width: 30%
+    width: 30%;
   }
 `;
 
 export const MySelect = styled.div`
   &,
   & > * {
-    width: 100%
+    width: 100%;
   }
 `;

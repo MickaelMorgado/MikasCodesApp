@@ -1,35 +1,35 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const bgOpacity = '22'
+const bgOpacity = '22';
 
 const appColor = {
   red: {
     c1: '#FF5533',
-    c2: `#FF5533${bgOpacity}`
+    c2: `#FF5533${bgOpacity}`,
   },
   orange: {
     c1: '#FF9D00',
-    c2: `#FF9D00${bgOpacity}`
+    c2: `#FF9D00${bgOpacity}`,
   },
   blue: {
     c1: '#55AAFF',
-    c2: `#55AAFF${bgOpacity}`
+    c2: `#55AAFF${bgOpacity}`,
   },
   black: {
     c1: '#fff',
-    c2: `#000000${bgOpacity}`
+    c2: `#000000${bgOpacity}`,
   },
   purple: {
     c1: '#0aa',
-    c2: `#00aaaa${bgOpacity}`
-  }
-}
+    c2: `#00aaaa${bgOpacity}`,
+  },
+};
 
 export const Tag = styled.span`
   padding: 3px 5px;
   border-radius: 3px;
   font-style: normal;
-`
+`;
 
 export const Terminal = styled(Tag as 'span')`
   color: ${appColor.black.c1};

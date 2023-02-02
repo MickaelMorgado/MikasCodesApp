@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
@@ -13,15 +13,15 @@ export enum Enum_scriptsCategory {
 }
 
 export interface IAccordionItemProps {
-  id: string,
-  category: Enum_scriptsCategory,
-  title: string
+  id: string;
+  category: Enum_scriptsCategory;
+  title: string;
 }
 
 export const AccordionItem = ({
-  id='accordionId',
-  category=Enum_scriptsCategory.js,
-  title='js script'
+  id = 'accordionId',
+  category = Enum_scriptsCategory.js,
+  title = 'js script',
 }: IAccordionItemProps) => {
   return (
     <>

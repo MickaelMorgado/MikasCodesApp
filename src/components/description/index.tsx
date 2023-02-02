@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 interface IDescription {
-  children: JSX.Element
+  children: JSX.Element;
 }
 
 export const Description = ({ children }: IDescription) => {

@@ -1,10 +1,5 @@
-import react from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import InvalidMessage from 'components/invalidMessage';
-import { React } from 'pages/globalStyles';
-import React from 'react';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import internal from 'stream';
 
 export const randomizedId = () => {
   return uuidv4();

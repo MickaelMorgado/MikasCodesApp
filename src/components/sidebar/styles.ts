@@ -10,7 +10,7 @@ export const Sidebar = styled.div`
   background-color: #222;
   z-index: 1;
   transform: translateX(calc(-100% + 70px));
-  transition: all .25s ease-out;
+  transition: all 0.25s ease-out;
   box-shadow: 0 0 5px 0 black;
 
   &:hover {

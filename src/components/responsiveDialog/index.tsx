@@ -8,21 +8,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { INoteProps } from 'components/note';
-import { Enum_MyFormFieldTransformationType, Enum_MyFormFieldType, MyFormField } from 'components/myForm/field';
+import {
+  Enum_MyFormFieldTransformationType,
+  Enum_MyFormFieldType,
+  MyFormField,
+} from 'components/myForm/field';
 
 interface IResponsiveDialog {
-  children: JSX.Element,
-  note: INoteProps,
-  acceptedCallback: (e: React.SyntheticEvent | undefined) => void,
-  rejectedCallback: (e: React.SyntheticEvent | undefined) => void
+  children: JSX.Element;
+  note: INoteProps;
+  acceptedCallback: (e: React.SyntheticEvent | undefined) => void;
+  rejectedCallback: (e: React.SyntheticEvent | undefined) => void;
 }
 
 const ResponsiveDialog = ({
   children,
   note,
   acceptedCallback,
-  rejectedCallback
-}:IResponsiveDialog) => {
+  rejectedCallback,
+}: IResponsiveDialog) => {
   const [open, setOpen] = useState(false);
   const [tmpNewNote, setTmpNewNote] = useState<React.SyntheticEvent>();
   const theme = useTheme();
@@ -33,13 +37,10 @@ const ResponsiveDialog = ({
   };
 
   // return accepted or rejected callback passing the event:
-  const handleClose = (
-    accepted: boolean,
-    event?: React.SyntheticEvent
-  ) => {
-    console.log("modal acceptance")
-    console.log(accepted, event)
-    accepted ? acceptedCallback(tmpNewNote) : rejectedCallback(tmpNewNote)
+  const handleClose = (accepted: boolean, event?: React.SyntheticEvent) => {
+    console.log('modal acceptance');
+    console.log(accepted, event);
+    accepted ? acceptedCallback(tmpNewNote) : rejectedCallback(tmpNewNote);
     setOpen(false);
   };
 
@@ -60,17 +61,19 @@ const ResponsiveDialog = ({
               name="newNoteTextArea"
               defaultValue={note.content}
               transformationType={Enum_MyFormFieldTransformationType.default}
-              callback={e => setTmpNewNote(e)}
+              callback={(e) => setTmpNewNote(e)}
             />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => handleClose(false)}>Disagree</Button>
-          <Button onClick={() => handleClose(true, tmpNewNote)} autoFocus>Agree</Button>
+          <Button onClick={() => handleClose(true, tmpNewNote)} autoFocus>
+            Agree
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
-export default ResponsiveDialog
+export default ResponsiveDialog;

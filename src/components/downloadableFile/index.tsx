@@ -1,7 +1,7 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow } from 'electron';
 
 export const downloadFile = (file: string) => {
-  debugger
+  debugger;
   /*
   const win = new BrowserWindow()
   win.webContents.session.on('will-download', (event, item, webContents) => {
@@ -28,6 +28,6 @@ export const downloadFile = (file: string) => {
     })
   })
   */
-}
+};
 
-export default downloadFile
+export default downloadFile;
