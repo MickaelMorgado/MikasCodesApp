@@ -4,10 +4,12 @@ import * as S from './styles';
 
 export interface ICopyToClipboardButton {
   contentToCopy: any;
+  markAsDone: (condition: boolean) => {};
 }
 
 export const CopyToClipboardButton = ({
   contentToCopy,
+  markAsDone,
 }: ICopyToClipboardButton) => {
   return (
     <S.CopyToClipboardButton>
@@ -15,6 +17,7 @@ export const CopyToClipboardButton = ({
         <Button
           onClick={() => {
             navigator.clipboard.writeText(contentToCopy);
+            markAsDone(true);
           }}
         >
           Copy

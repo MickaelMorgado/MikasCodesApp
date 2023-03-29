@@ -42,7 +42,7 @@ export const CheckpointAction = styled.div`
 
 export const FirstCol = styled.div`
   display: flex;
-  max-width: 200px;
+  max-width: 250px;
   gap: 10px;
   align-items: center;
 `;

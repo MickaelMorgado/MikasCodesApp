@@ -1,32 +1,42 @@
 Backup of package.json:
 
-  "build": {
-  ...
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
+    "build": {
+    ...
+        "linux": {
+        "target": [
+            "AppImage",
+            "deb"
+        ],
 
 Run project development:
 
-  cd MikasCodesApp/
-  nvm use v16.16.0
-  npm start
+    cd MikasCodesApp/
+    nvm use v16.16.0
+    npm start
 
 Package the project:
 
-  Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
+    Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
 
-    npm run rebuild
-    npm run package
-    npm run publish
+        npm run rebuild
+        npm run package
+        npm run publish (don't forget to update version package.json)
+
+How to update GH_TOKEN:
+    
+    - check that you have a secrets file in root project with the following structure:
+
+        GH_TOKEN=anyGHTokenKey
+
+    - you can get that token here: https://github.com/settings/tokens
+
+    - don't push this file to git
 
 Running mjml:
 
-  in MikasCodesApp run:
+    in MikasCodesApp run:
 
-    ./node_modules/.bin/mjml index.mjml
+        ./node_modules/.bin/mjml index.mjml
 
 
 
@@ -36,111 +46,111 @@ Running mjml:
 
 CODE EXAMPLES:
 
-  interface ProductProperty {
-      log: Function
-      render: Function
-  }
+    interface ProductProperty {
+        log: Function
+        render: Function
+    }
 
-  // types/col.ts
-  enum Colors {
-      RED,
-      BLUE,
-      YELLOW
-  }
+    // types/col.ts
+    enum Colors {
+        RED,
+        BLUE,
+        YELLOW
+    }
 
-  class ColorProperty implements ProductProperty {
-      value: Colors
+    class ColorProperty implements ProductProperty {
+        value: Colors
 
-      constructor (value: Colors) {
-          this.value = value
-      }
+        constructor (value: Colors) {
+            this.value = value
+        }
 
-      log() {
-          console.log("The color is: " + this.value)
-      }
+        log() {
+            console.log("The color is: " + this.value)
+        }
 
-      render() {
-          return "<b>test</b>"
-      }
-  }
+        render() {
+            return "<b>test</b>"
+        }
+    }
 
-  // types/property/whatever
-  enum Sizes {
-      XL,
-      L,
-      S
-  }
+    // types/property/whatever
+    enum Sizes {
+        XL,
+        L,
+        S
+    }
 
-  class SizeProperty implements ProductProperty {
-      value: Sizes
+    class SizeProperty implements ProductProperty {
+        value: Sizes
 
-      constructor (value: Sizes) {
-          this.value = value
-      }
+        constructor (value: Sizes) {
+            this.value = value
+        }
 
-      log() {
-          console.log("The size is: " + this.value)
-      }
+        log() {
+            console.log("The size is: " + this.value)
+        }
 
-      render() {
-          return "<p>Shit</p>"
-      }
-  }
+        render() {
+            return "<p>Shit</p>"
+        }
+    }
 
-  // types/property/shapes
-  enum Shapes {
-      CIRCLE,
-      SQUARE
-  }
+    // types/property/shapes
+    enum Shapes {
+        CIRCLE,
+        SQUARE
+    }
 
-  class ShapeProperty implements ProductProperty {
-      value: Shapes
+    class ShapeProperty implements ProductProperty {
+        value: Shapes
 
-      constructor (value: Shapes) {
-          this.value = value
-      }
+        constructor (value: Shapes) {
+            this.value = value
+        }
 
-      log() {
-          console.log("The shape is: " + this.value)
-      }
+        log() {
+            console.log("The shape is: " + this.value)
+        }
 
-      render() {
-          return "<svg>Shit</svg>"
-      }
-  }
+        render() {
+            return "<svg>Shit</svg>"
+        }
+    }
 
 
-  // types/Product
-  type Product = {
-      property: ProductProperty
-  }
+    // types/Product
+    type Product = {
+        property: ProductProperty
+    }
 
-  // utils/logProperty
-  function logProperty(product:Product) {
-      product.property.log();
-  }
+    // utils/logProperty
+    function logProperty(product:Product) {
+        product.property.log();
+    }
 
-  // main.ts
-  const colorProperty = new ColorProperty(Colors.YELLOW);
-  const sizeProperty = new SizeProperty(Sizes.L);
+    // main.ts
+    const colorProperty = new ColorProperty(Colors.YELLOW);
+    const sizeProperty = new SizeProperty(Sizes.L);
 
-  const product:Product = {
-      property: colorProperty
-  }
+    const product:Product = {
+        property: colorProperty
+    }
 
-  const productWithSize:Product = {
-      property: sizeProperty
-  }
+    const productWithSize:Product = {
+        property: sizeProperty
+    }
 
-  logProperty(product);
-  logProperty(productWithSize);
+    logProperty(product);
+    logProperty(productWithSize);
 
-  // components/Product
-  function ProductComponent(product: Product) {
-      return `<p>${ProductProperty(product.property)}</p>`
-  }
+    // components/Product
+    function ProductComponent(product: Product) {
+        return `<p>${ProductProperty(product.property)}</p>`
+    }
 
-  // components/Product/ProductProperty
-  function ProductProperty(property: ProductProperty) {
-      return property.render()
-  }
+    // components/Product/ProductProperty
+    function ProductProperty(property: ProductProperty) {
+        return property.render()
+    }

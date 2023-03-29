@@ -1,4 +1,4 @@
-import { Button, Divider, TextField, Tooltip } from '@mui/material';
+import { Button, Checkbox, Divider, TextField, Tooltip } from '@mui/material';
 import React, { useState } from 'react';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import PaddedContent from 'components/paddedContent';
@@ -30,6 +30,7 @@ export interface ICheckpoint {
     end: Date | null;
   };
   description: string;
+  isDone: boolean;
 }
 
 export const HourLogging = ({ id }: IHourLoggingProps) => {
@@ -68,6 +69,13 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
     });
   };
 
+  const handleMarkAsDone = (condition: boolean, checkpointIndex: number) => {
+    setCheckpoints((prevState) => {
+      prevState[checkpointIndex].isDone = condition;
+      return [...prevState];
+    });
+  };
+
   return (
     <>
       <h3>Log Hours</h3>
@@ -95,6 +103,7 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
             return RenderReactElementFromMap(
               <S.PointLine>
                 <S.FirstCol>
+                  <Checkbox checked={point.isDone} />
                   <GS.React>
                     {formatDate(point.date.start, {
                       format: Enum_FormatDate.exactTime,
@@ -128,7 +137,10 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
                     </S.GeneratedLogDetails>
                   </Tooltip>
                 </>
-                <CopyToClipboardButton contentToCopy={logInfoDetails} />
+                <CopyToClipboardButton
+                  contentToCopy={logInfoDetails}
+                  markAsDone={(condition) => handleMarkAsDone(condition, index)}
+                />
               </S.PointLine>,
               index
             );
@@ -150,6 +162,7 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
                   end: null,
                 },
                 description: '',
+                isDone: false,
               };
               setFlipFlop(!flipFlop);
               addCheckpoint(newPoint);
