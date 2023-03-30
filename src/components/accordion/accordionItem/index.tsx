@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export enum Enum_scriptsCategory {
+  styles = 'Styles',
   js = 'Js',
   react = 'React',
   browserDevTool = 'Browser Dev Tool',

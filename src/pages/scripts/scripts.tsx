@@ -495,6 +495,48 @@ export default ${formFields[0].value};
     ),
   },
   {
+    title: 'CSS Reorder',
+    category: Enum_scriptsCategory.styles,
+    // file: filePath('autoUpdateSubmodules.js'),
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            WIP: Paste your css properties to generate a reordered version of it
+            based on this guideline: place guideline here
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'CSS properties',
+            formFieldType: Enum_MyFormFieldType.textArea,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          let generatedCode = `${formFields[0].value}`;
+
+          function cssSortValue(cssProp: string) {
+            switch (cssProp.replaceAll(' ', '')) {
+              case 'padding':
+                return 1;
+              default:
+                return 0;
+            }
+          }
+
+          generatedCode
+            .split(';')
+            .map((item) => console.log(cssSortValue(item.split(':')[0])));
+
+          generatedCode = `${formFields[0].value}`;
+
+          return `${generatedCode}`;
+        }}
+      />
+    ),
+  },
+  {
     title: 'Windows Bash',
     category: Enum_scriptsCategory.terminal,
     component: (
