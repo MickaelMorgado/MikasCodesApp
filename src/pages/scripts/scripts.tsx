@@ -191,6 +191,51 @@ myForm = new formWithValidation()
     ),
   },
   {
+    title: 'Rename branch',
+    category: Enum_scriptsCategory.git,
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            git branch -m old_name new_name
+            <br />
+            git push origin -u new_name
+            <br />
+            git push origin --delete old_name
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'old branch name',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+          {
+            name: 'new branch name',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+          {
+            name: 'same for remote branch',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) =>
+          `
+git branch -m ${formFields[0].value} ${formFields[1].value}
+${
+  formFields[2].value == 'true'
+    ? `git push origin -u ${formFields[1].value}
+git push origin --delete ${formFields[0].value}`
+    : ``
+}
+          `
+        }
+      />
+    ),
+  },
+  {
     title: 'Auto update submodules',
     category: Enum_scriptsCategory.terminal,
     component: (
