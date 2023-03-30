@@ -18,9 +18,17 @@ Package the project:
 
     Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
 
+        (don't forget to update version package.json for publish)
+
+        -then-
+        
         npm run rebuild
         npm run package
-        npm run publish (don't forget to update version package.json)
+        npm run publish 
+
+        -or-
+
+        npm run release // to do everything at once
 
 How to update GH_TOKEN:
     
