@@ -18,7 +18,7 @@ Package the project:
 
     Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
 
-        (don't forget to update version package.json for publish)
+        (don't forget to update version package.json (project and release/app) for publish)
 
         -then-
         
