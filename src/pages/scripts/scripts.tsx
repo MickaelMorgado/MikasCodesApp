@@ -572,6 +572,65 @@ export default ${formFields[0].value};
       />
     ),
   },
+  {
+    title: 'Project Setup',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>WIP: Some personal useful bash scripts</>}
+        initialFormFields={[
+          {
+            name: 'ssh clone url',
+            formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          return !formFields[0].value
+            ? ''
+            : `cd 
+          cd dengun 
+          git clone --recurse-submodules ${formFields[0].value}
+          cd ${formFields[0].value!.split('/')[1]!.split('.')[0]}
+          code .
+
+            IN VSCODE:
+
+  (before runing make sure of:)
+    @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec in python.dockerfile
+    add --force-yes to node.dockerfile: RUN apt-get install -y --force-yes libnotify-bin
+
+  (This part is not necessary anymore to do due to earlier clone)
+    IN TERMINAL 1:
+
+      git submodule init
+      git submodule update --remote
+
+    IN TERMINAL 2:
+
+      MikasApp submodule for each branch
+
+  IN TERMINAL 1:
+  
+    docker compose build
+    docker compose up
+
+  IN TERMINAL 2:
+
+    docker compose exec web python manage.py migrate
+    docker compose exec web python manage.py createsuperuser
+
+    docker compose restart web
+
+  IN BROWSER:
+
+    http://localhost:8000/admin/cms/page/
+          `;
+        }}
+      />
+    ),
+  },
 ];
 
 export default scriptsCodes;

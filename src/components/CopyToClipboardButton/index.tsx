@@ -4,7 +4,7 @@ import * as S from './styles';
 
 export interface ICopyToClipboardButton {
   contentToCopy: any;
-  markAsDone: (condition: boolean) => {};
+  markAsDone?: (condition: boolean) => {};
 }
 
 export const CopyToClipboardButton = ({
@@ -17,7 +17,7 @@ export const CopyToClipboardButton = ({
         <Button
           onClick={() => {
             navigator.clipboard.writeText(contentToCopy);
-            markAsDone(true);
+            markAsDone && markAsDone(true);
           }}
         >
           Copy
