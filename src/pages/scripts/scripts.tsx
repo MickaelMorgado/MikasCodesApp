@@ -631,6 +631,39 @@ export default ${formFields[0].value};
       />
     ),
   },
+  {
+    title: 'Translate Command',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>WIP: Some personal useful bash scripts</>}
+        initialFormFields={[
+          {
+            name: 'dengun_cms_package',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
+          {
+            name: 'dengun_django_myforms',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
+          {
+            name: 'dengun_django_admin_relation',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          return `docker compose exec web python manage.py makemessages
+          ${formFields[0].value ? `-i dengun_cms_package` : ``}
+          ${formFields[1].value ? `-i dengun_django_myforms` : ``}
+          ${formFields[2].value ? `-i dengun_django_admin_relation` : ``}
+          `;
+        }}
+      />
+    ),
+  },
 ];
 
 export default scriptsCodes;
