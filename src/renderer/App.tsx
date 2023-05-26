@@ -7,7 +7,7 @@ import Login from 'pages/login';
 import HourLogging from 'pages/hourLogging';
 import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
-import TemplateCreator from 'pages/templateCreator';
+import Settings from 'pages/settings';
 
 const darkTheme = createTheme({
   palette: {
@@ -44,12 +44,9 @@ export default function App() {
             }
           />
           <Route
-            path="/templateCreator"
+            path="/settings"
             element={
-              <MainAppStruct
-                title={'templateCreator'}
-                content={<TemplateCreator />}
-              />
+              <MainAppStruct title={'Settings'} content={<Settings />} />
             }
           />
         </Routes>

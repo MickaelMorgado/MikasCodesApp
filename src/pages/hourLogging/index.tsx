@@ -67,6 +67,7 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
       }
       return [...prevState];
     });
+    setLocalStorageItem(Enum_StorageSlot.hourLogs, JSON.stringify(checkpoints));
   };
 
   const handleMarkAsDone = (condition: boolean, checkpointIndex: number) => {

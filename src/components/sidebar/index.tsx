@@ -140,7 +140,7 @@ export const Sidebar = () => {
             { name: 'NotesApp', icon: <ContentPasteIcon /> },
             { name: 'Scripts', icon: <CodeIcon /> },
             { name: 'HourLogging', icon: <TimelapseIcon /> },
-            { name: 'TemplateCreator', icon: <EditIcon /> },
+            { name: 'Settings', icon: <EditIcon /> },
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase();
             return (

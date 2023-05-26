@@ -8,6 +8,12 @@ import {
   Enum_MyFormFieldType,
   IMyFormField,
 } from 'components/myForm/field';
+import {
+  Enum_SettingOption,
+  Enum_StorageSlot,
+  getLocalStorageItem,
+  getSettings,
+} from 'utils';
 
 export interface IScriptItem {
   title: string;
@@ -47,7 +53,8 @@ export const scriptsCodes: IScriptItem[] = [
         ]}
         renderedScript={(formFields: IMyFormField[]) => `${
           formFields[1].value == 'true'
-            ? formFields[0].value
+            ? formFields[0].value +
+                `${getSettings(Enum_SettingOption.PROJECTSFOLDER)}` ?? ''
             : 'no message to display'
         }
       `}
@@ -334,11 +341,17 @@ cd ../
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          let resultedScript = `docker cp '/home/lenovo2019/Documents/dumps/${formFields[0].value}.sql' ${formFields[1].value}:tmp/dump.sql
+          let resultedScript = `docker cp '/home/${getSettings(
+            Enum_SettingOption.PCNAME
+          )}/Documents/dumps/${formFields[0].value}.sql' ${
+            formFields[1].value
+          }:tmp/dump.sql
 
 docker exec -ti ${formFields[1].value} /bin/bash
 
-psql -U ${formFields[3].value} -h localhost -d ${formFields[2].value} -f /tmp/dump.sql`;
+psql -U ${formFields[3].value} -h localhost -d ${
+            formFields[2].value
+          } -f /tmp/dump.sql`;
 
           return `${resultedScript}`;
         }}
