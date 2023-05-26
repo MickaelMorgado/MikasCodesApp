@@ -16,6 +16,7 @@ export enum Enum_SettingOption {
   PCNAME = 'PCNAME',
   DOCKERCOMPOSE = 'DOCKERCOMPOSE',
   PROJECTSFOLDER = 'PROJECTSFOLDER',
+  FAVORITEEDITOR = 'FAVORITEEDITOR',
 }
 
 export const fallbackSettings = `{

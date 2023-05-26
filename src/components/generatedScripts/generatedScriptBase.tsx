@@ -18,6 +18,7 @@ import CopyToClipboardButton from 'components/CopyToClipboardButton';
 interface IGeneratedScriptBaseProps {
   description: () => JSX.Element;
   initialFormFields: IMyFormField[];
+  oneLine?: boolean;
   renderedScript: (formFields: IMyFormField[]) => string;
   videoUrl?: string;
 }
@@ -25,10 +26,11 @@ interface IGeneratedScriptBaseProps {
 export const GeneratedScriptBase: React.FC<IGeneratedScriptBaseProps> = ({
   description,
   initialFormFields,
+  oneLine = false,
   renderedScript,
   videoUrl,
 }: IGeneratedScriptBaseProps) => {
-  const [toggleOneLine, setToggleOneLine] = useState(false);
+  const [toggleOneLine, setToggleOneLine] = useState(oneLine);
   const [formFields, setFormFields] = useState<IMyFormField[]>([
     ...initialFormFields,
   ]);
@@ -106,6 +108,8 @@ export const GeneratedScriptBase: React.FC<IGeneratedScriptBaseProps> = ({
             label="Toggle One Line"
             control={
               <Checkbox
+                checked={toggleOneLine}
+                defaultValue={toggleOneLine ? 'on' : 'off'}
                 onChange={() => {
                   setToggleOneLine(!toggleOneLine);
                 }}

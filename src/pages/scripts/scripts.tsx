@@ -14,6 +14,7 @@ import {
   getLocalStorageItem,
   getSettings,
 } from 'utils';
+import { getPartialFromSettingsVariable } from 'pages/settings';
 
 export interface IScriptItem {
   title: string;
@@ -28,39 +29,42 @@ const scriptPath = './scripts/codeFiles';
 export const filePath = (scriptName: string) => `${scriptPath}/${scriptName}`;
 
 export const scriptsCodes: IScriptItem[] = [
-  {
-    title: 'Random',
-    category: Enum_scriptsCategory.js,
-    component: (
-      <GeneratedScriptBase
-        description={() => (
-          <>
-            This is an example of the{' '}
-            <GS.Terminal>'GeneratedScriptBase'</GS.Terminal> functionalities.
-          </>
-        )}
-        initialFormFields={[
-          {
-            name: 'message',
-            formFieldType: Enum_MyFormFieldType.input,
-            callback: () => {},
-          },
-          {
-            name: 'show message',
-            formFieldType: Enum_MyFormFieldType.checkBox,
-            callback: () => {},
-          },
-        ]}
-        renderedScript={(formFields: IMyFormField[]) => `${
-          formFields[1].value == 'true'
-            ? formFields[0].value +
-                `${getSettings(Enum_SettingOption.PROJECTSFOLDER)}` ?? ''
-            : 'no message to display'
-        }
-      `}
-      />
-    ),
-  },
+  /*
+    {
+      title: 'Random',
+      category: Enum_scriptsCategory.js,
+      component: (
+        <GeneratedScriptBase
+          description={() => (
+            <>
+              This is an example of the{' '}
+              <GS.Terminal>'GeneratedScriptBase'</GS.Terminal> functionalities.
+            </>
+          )}
+          initialFormFields={[
+            {
+              name: 'message',
+              formFieldType: Enum_MyFormFieldType.input,
+              callback: () => {},
+            },
+            {
+              name: 'show message',
+              formFieldType: Enum_MyFormFieldType.checkBox,
+              callback: () => {},
+            },
+          ]}
+          renderedScript={(formFields: IMyFormField[]) => `${
+            formFields[1].value == 'true'
+              ? formFields[0].value +
+                  `${getSettings(Enum_SettingOption.PROJECTSFOLDER)}` ??
+                'projects_folder'
+              : 'no message to display'
+          }
+        `}
+        />
+      ),
+    },
+  */
   {
     title: 'Switch statement',
     category: Enum_scriptsCategory.js,
@@ -373,7 +377,7 @@ psql -U ${formFields[3].value} -h localhost -d ${
           {
             name: 'component Name',
             formFieldType: Enum_MyFormFieldType.input,
-            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
+            transformationType: Enum_MyFormFieldTransformationType.name,
             tooltip: 'Dont use spaces',
             callback: () => {},
           },
@@ -400,7 +404,7 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
           {
             name: 'component Name',
             formFieldType: Enum_MyFormFieldType.input,
-            transformationType: Enum_MyFormFieldTransformationType.noSpaces,
+            transformationType: Enum_MyFormFieldTransformationType.name,
             tooltip: 'Dont use spaces',
             callback: () => {},
           },
@@ -431,7 +435,7 @@ export default ${formFields[0].value};
     category: Enum_scriptsCategory.js,
     component: (
       <GeneratedScriptBase
-        description={() => <>A basic Rest API code snippet</>}
+        description={() => <>WIP: A basic Rest API code snippet</>}
         initialFormFields={[
           {
             name: 'Endpoint URL',
@@ -590,7 +594,7 @@ export default ${formFields[0].value};
     category: Enum_scriptsCategory.terminal,
     component: (
       <GeneratedScriptBase
-        description={() => <>WIP: Some personal useful bash scripts</>}
+        description={() => <>WIP: Some commands to setup a project</>}
         initialFormFields={[
           {
             name: 'ssh clone url',
@@ -600,15 +604,20 @@ export default ${formFields[0].value};
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          return !formFields[0].value
-            ? ''
-            : `cd 
-          cd dengun 
-          git clone --recurse-submodules ${formFields[0].value}
-          cd ${formFields[0].value!.split('/')[1]!.split('.')[0]}
-          code .
+          var sshUrl = formFields[0].value;
 
-            IN VSCODE:
+          if (sshUrl != null && sshUrl.indexOf('.git') > 0) {
+            var projectName = sshUrl.split('/')[1].split('.git')[0];
+
+            return `cd 
+          cd dengun 
+          git clone --recurse-submodules ${sshUrl}
+          cd ${projectName}
+          ${getPartialFromSettingsVariable(Enum_SettingOption.FAVORITEEDITOR)} .
+
+            IN TEXT EDITOR (${getPartialFromSettingsVariable(
+              Enum_SettingOption.FAVORITEEDITOR
+            )}):
 
   (before runing make sure of:)
     @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec in python.dockerfile
@@ -626,29 +635,39 @@ export default ${formFields[0].value};
 
   IN TERMINAL 1:
   
-    docker compose build
-    docker compose up
+    ${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} build
+    ${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} up
 
   IN TERMINAL 2:
 
-    docker compose exec web python manage.py migrate
-    docker compose exec web python manage.py createsuperuser
+    ${getPartialFromSettingsVariable(
+      Enum_SettingOption.DOCKERCOMPOSE
+    )} exec web python manage.py migrate
+    ${getPartialFromSettingsVariable(
+      Enum_SettingOption.DOCKERCOMPOSE
+    )} exec web python manage.py createsuperuser
 
-    docker compose restart web
+    ${getPartialFromSettingsVariable(
+      Enum_SettingOption.DOCKERCOMPOSE
+    )} restart web
 
   IN BROWSER:
 
     http://localhost:8000/admin/cms/page/
           `;
+          } else {
+            return '';
+          }
         }}
       />
     ),
   },
   {
-    title: 'Translate Command',
+    title: 'Translate Commands',
     category: Enum_scriptsCategory.terminal,
     component: (
       <GeneratedScriptBase
+        oneLine={true}
         description={() => <>WIP: Some personal useful bash scripts</>}
         initialFormFields={[
           {
@@ -669,11 +688,68 @@ export default ${formFields[0].value};
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
           return `docker compose exec web python manage.py makemessages
-          ${formFields[0].value ? `-i dengun_cms_package` : ``}
-          ${formFields[1].value ? `-i dengun_django_myforms` : ``}
-          ${formFields[2].value ? `-i dengun_django_admin_relation` : ``}
+          ${formFields[0].value == 'true' ? `-i dengun_cms_package` : ``}
+          ${formFields[1].value == 'true' ? `-i dengun_django_myforms` : ``}
+          ${
+            formFields[2].value == 'true'
+              ? `-i dengun_django_admin_relation`
+              : ``
+          }
           `;
         }}
+      />
+    ),
+  },
+  {
+    title: 'Stateful Widget',
+    category: Enum_scriptsCategory.flutter,
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            This is an example of a stateful <GS.Flutter>'Flutter'</GS.Flutter>{' '}
+            widget.
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'Component name',
+            formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.name,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(
+          formFields: IMyFormField[]
+        ) => `import 'package:flutter/material.dart';
+
+class ${formFields[0].value} extends StatefulWidget {
+  const ${formFields[0].value}({super.key});
+
+  @override
+  State<${formFields[0].value}> createState() => _${formFields[0].value}State();
+}
+
+class _${formFields[0].value}State extends State<${formFields[0].value}> {
+  bool _active = false;
+
+  void _handleTapboxChanged(bool newValue) {
+    setState(() {
+      _active = newValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: TapboxB(
+        active: _active,
+        onChanged: _handleTapboxChanged,
+      ),
+    );
+  }
+}
+        `}
       />
     ),
   },

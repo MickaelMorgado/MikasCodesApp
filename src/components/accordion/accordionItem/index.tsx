@@ -8,6 +8,7 @@ export enum Enum_scriptsCategory {
   styles = 'Styles',
   js = 'Js',
   react = 'React',
+  flutter = 'Flutter',
   browserDevTool = 'Browser Dev Tool',
   git = 'Git',
   terminal = 'Terminal',

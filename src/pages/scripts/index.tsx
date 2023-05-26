@@ -43,6 +43,8 @@ export const Scripts = () => {
         return <GS.BrowserDevToolColor>{category}</GS.BrowserDevToolColor>;
       case Enum_scriptsCategory.react:
         return <GS.ReactColor>{category}</GS.ReactColor>;
+      case Enum_scriptsCategory.flutter:
+        return <GS.FlutterColor>{category}</GS.FlutterColor>;
       case Enum_scriptsCategory.git:
         return <GS.GitColor>{category}</GS.GitColor>;
       case Enum_scriptsCategory.js:

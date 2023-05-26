@@ -13,6 +13,7 @@ import * as S from './styles';
 
 export enum Enum_MyFormFieldTransformationType {
   default,
+  name,
   noSpaces,
   path,
 }
@@ -67,6 +68,16 @@ export const MyFormField = ({
         const capitalizedWord = firstLetterCap + remainingLetters;
 
         e.target.value = capitalizedWord.replaceAll(' ', '\\');
+        return callback(e);
+      }
+      case Enum_MyFormFieldTransformationType.name: {
+        const word = e.target.value;
+        const firstLetter = word.charAt(0);
+        const firstLetterCap = firstLetter.toUpperCase();
+        const remainingLetters = word.slice(1);
+        const capitalizedWord = firstLetterCap + remainingLetters;
+        e.target.value = capitalizedWord.replace(/\s/g, '');
+
         return callback(e);
       }
       default: {

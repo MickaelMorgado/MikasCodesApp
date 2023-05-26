@@ -8,6 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Typography,
 } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
@@ -16,8 +17,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import CodeIcon from '@mui/icons-material/Code';
-import EditIcon from '@mui/icons-material/Edit';
-import TimelapseIcon from '@mui/icons-material/Timelapse';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
@@ -122,6 +123,9 @@ export const Sidebar = () => {
           >
             <MenuIcon />
           </IconButton>
+          <Typography noWrap component="div">
+            Mika's Codes
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -139,8 +143,8 @@ export const Sidebar = () => {
           {[
             { name: 'NotesApp', icon: <ContentPasteIcon /> },
             { name: 'Scripts', icon: <CodeIcon /> },
-            { name: 'HourLogging', icon: <TimelapseIcon /> },
-            { name: 'Settings', icon: <EditIcon /> },
+            { name: 'HourLogging', icon: <PendingActionsIcon /> },
+            { name: 'Settings', icon: <SettingsApplicationsIcon /> },
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase();
             return (

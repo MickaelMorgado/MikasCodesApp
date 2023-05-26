@@ -16,12 +16,16 @@ const appColor = {
     c2: `#55AAFF${bgOpacity}`,
   },
   black: {
-    c1: '#fff',
+    c1: '#FFF',
     c2: `#000000${bgOpacity}`,
   },
   purple: {
-    c1: '#0aa',
-    c2: `#00aaaa${bgOpacity}`,
+    c1: '#0AA',
+    c2: `#00AAAA${bgOpacity}`,
+  },
+  pink: {
+    c1: '#F0F',
+    c2: `#FF00FF${bgOpacity}`,
   },
 };
 
@@ -56,6 +60,15 @@ export const React = styled(Tag as 'span')`
 
 export const ReactColor = styled.span`
   color: ${appColor.blue.c1};
+`;
+
+export const Flutter = styled(Tag as 'span')`
+  color: ${appColor.pink.c1};
+  background-color: ${appColor.pink.c2};
+`;
+
+export const FlutterColor = styled.span`
+  color: ${appColor.pink.c1};
 `;
 
 export const BrowserDevTool = styled(Tag as 'span')`
