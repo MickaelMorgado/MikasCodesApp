@@ -606,11 +606,12 @@ export default ${formFields[0].value};
         renderedScript={(formFields: IMyFormField[]) => {
           var sshUrl = formFields[0].value;
 
-          if (sshUrl != null && sshUrl.indexOf('.git') > 0) {
-            var projectName = sshUrl.split('/')[1].split('.git')[0];
+          if (sshUrl != null) {
+            if (sshUrl.indexOf('.git') > 0) {
+              var projectName = sshUrl.split('/')[1].split('.git')[0];
 
-            return `cd 
-          cd dengun 
+              return `cd
+          cd dengun
           git clone --recurse-submodules ${sshUrl}
           cd ${projectName}
           ${getPartialFromSettingsVariable(Enum_SettingOption.FAVORITEEDITOR)} .
@@ -620,7 +621,15 @@ export default ${formFields[0].value};
             )}):
 
   (before runing make sure of:)
-    @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec in python.dockerfile
+    [PYTHON.DOCKERFILE]
+    @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec
+
+    RUN echo 'deb http://archive.debian.org/debian/ stretch main' > /etc/apt/sources.list \
+    && echo 'deb http://archive.debian.org/debian-security/ stretch/updates main' >> /etc/apt/sources.list
+
+    RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99disablechecks
+
+    [NODE.DOCKERFILE]
     add --force-yes to node.dockerfile: RUN apt-get install -y --force-yes libnotify-bin
 
   (This part is not necessary anymore to do due to earlier clone)
@@ -634,7 +643,7 @@ export default ${formFields[0].value};
       MikasApp submodule for each branch
 
   IN TERMINAL 1:
-  
+
     ${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} build
     ${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} up
 
@@ -655,6 +664,8 @@ export default ${formFields[0].value};
 
     http://localhost:8000/admin/cms/page/
           `;
+            }
+            return '';
           } else {
             return '';
           }
@@ -750,6 +761,54 @@ class _${formFields[0].value}State extends State<${formFields[0].value}> {
   }
 }
         `}
+      />
+    ),
+  },
+  {
+    title: 'Checkout branch',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            Checkout to a new branch from a source branch: <br />- Stashes
+            everything before checkout <br />- Run migration and createsuperuser
+            if mysql not really working after up
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'Source Branch (dev, develop, etc)',
+            formFieldType: Enum_MyFormFieldType.input,
+            value: 'dev',
+            callback: () => {},
+          },
+          {
+            name: 'New Branch (feature/any-feature)',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          let resultedScript = `git stash -u
+git checkout ${formFields[0].value}
+git pull origin ${formFields[0].value}
+
+git checkout -b "${formFields[1].value}"
+${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} up
+
+${getPartialFromSettingsVariable(
+  Enum_SettingOption.DOCKERCOMPOSE
+)} exec web python manage.py migrate
+${getPartialFromSettingsVariable(
+  Enum_SettingOption.DOCKERCOMPOSE
+)} exec web python manage.py createsuperuser
+
+http://localhost:8000/admin/cms/page/
+          `;
+
+          return `${resultedScript}`;
+        }}
       />
     ),
   },

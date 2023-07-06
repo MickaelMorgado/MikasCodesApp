@@ -43,7 +43,7 @@ export const getSettings = (settingOption: Enum_SettingOption) => {
   var obj = window.localStorage['settings'] ?? `${fallbackSettings}`;
   var value = obj.split(settingOption + '=')[1]
     ? obj.split(settingOption + '=')[1].split(',')[0]
-    : fallbackSettings.split(settingOption + '=')[1].split(',')[0];
+    : fallbackSettings.split(settingOption + '=')[0].split(',')[0];
   return value;
 };
 
