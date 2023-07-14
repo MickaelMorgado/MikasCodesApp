@@ -7,6 +7,9 @@ Backup of package.json:
             "AppImage",
             "deb"
         ],
+        ...
+        }
+    }
 
 Run project development:
 
@@ -21,17 +24,17 @@ Package the project:
         (don't forget to update version package.json (project and release/app) for publish)
 
         -then-
-        
+
         npm run rebuild
         npm run package
-        npm run publish 
+        npm run publish
 
         -or-
 
         npm run release // to do everything at once
 
 How to update GH_TOKEN:
-    
+
     - check that you have a secrets file in root project with the following structure:
 
         GH_TOKEN=anyGHTokenKey

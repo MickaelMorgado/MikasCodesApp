@@ -812,6 +812,42 @@ http://localhost:8000/admin/cms/page/
       />
     ),
   },
+  {
+    title: 'Calculate Discount',
+    category: Enum_scriptsCategory.js,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>1 - 0.25 (25%) = 0.75 value * 0.75</>}
+        initialFormFields={[
+          {
+            name: 'value',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+          {
+            name: 'discount',
+            formFieldType: Enum_MyFormFieldType.input,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          var value = formFields[0].value;
+          var discount = formFields[1].value;
+          var a;
+          var result;
+
+          if (value !== undefined && discount !== undefined) {
+            a = 1 - parseFloat(discount) * 0.1;
+            result = parseFloat(value) * a;
+
+            return `${result}`;
+          } else {
+            return ``;
+          }
+        }}
+      />
+    ),
+  },
 ];
 
 export default scriptsCodes;
