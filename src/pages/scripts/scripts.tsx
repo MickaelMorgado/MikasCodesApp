@@ -837,10 +837,13 @@ http://localhost:8000/admin/cms/page/
           var result;
 
           if (value !== undefined && discount !== undefined) {
-            a = 1 - parseFloat(discount) * 0.1;
+            a = 1 - parseFloat(discount) * 0.01;
             result = parseFloat(value) * a;
 
-            return `${result}`;
+            return `a = 1 - ${discount} * 0.01;
+result = ${value} * ${a};
+
+${result}`;
           } else {
             return ``;
           }
