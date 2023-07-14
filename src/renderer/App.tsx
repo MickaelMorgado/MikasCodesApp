@@ -40,7 +40,10 @@ export default function App() {
           <Route
             path="/hourLogging"
             element={
-              <MainAppStruct title={'hourLogging'} content={<HourLogging />} />
+              <MainAppStruct
+                title={'hourLogging'}
+                content={<HourLogging id={''} />}
+              />
             }
           />
           <Route

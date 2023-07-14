@@ -22,7 +22,9 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
+import * as GS from '../../pages/globalStyles';
 import * as S from './styles';
+import { css } from 'styled-components';
 
 const drawerWidth = 240;
 
@@ -68,6 +70,8 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  backdropFilter: 'blur(20px)',
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -96,6 +100,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export const Sidebar = () => {
+  const appVersion = '0.0.11';
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -124,7 +129,7 @@ export const Sidebar = () => {
             <MenuIcon />
           </IconButton>
           <Typography noWrap component="div">
-            Mika's Codes
+            MIKA'S CODES <GS.Terminal>{appVersion}</GS.Terminal>
           </Typography>
         </Toolbar>
       </AppBar>
