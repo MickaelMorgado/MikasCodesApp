@@ -840,7 +840,7 @@ http://localhost:8000/admin/cms/page/
             a = 1 - parseFloat(discount) * 0.01;
             result = parseFloat(value) * a;
 
-            return `a = 1 - ${discount} * 0.01;
+            return `a = 1 - ${discount} * 0.01; // a = 1 - ${a};
 result = ${value} * ${a};
 
 ${result}`;
