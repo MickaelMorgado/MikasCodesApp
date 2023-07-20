@@ -118,6 +118,7 @@ export const MyFormField = ({
           <TextField
             onKeyUp={(e) => fieldEventModifier(e, transformationType)}
             placeholder={name}
+            defaultValue={tmpDefaultValue}
             fullWidth
           >
             {name}

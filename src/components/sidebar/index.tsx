@@ -70,8 +70,9 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  boxShadow: 'None',
   backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  backdropFilter: 'blur(20px)',
+  backdropFilter: 'blur(2px)',
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -100,7 +101,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export const Sidebar = () => {
-  const appVersion = '0.0.11';
+  const appVersion = '0.0.12';
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

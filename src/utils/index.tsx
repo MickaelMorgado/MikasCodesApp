@@ -24,6 +24,7 @@ DOCKERCOMPOSE=3,
 GIT=2,
 PCNAME=lenovo2019,
 PROJECTSFOLDER=dengun,
+FAVORITEEDITOR=subl,
 }`;
 
 export const getLocalStorageItem = (storageSlot: Enum_StorageSlot) => {

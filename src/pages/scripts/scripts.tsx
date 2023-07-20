@@ -511,6 +511,7 @@ export default ${formFields[0].value};
       />
     ),
   },
+  /*
   {
     title: 'CSS Reorder',
     category: Enum_scriptsCategory.styles,
@@ -589,6 +590,7 @@ export default ${formFields[0].value};
       />
     ),
   },
+  */
   {
     title: 'Project Setup',
     category: Enum_scriptsCategory.terminal,

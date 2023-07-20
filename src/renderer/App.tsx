@@ -12,6 +12,10 @@ import Settings from 'pages/settings';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    background: {
+      default: 'black',
+      paper: '#050505',
+    },
   },
 });
 
