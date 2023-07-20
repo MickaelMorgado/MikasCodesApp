@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Divider, FormControl } from '@mui/material';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import * as S from './styles';
@@ -56,6 +56,10 @@ export const Settings = () => {
   const [projectsFolder, setProjectsFolder] = useState('dengun');
   const [favoriteEditor, setFavoriteEditor] = useState('vscode');
 
+  useEffect(() => {
+    updateSettingFromFields();
+  }, [dockerVersion, gitVersion, pcName, projectsFolder, favoriteEditor]);
+
   const udpateSettings = (stgs: string) => {
     setSettings(stgs);
     setLocalStorageItem(Enum_StorageSlot.settings, JSON.stringify(stgs));
@@ -109,11 +113,7 @@ FAVORITEEDITOR=${favoriteEditor},
           <>
             Here you can set all app global settings (this following structure
             is required) <br />
-            <br /> DOCKERCOMPOSE=3,
-            <br /> GIT=2,
-            <br /> PCNAME=lenovo2019,
-            <br /> PROJECTSFOLDER=dengun,
-            <br /> FAVORITEEDITOR=vscode,
+            {fallbackSettings}
             <br />
             <br /> Your current settings are:
             <br />
@@ -135,7 +135,6 @@ FAVORITEEDITOR=${favoriteEditor},
             formFieldType={Enum_MyFormFieldType.select}
             callback={(e) => {
               setDockerVersion(e.target.value);
-              updateSettingFromFields();
             }}
             options={fieldOptions.dockercompose}
           />
@@ -145,7 +144,6 @@ FAVORITEEDITOR=${favoriteEditor},
             formFieldType={Enum_MyFormFieldType.select}
             callback={(e) => {
               setGitVersion(e.target.value);
-              updateSettingFromFields();
             }}
             options={fieldOptions.git}
           />
@@ -155,7 +153,6 @@ FAVORITEEDITOR=${favoriteEditor},
             formFieldType={Enum_MyFormFieldType.select}
             callback={(e) => {
               setFavoriteEditor(e.target.value);
-              updateSettingFromFields();
             }}
             options={fieldOptions.editor}
           />
@@ -165,7 +162,6 @@ FAVORITEEDITOR=${favoriteEditor},
             formFieldType={Enum_MyFormFieldType.input}
             callback={(e) => {
               setPCName(e.target.value);
-              updateSettingFromFields();
             }}
             tooltip="Username of your PC"
           />
@@ -175,7 +171,6 @@ FAVORITEEDITOR=${favoriteEditor},
             formFieldType={Enum_MyFormFieldType.input}
             callback={(e) => {
               setProjectsFolder(e.target.value);
-              updateSettingFromFields();
             }}
             tooltip="Starting from 'Home' folder (Linux)"
           />

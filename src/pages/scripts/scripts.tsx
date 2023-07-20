@@ -326,21 +326,29 @@ cd ../
           {
             name: 'Docker Database container ID',
             formFieldType: Enum_MyFormFieldType.input,
+            tooltip: `use ${getPartialFromSettingsVariable(
+              Enum_SettingOption.DOCKERCOMPOSE
+            )} ps to check for any potencial database related container`,
             callback: () => {},
           },
           {
-            name: 'Project Database Name (settings.py)',
+            name: 'Project Database Name (settings.py / python.env)',
             formFieldType: Enum_MyFormFieldType.input,
+            defaultValue: 'mysql',
+            tooltip:
+              'You might find it in any python.env file or check for docker-compose.yml for further configuration files',
             callback: () => {},
           },
           {
-            name: 'Project Database User (settings.py)',
+            name: 'Project Database User (settings.py / python.env)',
             formFieldType: Enum_MyFormFieldType.input,
+            defaultValue: 'root',
             callback: () => {},
           },
           {
-            name: 'Project Database Password (settings.py)',
+            name: 'Project Database Password (settings.py / python.env)',
             formFieldType: Enum_MyFormFieldType.input,
+            defaultValue: 'qwerty',
             callback: () => {},
           },
         ]}
@@ -348,13 +356,13 @@ cd ../
           let resultedScript = `docker cp '/home/${getSettings(
             Enum_SettingOption.PCNAME
           )}/Documents/dumps/${formFields[0].value}.sql' ${
-            formFields[1].value
+            formFields[1].value ?? 'DOCKER_CONTAINER_ID'
           }:tmp/dump.sql
 
-docker exec -ti ${formFields[1].value} /bin/bash
+docker exec -ti ${formFields[1].value ?? 'DOCKER_CONTAINER_ID'} /bin/bash
 
-psql -U ${formFields[3].value} -h localhost -d ${
-            formFields[2].value
+psql -U ${formFields[3].value ?? 'root'} -h localhost -d ${
+            formFields[2].value ?? 'mysql'
           } -f /tmp/dump.sql`;
 
           return `${resultedScript}`;
