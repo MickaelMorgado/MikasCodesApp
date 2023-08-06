@@ -1,5 +1,5 @@
 import { Button, Checkbox, Divider, TextField, Tooltip } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import PaddedContent from 'components/paddedContent';
 import {
@@ -19,6 +19,10 @@ import * as GS from '../globalStyles';
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
 import AppLoaderIcon from 'components/appLoaderIcon';
 import Description from 'components/description';
+import Header from 'components/header';
+import TimerLogInput, {
+  Enum_TimerLogInputVariant,
+} from 'components/timerLogInput';
 
 export interface IHourLoggingProps {
   id: string;
@@ -77,16 +81,18 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
     });
   };
 
+  useEffect(() => {
+    console.log(checkpoints);
+  }, [checkpoints]);
+
   return (
     <>
-      <h3>Log Hours</h3>
-      <PaddedContent>
-        <Description>
-          <>WIP: Here you can log your hours</>
-        </Description>
-      </PaddedContent>
+      <Header
+        headContent={<>Log Hours</>}
+        subContent={`WIP: Here you can log your hours`}
+      />
       <Divider light />
-      <PaddedContent>
+      <S.HourLogs>
         <S.Points>
           {checkpoints.map((point, index) => {
             const previousPoint = checkpoints[index - 1]
@@ -105,18 +111,16 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
               <S.PointLine>
                 <S.FirstCol>
                   <Checkbox checked={point.isDone} />
-                  <GS.React>
-                    {formatDate(point.date.start, {
-                      format: Enum_FormatDate.exactTime,
-                    })}
-                  </GS.React>{' '}
-                  -{' '}
+                  <TimerLogInput
+                    variant={Enum_TimerLogInputVariant.start}
+                    date={point.date.start}
+                  />
+                  <S.Split>-</S.Split>
                   {point.date.end ? (
-                    <GS.Js>
-                      {formatDate(point.date.end, {
-                        format: Enum_FormatDate.exactTime,
-                      })}
-                    </GS.Js>
+                    <TimerLogInput
+                      variant={Enum_TimerLogInputVariant.end}
+                      date={point.date.end}
+                    />
                   ) : (
                     <AppLoaderIcon />
                   )}
@@ -147,10 +151,7 @@ export const HourLogging = ({ id }: IHourLoggingProps) => {
             );
           })}
         </S.Points>
-      </PaddedContent>
-      <br />
-      <br />
-      <br />
+      </S.HourLogs>
       <S.CheckpointAction>
         <div>
           <Button

@@ -37,6 +37,7 @@ export interface IMyFormField {
   defaultValue?: string;
   tooltip?: string;
   transformationType?: Enum_MyFormFieldTransformationType;
+  placeholder?: string;
 }
 
 export const MyFormField = ({
@@ -47,6 +48,7 @@ export const MyFormField = ({
   transformationType = Enum_MyFormFieldTransformationType.default,
   options,
   defaultValue,
+  placeholder,
 }: IMyFormField) => {
   const [tmpDefaultValue, setTmpDefaultValue] = useState<string | undefined>(
     defaultValue
@@ -107,7 +109,7 @@ export const MyFormField = ({
         return (
           <TextField
             onKeyUp={(e) => fieldEventModifier(e, transformationType)}
-            placeholder={name}
+            placeholder={placeholder ?? name}
             fullWidth
           >
             {name}
@@ -117,7 +119,7 @@ export const MyFormField = ({
         return (
           <TextField
             onKeyUp={(e) => fieldEventModifier(e, transformationType)}
-            placeholder={name}
+            placeholder={placeholder ?? name}
             defaultValue={tmpDefaultValue}
             fullWidth
           >
@@ -140,7 +142,7 @@ export const MyFormField = ({
         return (
           <TextField
             onKeyUp={(e) => fieldEventModifier(e, transformationType)}
-            placeholder={name}
+            placeholder={placeholder ?? name}
             fullWidth
             multiline
             maxRows={4}

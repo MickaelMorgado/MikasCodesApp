@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Points = styled.div`
-  padding: 20px 0;
-
   & > *:not(:last-child) {
     opacity: 0.3;
   }
@@ -45,6 +43,8 @@ export const FirstCol = styled.div`
   max-width: 250px;
   gap: 10px;
   align-items: center;
+  padding-right: 20px;
+  text-align: center;
 `;
 
 export const GeneratedLogDetails = styled.pre`
@@ -53,4 +53,12 @@ export const GeneratedLogDetails = styled.pre`
   font-size: 12px;
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+export const HourLogs = styled.pre`
+  padding: 0 20px 60px 20px;
+`;
+
+export const Split = styled.div`
+  text-align: center;
 `;

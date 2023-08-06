@@ -861,6 +861,63 @@ ${result}`;
       />
     ),
   },
+  {
+    title: 'Rule of three',
+    category: Enum_scriptsCategory.js,
+    component: (
+      <GeneratedScriptBase
+        description={() => (
+          <>
+            The Rule of Three is a Mathematical Rule that allows you to solve
+            problems based on proportions. By having three numbers: a, b, c,
+            such that, you can calculate the unknown number.
+            <br />
+            <br />1 ---- 100
+            <br />X ---- 300
+          </>
+        )}
+        initialFormFields={[
+          {
+            name: 'If',
+            formFieldType: Enum_MyFormFieldType.input,
+            placeholder: '',
+            callback: () => {},
+          },
+          {
+            name: 'Is for',
+            formFieldType: Enum_MyFormFieldType.input,
+            placeholder: '',
+            callback: () => {},
+          },
+          {
+            name: 'What is X for',
+            formFieldType: Enum_MyFormFieldType.input,
+            placeholder: '',
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          var a = parseFloat(formFields[0].value ?? '0');
+          var b = parseFloat(formFields[1].value ?? '0');
+          var c = parseFloat(formFields[2].value ?? '0');
+          var y = 0;
+          var result;
+
+          if (a !== undefined && b !== undefined && c !== undefined) {
+            result = (a * c) / b;
+
+            return `If ${a} is for ${b}, then ${result} is for ${c}
+${a} ---- ${b}
+X ---- ${c}
+            
+X = ${result}`;
+          } else {
+            return ``;
+          }
+        }}
+      />
+    ),
+  },
 ];
 
 export default scriptsCodes;

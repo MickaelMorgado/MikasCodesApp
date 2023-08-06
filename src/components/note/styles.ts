@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   position: relative;
   padding: 20px;
   align-content: middle;
+  min-height: 120px;
 `;
 
 export const Action = styled.div`

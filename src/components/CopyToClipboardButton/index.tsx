@@ -4,7 +4,7 @@ import * as S from './styles';
 
 export interface ICopyToClipboardButton {
   contentToCopy: any;
-  markAsDone?: (condition: boolean) => {};
+  markAsDone?: (condition: boolean) => void;
 }
 
 export const CopyToClipboardButton = ({

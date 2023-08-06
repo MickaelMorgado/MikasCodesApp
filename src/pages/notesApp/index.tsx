@@ -14,6 +14,7 @@ import {
 import Note from 'components/note';
 import PaddedContent from 'components/paddedContent';
 import Description from 'components/description';
+import Header from 'components/header';
 
 export interface INote {
   id: string;
@@ -101,12 +102,10 @@ export const NotesApp = () => {
 
   return (
     <>
-      <h3>Handy clipboard notes</h3>
-      <PaddedContent>
-        <Description>
-          <>Here you can save any content as handy clipboards items</>
-        </Description>
-      </PaddedContent>
+      <Header
+        headContent={<>Handy clipboard notes</>}
+        subContent={`Here you can save any content as handy clipboards items`}
+      />
       <Divider light />
       <br />
       <PaddedContent>

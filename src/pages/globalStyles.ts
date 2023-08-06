@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const bgOpacity = '22';
 
-const appColor = {
+export const appColor = {
   red: {
     c1: '#FF5533',
     c2: `#FF5533${bgOpacity}`,

@@ -72,6 +72,7 @@ export const GeneratedScriptBase: React.FC<IGeneratedScriptBaseProps> = ({
                     options,
                     defaultValue,
                     transformationType,
+                    placeholder,
                   },
                   index
                 ) => (
@@ -83,6 +84,7 @@ export const GeneratedScriptBase: React.FC<IGeneratedScriptBaseProps> = ({
                     transformationType={transformationType}
                     options={options}
                     defaultValue={defaultValue}
+                    placeholder={placeholder}
                     callback={(
                       e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent
                     ) => {

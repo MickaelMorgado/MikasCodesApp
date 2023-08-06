@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionItem, {
   Enum_scriptsCategory,
 } from '../../components/accordion/accordionItem';
-import scriptsCodes from './scripts';
+import scriptsCodes, { IScriptItem } from './scripts';
 import {
   Button,
   Input,
@@ -19,13 +19,7 @@ import downloadFile from '../../components/downloadableFile';
 
 import * as GS from '../globalStyles';
 import randomizedId, { validation } from 'utils';
-
-export interface IScriptItem {
-  id: string;
-  title: string;
-  category: Enum_scriptsCategory;
-  script: string;
-}
+import Header from 'components/header';
 
 export interface IScripts {
   scriptsArray: IScriptItem[];
@@ -34,6 +28,7 @@ export interface IScripts {
 export const Scripts = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [numberOfDisplayedScripts, setNumberOfDisplayedScripts] = useState(0);
 
   const categoryTitle = (category: Enum_scriptsCategory) => {
     switch (category) {
@@ -64,9 +59,28 @@ export const Scripts = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
+  const inFilter = (item: IScriptItem, searchableTerm: string) => {
+    return (
+      item.title.toLowerCase().includes(searchableTerm) ||
+      (item.category.toLowerCase().includes(searchableTerm) &&
+        searchableTerm !== '')
+    );
+  };
+
+  useEffect(() => {
+    const total = scriptsCodes.filter((item) =>
+      inFilter(item, searchTerm)
+    ).length;
+    setNumberOfDisplayedScripts(total);
+  }, [searchTerm]);
+
   return (
-    <div>
-      <h2>Scripts Snippets</h2>
+    <>
+      <Header
+        headContent={<>Scripts Snippets</>}
+        subContent={`Cool scripts and commands generator to help your workflow and many more utilities, not only for devs but for everyone!`}
+        helperContent={`Shown: ${numberOfDisplayedScripts}`}
+      />
       <TextField
         fullWidth
         type="text"
@@ -78,16 +92,18 @@ export const Scripts = () => {
       {validation.isValid(scriptsCodes)
         ? scriptsCodes
             .filter((item) => {
-              return (
-                item.title.toLowerCase().includes(searchTerm) ||
-                (item.category.toLowerCase().includes(searchTerm) &&
-                  searchTerm !== '')
-              );
+              var allowed = inFilter(item, searchTerm);
+
+              return allowed;
             })
             .map(({ category, component, script, title, file }, index) => (
               <Accordion
                 key={randomizedId()}
-                expanded={expanded === `panel${index}`}
+                expanded={
+                  numberOfDisplayedScripts == 1
+                    ? true
+                    : expanded === `panel${index}`
+                }
                 onChange={handleChange(`panel${index}`)}
               >
                 <AccordionSummary
@@ -112,7 +128,7 @@ export const Scripts = () => {
               </Accordion>
             ))
         : validation.invalidMessage('No scripts found!')}
-    </div>
+    </>
   );
 };
 
