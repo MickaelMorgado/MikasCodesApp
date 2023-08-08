@@ -3,18 +3,42 @@ import { Button, Divider, FormControl } from '@mui/material';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import * as S from './styles';
 import {
-  Enum_SettingOption,
   Enum_StorageSlot,
-  fallbackSettings,
   getLocalStorageItem,
-  getSettings,
   setLocalStorageItem,
 } from 'utils';
 import PaddedContent from 'components/paddedContent';
 import Description from 'components/description';
 
+export enum Enum_SettingOption {
+  GIT = 'GIT',
+  PCNAME = 'PCNAME',
+  DOCKERCOMPOSE = 'DOCKERCOMPOSE',
+  PROJECTSFOLDER = 'PROJECTSFOLDER',
+  FAVORITEEDITOR = 'FAVORITEEDITOR',
+}
+
+const fallbackSettings = `{
+DOCKERCOMPOSE=3,
+GIT=2,
+PCNAME=lenovo2019,
+PROJECTSFOLDER=dengun,
+FAVORITEEDITOR=subl,
+}`;
+
 export interface ISettingsProps {}
 
+// Get all settings from storage:
+export const getSettings = (settingOption: Enum_SettingOption) => {
+  var settingsFromStorage =
+    window.localStorage['settings'] ?? `${fallbackSettings}`;
+  var value = settingsFromStorage.split(settingOption + '=')[1]
+    ? settingsFromStorage.split(settingOption + '=')[1].split(',')[0]
+    : fallbackSettings.split(settingOption + '=')[0].split(',')[0];
+  return value;
+};
+
+// Get specific commands/code based on user custom preference:
 export const getPartialFromSettingsVariable = (
   settingOption: Enum_SettingOption
 ) => {

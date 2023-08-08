@@ -11,22 +11,6 @@ export enum Enum_StorageSlot {
   settings = 'settings',
 }
 
-export enum Enum_SettingOption {
-  GIT = 'GIT',
-  PCNAME = 'PCNAME',
-  DOCKERCOMPOSE = 'DOCKERCOMPOSE',
-  PROJECTSFOLDER = 'PROJECTSFOLDER',
-  FAVORITEEDITOR = 'FAVORITEEDITOR',
-}
-
-export const fallbackSettings = `{
-DOCKERCOMPOSE=3,
-GIT=2,
-PCNAME=lenovo2019,
-PROJECTSFOLDER=dengun,
-FAVORITEEDITOR=subl,
-}`;
-
 export const getLocalStorageItem = (storageSlot: Enum_StorageSlot) => {
   return window.localStorage[storageSlot] == undefined
     ? '[]'
@@ -38,14 +22,6 @@ export const setLocalStorageItem = (
   value: string
 ) => {
   window.localStorage.setItem(storageSlot, value);
-};
-
-export const getSettings = (settingOption: Enum_SettingOption) => {
-  var obj = window.localStorage['settings'] ?? `${fallbackSettings}`;
-  var value = obj.split(settingOption + '=')[1]
-    ? obj.split(settingOption + '=')[1].split(',')[0]
-    : fallbackSettings.split(settingOption + '=')[0].split(',')[0];
-  return value;
 };
 
 // Validations:
@@ -64,6 +40,7 @@ export const enum Enum_FormatDate {
 export const decimalizeTime = (time: number) => {
   return `${time < 10 ? '0' + time : time}`;
 };
+
 interface IFormatDateOptions {
   format: Enum_FormatDate;
 }

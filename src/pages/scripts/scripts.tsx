@@ -8,13 +8,12 @@ import {
   Enum_MyFormFieldType,
   IMyFormField,
 } from 'components/myForm/field';
+import { Enum_StorageSlot, getLocalStorageItem } from 'utils';
 import {
   Enum_SettingOption,
-  Enum_StorageSlot,
-  getLocalStorageItem,
+  getPartialFromSettingsVariable,
   getSettings,
-} from 'utils';
-import { getPartialFromSettingsVariable } from 'pages/settings';
+} from 'pages/settings';
 
 export interface IScriptItem {
   title: string;
@@ -27,6 +26,10 @@ export interface IScriptItem {
 const scriptPath = './scripts/codeFiles';
 
 export const filePath = (scriptName: string) => `${scriptPath}/${scriptName}`;
+
+const dockerCommand = `${getPartialFromSettingsVariable(
+  Enum_SettingOption.DOCKERCOMPOSE
+)}`;
 
 export const scriptsCodes: IScriptItem[] = [
   /*
@@ -688,7 +691,6 @@ export default ${formFields[0].value};
     category: Enum_scriptsCategory.terminal,
     component: (
       <GeneratedScriptBase
-        oneLine={true}
         description={() => <>WIP: Some personal useful bash scripts</>}
         initialFormFields={[
           {
@@ -708,15 +710,16 @@ export default ${formFields[0].value};
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          return `docker compose exec web python manage.py makemessages
-          ${formFields[0].value == 'true' ? `-i dengun_cms_package` : ``}
-          ${formFields[1].value == 'true' ? `-i dengun_django_myforms` : ``}
-          ${
+          return `${dockerCommand} exec web python manage.py makemessages ${
+            formFields[0].value == 'true' ? `-i dengun_cms_package` : ``
+          } ${
+            formFields[1].value == 'true' ? `-i dengun_django_myforms` : ``
+          } ${
             formFields[2].value == 'true'
               ? `-i dengun_django_admin_relation`
               : ``
           }
-          `;
+${dockerCommand} exec web python manage.py compilemessages`;
         }}
       />
     ),
@@ -914,6 +917,28 @@ X = ${result}`;
           } else {
             return ``;
           }
+        }}
+      />
+    ),
+  },
+  {
+    title: 'Docker Commands',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>Some Docker commands</>}
+        initialFormFields={[
+          {
+            name: 'docker container',
+            formFieldType: Enum_MyFormFieldType.input,
+            tooltip: `${getPartialFromSettingsVariable(
+              Enum_SettingOption.DOCKERCOMPOSE
+            )} ps`,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          return `${dockerCommand} exec ${formFields[0].value} python manage.py migrate\n${dockerCommand} exec ${formFields[0].value} python manage.py createsuperuser\n${dockerCommand} exec ${formFields[0].value} python manage.py compilemessages`;
         }}
       />
     ),
