@@ -643,7 +643,9 @@ export default ${formFields[0].value};
     RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99disablechecks
 
     [NODE.DOCKERFILE]
-    add --force-yes to node.dockerfile: RUN apt-get install -y --force-yes libnotify-bin
+    RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://archive.debian.org/debian-security jessie/updates main\ndeb-src http://archive.debian.org/debian-security jessie/updates main" > /etc/apt/sources.list
+
+    RUN apt-get install -y --force-yes libnotify-bin
 
   (This part is not necessary anymore to do due to earlier clone)
     IN TERMINAL 1:
@@ -912,7 +914,7 @@ ${result}`;
             return `If ${a} is for ${b}, then ${result} is for ${c}
 ${a} ---- ${b}
 X ---- ${c}
-            
+
 X = ${result}`;
           } else {
             return ``;
