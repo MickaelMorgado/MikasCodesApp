@@ -710,6 +710,11 @@ export default ${formFields[0].value};
             formFieldType: Enum_MyFormFieldType.checkBox,
             callback: () => {},
           },
+          {
+            name: 'dengun_webshop_package',
+            formFieldType: Enum_MyFormFieldType.checkBox,
+            callback: () => {},
+          },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
           return `${dockerCommand} exec web python manage.py makemessages ${
@@ -720,7 +725,7 @@ export default ${formFields[0].value};
             formFields[2].value == 'true'
               ? `-i dengun_django_admin_relation`
               : ``
-          }
+          } ${formFields[3].value == 'true' ? `-i dengun_webshop_package` : ``}
 ${dockerCommand} exec web python manage.py compilemessages`;
         }}
       />
