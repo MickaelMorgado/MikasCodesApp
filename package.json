@@ -1,7 +1,7 @@
 {
   "name": "mikas-codes-app",
   "description": "same as MikasCodes but with Electron app",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "keywords": [
     "electron",
     "boilerplate",

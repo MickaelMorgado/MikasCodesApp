@@ -31,6 +31,8 @@ const dockerCommand = `${getPartialFromSettingsVariable(
   Enum_SettingOption.DOCKERCOMPOSE
 )}`;
 
+const projectFolder = `${getSettings(Enum_SettingOption.PROJECTSFOLDER)}`;
+
 export const scriptsCodes: IScriptItem[] = [
   /*
     {
@@ -476,52 +478,6 @@ export default ${formFields[0].value};
       />
     ),
   },
-  {
-    title: 'HTML to MJML converter',
-    category: Enum_scriptsCategory.js,
-    component: (
-      <GeneratedScriptBase
-        description={() => <>WIP</>}
-        initialFormFields={[
-          {
-            name: 'HTML',
-            formFieldType: Enum_MyFormFieldType.textArea,
-            callback: () => {},
-          },
-        ]}
-        renderedScript={(formFields: IMyFormField[]) => {
-          let incomingValue = formFields[0].value ? formFields[0].value : '';
-
-          const replaceTags = (
-            incomingVal: any,
-            originalTag: string,
-            replaceTag: string
-          ) => {
-            let result = incomingVal.replaceAll(originalTag, replaceTag);
-            return result;
-          };
-
-          incomingValue = replaceTags(incomingValue, '<div', '<mj-wrapper');
-          incomingValue = replaceTags(incomingValue, '</div>', '</mj-wrapper>');
-
-          incomingValue = replaceTags(incomingValue, '<p', '<mj-text');
-          incomingValue = replaceTags(incomingValue, '</p>', '</mj-text>');
-
-          incomingValue = replaceTags(incomingValue, '<img', '<mj-image');
-
-          const mjmlResult = incomingValue;
-
-          return `
-        <mjml>
-          <mj-body>
-            ${mjmlResult}
-          </mj-body>
-        </mjml>
-        `;
-        }}
-      />
-    ),
-  },
   /*
   {
     title: 'CSS Reorder',
@@ -941,11 +897,75 @@ X = ${result}`;
             tooltip: `${getPartialFromSettingsVariable(
               Enum_SettingOption.DOCKERCOMPOSE
             )} ps`,
+            defaultValue: 'boby',
             callback: () => {},
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          return `${dockerCommand} exec ${formFields[0].value} python manage.py migrate\n${dockerCommand} exec ${formFields[0].value} python manage.py createsuperuser\n${dockerCommand} exec ${formFields[0].value} python manage.py compilemessages`;
+          return `${dockerCommand} exec ${formFields[0].value} python manage.py migrate
+          \n${dockerCommand} exec ${formFields[0].value} python manage.py createsuperuser
+          \n${dockerCommand} exec ${formFields[0].value} python manage.py compilemessages
+          \n${dockerCommand} exec ${formFields[0].value} python manage.py sync_translation_fields --noinput`;
+        }}
+      />
+    ),
+  },
+  {
+    title: 'Stop all Docker projects',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>WIP Stop all docker projects</>}
+        initialFormFields={[
+          {
+            name: 'docker container',
+            formFieldType: Enum_MyFormFieldType.input,
+            tooltip: `${getPartialFromSettingsVariable(
+              Enum_SettingOption.DOCKERCOMPOSE
+            )} ps`,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          const folders = [
+            'alpenduradas',
+            'hubel-verde',
+            'rgf',
+            'sheratoncascaisresort',
+            'cars_and_cars',
+            'longevity',
+            'rolear',
+            'test',
+            'chrono-health',
+            'mapro',
+            'rolear_academy',
+            'uplive',
+            'goldentree',
+            'ombria',
+            'rolear_mais',
+            'valedoloboalgarve',
+            'hotelfaro',
+            'pine_cliffs',
+            'rolearon',
+            'hubel',
+            'pinecliffs_spa',
+            'rolegas',
+            'hubel_hpl',
+            'qdl',
+            'roques',
+          ];
+          var echo = '';
+          for (const folderPath of folders) {
+            echo =
+              echo +
+              `
+cd
+cd ${projectFolder}/${folderPath}
+${dockerCommand} stop
+
+`;
+          }
+          return echo;
         }}
       />
     ),

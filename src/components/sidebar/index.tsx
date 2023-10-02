@@ -101,7 +101,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export const Sidebar = () => {
-  const appVersion = '0.0.16';
+  const appVersion = '0.0.17';
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

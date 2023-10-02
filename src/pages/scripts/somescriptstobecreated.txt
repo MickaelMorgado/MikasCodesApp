@@ -1,0 +1,16 @@
+CopyZohoLog:
+
+  const getCurrentTimeIntervalFromCard = () => {
+    return document.getElementById('timelogdataspan').innerHTML;
+  }
+
+  const getCurrentTaskDescription = () => {
+    return document.querySelector('textarea[data-oldvalue]').dataset.oldvalue;
+  }
+
+
+  const joinTexts = () => {
+    return `${getCurrentTimeIntervalFromCard()}\n${getCurrentTaskDescription()}`;
+  }
+
+  console.log(joinTexts());

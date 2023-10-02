@@ -152,6 +152,10 @@ export const MyFormField = ({
     }
   };
 
+  if (tmpDefaultValue) {
+    console.log('has a defaut value of ', tmpDefaultValue);
+  }
+
   return (
     <>
       <S.MyFormField>
