@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountTree from '@mui/icons-material/AccountTree';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
@@ -150,6 +151,7 @@ export const Sidebar = () => {
             { name: 'NotesApp', icon: <ContentPasteIcon /> },
             { name: 'Scripts', icon: <CodeIcon /> },
             { name: 'HourLogging', icon: <PendingActionsIcon /> },
+            { name: 'VisualScripting', icon: <AccountTree /> },
             { name: 'Settings', icon: <SettingsApplicationsIcon /> },
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase();

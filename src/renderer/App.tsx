@@ -8,6 +8,7 @@ import HourLogging from 'pages/hourLogging';
 import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
 import Settings from 'pages/settings';
+import VisualScripting from 'pages/visualscripting';
 
 const darkTheme = createTheme({
   palette: {
@@ -47,6 +48,15 @@ export default function App() {
               <MainAppStruct
                 title={'hourLogging'}
                 content={<HourLogging id={''} />}
+              />
+            }
+          />
+          <Route
+            path="/visualScripting"
+            element={
+              <MainAppStruct
+                title={'visualScripting'}
+                content={<VisualScripting id={''} />}
               />
             }
           />

@@ -49,7 +49,11 @@ Running mjml:
 
         ./node_modules/.bin/mjml index.mjml
 
+Create a new Panel:
 
+  add item to SideBar.tsx
+  create a folder with index
+  add a route to App.tsx
 
 
 
