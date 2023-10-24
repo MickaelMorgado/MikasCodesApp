@@ -14,3 +14,14 @@ CopyZohoLog:
   }
 
   console.log(joinTexts());
+
+
+Handle termial environment variables:
+
+  in terminal use 'env/printenv' command to check variable from the current $SHELL, you can have multiple shell shuch as bash/zsh, to check what you are currently using type: echo $SHELL
+  to check where this file is located to edit them just type: which env or which printenv
+  to create or edit file type: nano .zshrc
+  to verify added paths type echo $PATH
+
+  PS this command could be usefull to add a new line on file:
+  (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /User/mickael/.zprofile
