@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Button,
   Checkbox,
   InputLabel,
   MenuItem,
@@ -107,13 +108,16 @@ export const MyFormField = ({
         return <Checkbox aria-label={name} onChange={(e) => callback(e)} />;
       case Enum_MyFormFieldType.file:
         return (
-          <TextField
-            onKeyUp={(e) => fieldEventModifier(e, transformationType)}
-            placeholder={placeholder ?? name}
-            fullWidth
+          <Button
+            variant="contained"
+            component="label"
           >
-            {name}
-          </TextField>
+            Upload File
+            <input
+              type="file"
+              onChange={(e) => console.log(e.target.value)}
+            />
+          </Button>
         );
       case Enum_MyFormFieldType.input:
         return (

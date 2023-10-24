@@ -970,6 +970,41 @@ ${dockerCommand} stop
       />
     ),
   },
+  {
+    title: 'Environment variables',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>WIP easily add environment variables</>}
+        initialFormFields={[
+          {
+            name: 'Select a path to add',
+            formFieldType: Enum_MyFormFieldType.input,
+            transformationType: Enum_MyFormFieldTransformationType.path,
+            tooltip: `Please select any location or path to add on env variable`,
+            callback: () => {},
+          },
+        ]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          var profile = `/Users/${getSettings(Enum_SettingOption.PCNAME)}/.zshrc`;
+          var currentSetup = '';
+          
+          var echo = currentSetup + `
+          nano ${profile}
+
+          the file should follow the following example:
+          export PATH="$PATH:/Users/${getSettings(Enum_SettingOption.PCNAME)}/development/flutter/bin"
+          export PATH="$PATH:${formFields[0].value}"
+
+          to write directly on file: 
+          (echo; echo 'export PATH="$PATH:${formFields[0].value}"') >> ${profile}
+          `;
+          
+          return echo;
+        }}
+      />
+    ),
+  },
 ];
 
 export default scriptsCodes;

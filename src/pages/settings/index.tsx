@@ -11,6 +11,7 @@ import PaddedContent from 'components/paddedContent';
 import Description from 'components/description';
 
 export enum Enum_SettingOption {
+  OS = 'OS',
   GIT = 'GIT',
   PCNAME = 'PCNAME',
   DOCKERCOMPOSE = 'DOCKERCOMPOSE',
@@ -19,6 +20,7 @@ export enum Enum_SettingOption {
 }
 
 const fallbackSettings = `{
+OS=0,
 DOCKERCOMPOSE=3,
 GIT=2,
 PCNAME=lenovo2019,
@@ -74,6 +76,7 @@ export const Settings = () => {
   const [settings, setSettings] = useState(
     JSON.parse(getLocalStorageItem(Enum_StorageSlot.settings))
   );
+  const [os, setOS] = useState('0');
   const [dockerVersion, setDockerVersion] = useState('3');
   const [gitVersion, setGitVersion] = useState('2');
   const [pcName, setPCName] = useState('lenovo2019');
@@ -82,7 +85,7 @@ export const Settings = () => {
 
   useEffect(() => {
     updateSettingFromFields();
-  }, [dockerVersion, gitVersion, pcName, projectsFolder, favoriteEditor]);
+  }, [os, dockerVersion, gitVersion, pcName, projectsFolder, favoriteEditor]);
 
   const udpateSettings = (stgs: string) => {
     setSettings(stgs);
@@ -91,6 +94,7 @@ export const Settings = () => {
 
   const updateSettingFromFields = () => {
     var stgs = `
+OS=${os},
 DOCKERCOMPOSE=${dockerVersion},
 GIT=${gitVersion},
 PCNAME=${pcName},
@@ -102,6 +106,20 @@ FAVORITEEDITOR=${favoriteEditor},
   };
 
   const fieldOptions = {
+    os: {
+      Linux: {
+        label: 'Linux',
+        value: '0',
+      },
+      Windows: {
+        label: 'Windows',
+        value: '1',
+      },
+      Mac: {
+        label: 'Mac',
+        value: '2',
+      },
+    },
     dockercompose: {
       v2: {
         label: 'V2',
@@ -141,6 +159,7 @@ FAVORITEEDITOR=${favoriteEditor},
             <br />
             <br /> Your current settings are:
             <br />
+            <br /> OS={os},
             <br /> DOCKERCOMPOSE={dockerVersion},
             <br /> GIT={gitVersion},
             <br /> PCNAME={pcName},
@@ -153,6 +172,15 @@ FAVORITEEDITOR=${favoriteEditor},
       <PaddedContent>
         <>
           <h2>App Settings:</h2>
+          <MyFormField
+            name={'Operating System'}
+            defaultValue={getSettings(Enum_SettingOption.OS)}
+            formFieldType={Enum_MyFormFieldType.select}
+            callback={(e) => {
+              setOS(e.target.value);
+            }}
+            options={fieldOptions.os}
+          />
           <MyFormField
             name={'Docker Compose Version'}
             defaultValue={getSettings(Enum_SettingOption.DOCKERCOMPOSE)}
