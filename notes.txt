@@ -27,11 +27,14 @@ Package the project:
 
         npm run rebuild
         npm run package
-        npm run publish
+        npm run publish (if mac: npm run publishFromMac)
 
         -or-
 
-        npm run release // to do everything at once
+        npm run release // to do everything at once (if mac: npm run releaseFromMac)
+
+    Need to packaging for each OS on each OS, make sure to use specific flags for the scripts for current OS (--linux on linux system --mac on mac system)
+    TODO: need to create a settings file to handle that.
 
 How to update GH_TOKEN:
 
