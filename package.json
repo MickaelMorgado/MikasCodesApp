@@ -44,7 +44,7 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "generate": "plop",
     "release": "npm run rebuild && npm run package && npm run publish",
-    "releaseFromMac": "npm run rebuild && npm run package && npm run publish"
+    "releaseFromMac": "npm run rebuild && npm run packageFromMac && npm run publish"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
