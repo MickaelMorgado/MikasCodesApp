@@ -20,6 +20,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import CodeIcon from '@mui/icons-material/Code';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import Timeline from '@mui/icons-material/Timeline';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
@@ -152,6 +153,7 @@ export const Sidebar = () => {
             { name: 'Scripts', icon: <CodeIcon /> },
             { name: 'HourLogging', icon: <PendingActionsIcon /> },
             { name: 'VisualScripting', icon: <AccountTree /> },
+            { name: 'DataVisualization', icon: <Timeline /> },
             { name: 'Settings', icon: <SettingsApplicationsIcon /> },
           ].map(({ name, icon }) => {
             const lowercasedName = name.toLowerCase();

@@ -9,6 +9,7 @@ import { NotesApp } from 'pages/notesApp';
 import Scripts from 'pages/scripts';
 import Settings from 'pages/settings';
 import VisualScripting from 'pages/visualscripting';
+import DataVisualization from 'pages/dataVisualization';
 
 const darkTheme = createTheme({
   palette: {
@@ -59,6 +60,10 @@ export default function App() {
                 content={<VisualScripting id={''} />}
               />
             }
+          />
+          <Route
+            path="/dataVisualization"
+            element={<MainAppStruct title={'dataVisualization'} content={<DataVisualization />} />}
           />
           <Route
             path="/settings"
