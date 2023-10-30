@@ -579,29 +579,40 @@ export default ${formFields[0].value};
             if (sshUrl.indexOf('.git') > 0) {
               var projectName = sshUrl.split('/')[1].split('.git')[0];
 
-              return `cd
-          cd dengun
-          git clone --recurse-submodules ${sshUrl}
-          cd ${projectName}
-          ${getPartialFromSettingsVariable(Enum_SettingOption.FAVORITEEDITOR)} .
+              return `
+  cd
+  cd dengun
+  git clone --recurse-submodules ${sshUrl}
+  cd ${projectName}
+  ${getPartialFromSettingsVariable(Enum_SettingOption.FAVORITEEDITOR)} .
 
-            IN TEXT EDITOR (${getPartialFromSettingsVariable(
-              Enum_SettingOption.FAVORITEEDITOR
-            )}):
+  IN TEXT EDITOR (${getPartialFromSettingsVariable(
+    Enum_SettingOption.FAVORITEEDITOR
+  )}):
 
   (before runing make sure of:)
+
+    [DOCKER-COMPOSE.YML] (Specially for Macs M1)
+    version: '3'
+    services:
+      web:
+        platform: linux/amd64
+        ...
+      mysql:
+        platform: linux/amd64
+        ...
+
     [PYTHON.DOCKERFILE]
-    @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec
+      @sha256:e132c504a791d70d31453d187b23160cc96e4e3350ce7dbee82b6feeabc18eec
 
-    RUN echo 'deb http://archive.debian.org/debian/ stretch main' > /etc/apt/sources.list \
-    && echo 'deb http://archive.debian.org/debian-security/ stretch/updates main' >> /etc/apt/sources.list
-
-    RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99disablechecks
+      RUN echo 'deb http://archive.debian.org/debian/ stretch main' > /etc/apt/sources.list && echo 'deb http://archive.debian.org/debian-security/ stretch/updates main' >> /etc/apt/sources.list
+      RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99disablechecks
 
     [NODE.DOCKERFILE]
-    RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://archive.debian.org/debian-security jessie/updates main\ndeb-src http://archive.debian.org/debian-security jessie/updates main" > /etc/apt/sources.list
-
-    RUN apt-get install -y --force-yes libnotify-bin
+      FROM node:10.16.0-slim
+      RUN printf "deb http://archive.debian.org/debian/ jessie main deb-src http://archive.debian.org/debian/ jessie main deb http://archive.debian.org/debian-security jessie/updates main deb-src http://archive.debian.org/debian-security jessie/updates main" > /etc/apt/sources.list
+      ...
+      RUN apt-get install -y --force-yes libnotify-bin
 
   (This part is not necessary anymore to do due to earlier clone)
     IN TERMINAL 1:
