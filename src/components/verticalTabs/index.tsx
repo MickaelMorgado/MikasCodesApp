@@ -5,19 +5,19 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Container } from '@mui/material';
 
+interface IVerticalTabItem {
+  name: string;
+  children?: React.ReactNode;
+}
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-interface ITabItem {
-  name: string;
-  children?: React.ReactNode;
-}
-
 interface VerticalTabsProps {
-  items: ITabItem[];
+  VerticalTabItems: IVerticalTabItem[];
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -32,8 +32,8 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box>
+          <>{children}</>
         </Box>
       )}
     </div>
@@ -47,8 +47,7 @@ function a11yProps(index: number) {
   };
 }
 
-export const VerticalTabs = ({ items }: VerticalTabsProps) => {
-
+export const VerticalTabs = ({ VerticalTabItems }: VerticalTabsProps) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -57,29 +56,35 @@ export const VerticalTabs = ({ items }: VerticalTabsProps) => {
 
   return (
     <Container>
-    <Box
-      width="100%"
-      maxWidth={'100%'}
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%', width: '100%' }}
-    >
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: 'divider' }}
+      <Box
+        width="100%"
+        maxWidth={'100%'}
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'background.paper',
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          aria-label="Vertical tabs example"
+          sx={{ borderRight: 1, borderColor: 'divider' }}
         >
-        {items.map((item, index) => (
-          <Tab label={item.name} {...a11yProps(index)} key={index} />
+          {VerticalTabItems.map((item, index) => (
+            <Tab label={item.name} {...a11yProps(index)} key={index} />
+          ))}
+        </Tabs>
+        {VerticalTabItems.map((item, index) => (
+          <TabPanel value={value} index={index} style={{ width: '100%' }}>
+            {item.children}
+          </TabPanel>
         ))}
-      </Tabs>
-      {items.map((item, index) => (
-        <TabPanel value={value} index={index}>
-          {item.children}
-        </TabPanel>
-      ))}
-    </Box>
+      </Box>
     </Container>
   );
-}
+};

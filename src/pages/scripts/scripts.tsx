@@ -569,6 +569,7 @@ export default ${formFields[0].value};
             name: 'ssh clone url',
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.noSpaces,
+            defaultValue: 'git@github.com:MickaelMorgado/MikasCodesApp.git',
             callback: () => {},
           },
         ]}

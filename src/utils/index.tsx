@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InvalidMessage from 'components/invalidMessage';
 
 export const randomizedId = () => {
-  return uuidv4();
+  return `${uuidv4()}`;
 };
 
 export enum Enum_StorageSlot {
