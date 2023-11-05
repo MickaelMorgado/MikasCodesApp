@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { NodeCategory, items } from './nodes';
 import Draggable from 'react-draggable';
-import randomizedId from 'utils';
+import randomizedId, { Enum_ValidType, isValid } from 'utils';
 import * as S from './styles';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import { MyButtonIcon } from 'components/myForm/button';
@@ -108,6 +108,21 @@ const AddCodeToGenFromButton = (item: Item) => {
   }
 };
 
+// Remove an item by id from a vsItem[] type object:
+const removeVsItemById = (object: vsItem[], id: string) => {
+  const selectedObject = object.find((item) => item.id == id);
+  const idOfSelectedObject = selectedObject?.id;
+
+  if (
+    isValid(object) &&
+    isValid(selectedObject) &&
+    isValid(idOfSelectedObject)
+  ) {
+    return (object = object.filter((item) => item.id !== idOfSelectedObject));
+  }
+  return object;
+};
+
 const getNodeFromNodePin = (pinId: string) => {
   const pin = document.getElementById(pinId);
   return pin?.closest('.react-draggable')?.parentElement;
@@ -170,7 +185,7 @@ export const Flutter = () => {
   useEffect(() => {
     console.log('vsItems:', vsItems);
     console.log('connectors:', connectors);
-    AddCodeToGenFromVS(vsItems, connectors);
+    AddCodeToGenFromVS(vsItems);
   }, [vsItems, connectors]);
 
   const vsItemById = (id: string) => {
@@ -179,34 +194,60 @@ export const Flutter = () => {
   };
 
   // usually called from useEffect:
-  const AddCodeToGenFromVS = (
-    vsItems: vsItem[],
-    vsConnector: vsConnector[]
-  ) => {
+  const AddCodeToGenFromVS = (vsItems: vsItem[]) => {
     const generatedCodeElement = document.getElementById(
       'generatedCode'
     ) as HTMLTextAreaElement;
 
     let write = '';
-    if (generatedCodeElement) {
-      vsItems.map((i) => {
-        const { code, child } = i;
+    const splitText = (text: string, by: string) => {
+      const splitedCodeForInsertion = text.split(by);
+      if (splitedCodeForInsertion.length > 1) {
+        return {
+          partial1: splitedCodeForInsertion[0],
+          partial2: splitedCodeForInsertion[1],
+        };
+      } else {
+        return {
+          partial1: '',
+          partial2: '',
+        };
+      }
+    };
 
-        // spliting vsItem.code to concat other codes:
-        const splitedCodeForInsertion = code.split('__child[0]__');
-        if (splitedCodeForInsertion.length > 0) {
-          const getChildCode = vsItemById(
-            `${child?.inputPinId.split('_')[0]}`
-          )?.code;
-          write =
-            write +
-            splitedCodeForInsertion[0] +
-            getChildCode +
-            splitedCodeForInsertion[1];
+    const injectCode = (partial1: string, partial2: string, code: string) => {
+      if (isValid(partial1) && isValid(partial2)) {
+        write = write + partial1 + code + partial2;
+
+        return write;
+      }
+    };
+
+    if (generatedCodeElement) {
+      let copiedVsItems = vsItems;
+
+      copiedVsItems.map((item) => {
+        const codeSplitter = '__child[0]__';
+
+        const { partial1, partial2 } = splitText(item.code, codeSplitter);
+
+        if (isValid(item.child) && isValid(partial1) && isValid(partial2)) {
+          const getIdFromInputPin = item.child
+            ? item.child.inputPinId.split('_')[0]
+            : '';
+          if (isValid(getIdFromInputPin)) {
+            copiedVsItems = removeVsItemById(copiedVsItems, getIdFromInputPin);
+            const genText = `${injectCode(
+              partial1,
+              partial2,
+              `${vsItemById(getIdFromInputPin)?.code}`
+            )}`;
+
+            write = genText;
+          }
         }
       });
 
-      //const write = `${vsItems.map((i) => i.code)}`;
       generatedCodeElement.value = write;
     }
   };

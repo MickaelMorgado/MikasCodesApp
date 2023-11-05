@@ -9,7 +9,7 @@ export const WrapperGeneratedCode = styled.textarea`
   color: grey;
   max-width: 100%;
   width: 100%;
-  height: 250px;
+  height: 200px;
   background: black;
 `;
 
@@ -20,7 +20,7 @@ export const Visual = styled.div`
   color: grey;
   max-width: 100%;
   width: 100%;
-  height: 500px;
+  height: 400px;
   background: #0a0a0a;
 `;
 
