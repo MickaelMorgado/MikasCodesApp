@@ -269,6 +269,7 @@ export const Flutter = () => {
               key={index}
               onClick={() => onItemClick(option)}
               category={option.category}
+              title={option.description}
             >
               {option.name}
             </S.ContextMenuEntry>

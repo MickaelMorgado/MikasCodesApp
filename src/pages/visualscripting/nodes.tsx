@@ -160,7 +160,7 @@ export const items: Item[] = [
     description: 'Flutter',
     name: 'Navigate to Page',
     code: `
-        AppModule.I.navigateToNamedReplacement(
+        AppModule.I.navigateToNamed(
           PageYouWant.routeName,
         );
         `,
