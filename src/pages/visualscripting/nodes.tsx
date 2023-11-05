@@ -31,6 +31,49 @@ export const items: Item[] = [
   {
     category: NodeCategory.FLUTTER,
     description: 'Flutter',
+    name: 'Stateless Widget',
+    code: `class MyWidget extends StatelessWidget {
+        final String name;
+      
+        MyWidget({required this.name});
+      
+        @override
+        Widget build(BuildContext context) {
+          return __child[0]__;
+        }
+      }`,
+    properties: {
+      mainAxis: 'ma',
+    },
+  },
+  {
+    category: NodeCategory.FLUTTER,
+    description: 'Flutter',
+    name: 'Statefull Widget',
+    code: `class CounterWidget extends StatefulWidget {
+        @override
+        _CounterWidgetState createState() => _CounterWidgetState();
+      }
+      
+      class _CounterWidgetState extends State<CounterWidget> {
+        int _counter = 0;
+      
+        void _incrementCounter() {
+          setState(() {
+            _counter++;
+          });
+        }
+      
+        @override
+        Widget build(BuildContext context) {
+          return __child[0]__;
+        }
+      }`,
+    properties: {},
+  },
+  {
+    category: NodeCategory.FLUTTER,
+    description: 'Flutter',
     name: 'Row',
     code: `
           Row(
