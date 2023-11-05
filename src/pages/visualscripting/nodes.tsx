@@ -1,6 +1,7 @@
 import { Item } from './flutter';
 
 export enum NodeCategory {
+  ALL = 'All',
   FLUTTER = 'Flutter',
   JAVASCRIPT = 'Javascript',
 }
@@ -10,7 +11,21 @@ export const items: Item[] = [
     category: NodeCategory.JAVASCRIPT,
     description: 'Javascript',
     name: 'Document Ready',
-    code: `document.read({})`,
+    code: `document.read({__child[0]__})`,
+    properties: {},
+  },
+  {
+    category: NodeCategory.JAVASCRIPT,
+    description: 'Javascript',
+    name: 'Alert',
+    code: `alert('__inputPin[0]__')`,
+    properties: {},
+  },
+  {
+    category: NodeCategory.JAVASCRIPT,
+    description: 'Javascript',
+    name: 'Console Log',
+    code: `console.log('log')`,
     properties: {},
   },
   {
@@ -21,7 +36,7 @@ export const items: Item[] = [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                __children__
+                __child[0]__
             ],
           )`,
     properties: {
@@ -89,10 +104,10 @@ export const items: Item[] = [
     name: 'Column',
     code: `
         Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            
-          ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+                __child[0]__
+            ],
         )
         `,
     properties: {},

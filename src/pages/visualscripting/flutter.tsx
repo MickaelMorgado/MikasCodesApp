@@ -5,6 +5,8 @@ import Draggable from 'react-draggable';
 import randomizedId from 'utils';
 import * as S from './styles';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
+import { MyButtonIcon } from 'components/myForm/button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const debug: boolean = false;
 
@@ -29,7 +31,7 @@ interface ICoordinates {
   y: number;
 }
 
-let mousePosition: ICoordinates = {
+const mousePosition: ICoordinates = {
   x: 0,
   y: 0,
 };
@@ -49,6 +51,17 @@ interface vsItem extends Item {
   position: ICoordinates;
 }
 
+interface IContextMenu {
+  items: Item[];
+  onItemClick: (option: Item) => void;
+  selectedCategory?: NodeCategory;
+}
+
+interface Identifiers {
+  outputId: string;
+  inputId: string;
+}
+
 interface vsConnector {
   id: string;
   outputPinId: string;
@@ -62,7 +75,6 @@ const buttons = () => {
         key={item.name}
         onClick={() => {
           AddCodeToGenFromButton(item);
-          AddVisual(item);
         }}
       >
         {item.name}
@@ -96,86 +108,9 @@ const AddCodeToGenFromButton = (item: Item) => {
   }
 };
 
-// usually called from useEffect:
-const AddCodeToGenFromVS = (vsItems: vsItem[], vsConnector: vsConnector[]) => {
-  const generatedCodeElement = document.getElementById(
-    'generatedCode'
-  ) as HTMLTextAreaElement;
-
-  var write = ``;
-  if (generatedCodeElement) {
-    vsItems.map((i) => {
-      const currentItem = i;
-
-      // i.code should split by child, to concat vsConnector -> vsItem.code
-      const splitedCodeForInsertion = currentItem.code.split('__children__');
-      if (splitedCodeForInsertion.length > 0) {
-        write =
-          write +
-          splitedCodeForInsertion[0] +
-          // 'get identifer to grab parent node and code ->' +
-          getNodeFromNodePin(`${currentItem.child?.inputPinId}`) +
-          splitedCodeForInsertion[1];
-      }
-    });
-
-    //const write = `${vsItems.map((i) => i.code)}`;
-    generatedCodeElement.value = write;
-  }
-};
-
-const AddVisual = (item: Item) => {
-  const visualCodeElement = document.getElementById('visualCode');
-  if (visualCodeElement) {
-  }
-};
-
-interface IContextMenu {
-  items: Item[];
-  onItemClick: (option: Item) => void;
-  selectedCategory?: NodeCategory;
-}
-
-interface Identifiers {
-  outputId: string;
-  inputId: string;
-}
-
-const ContextMenu = ({
-  items,
-  onItemClick,
-  selectedCategory,
-}: IContextMenu) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const filteredItems = selectedCategory
-    ? items.filter(
-        (item) =>
-          item.category === selectedCategory &&
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : items.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-  return (
-    <S.ContextMenu>
-      <MyFormField
-        name=""
-        placeholder="search snippet"
-        formFieldType={Enum_MyFormFieldType.input}
-        callback={(e) => setSearchTerm(e.target.value)}
-      />
-      {filteredItems.map((option, index) => (
-        <S.ContextMenuEntry
-          key={index}
-          onClick={() => onItemClick(option)}
-          category={option.category}
-        >
-          {option.name}
-        </S.ContextMenuEntry>
-      ))}
-    </S.ContextMenu>
-  );
+const getNodeFromNodePin = (pinId: string) => {
+  const pin = document.getElementById(pinId);
+  return pin?.closest('.react-draggable')?.parentElement;
 };
 
 const Connector = ({ id, outputPinId, inputPinId }: vsConnector) => {
@@ -225,22 +160,129 @@ const Connector = ({ id, outputPinId, inputPinId }: vsConnector) => {
   }
 };
 
-const getNodeFromNodePin = (pinId: string) => {
-  const pin = document.getElementById(pinId);
-  return pin?.closest('.react-draggable')?.parentElement;
-};
-
 export const Flutter = () => {
   const mousePositionRef = useRef<ICoordinates>({ x: 0, y: 0 });
   const identifiers = useRef<Identifiers>({ outputId: '', inputId: '' });
   const [connectors, setConnectors] = useState<vsConnector[]>([]);
   const [vsItems, setVsItems] = useState<vsItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState(NodeCategory.ALL);
 
   useEffect(() => {
     console.log('vsItems:', vsItems);
     console.log('connectors:', connectors);
     AddCodeToGenFromVS(vsItems, connectors);
   }, [vsItems, connectors]);
+
+  const vsItemById = (id: string) => {
+    const foundItem = vsItems.find((item) => item.id === id);
+    return foundItem;
+  };
+
+  // usually called from useEffect:
+  const AddCodeToGenFromVS = (
+    vsItems: vsItem[],
+    vsConnector: vsConnector[]
+  ) => {
+    const generatedCodeElement = document.getElementById(
+      'generatedCode'
+    ) as HTMLTextAreaElement;
+
+    let write = '';
+    if (generatedCodeElement) {
+      vsItems.map((i) => {
+        const { code, child } = i;
+
+        // spliting vsItem.code to concat other codes:
+        const splitedCodeForInsertion = code.split('__child[0]__');
+        if (splitedCodeForInsertion.length > 0) {
+          const getChildCode = vsItemById(
+            `${child?.inputPinId.split('_')[0]}`
+          )?.code;
+          write =
+            write +
+            splitedCodeForInsertion[0] +
+            getChildCode +
+            splitedCodeForInsertion[1];
+        }
+      });
+
+      //const write = `${vsItems.map((i) => i.code)}`;
+      generatedCodeElement.value = write;
+    }
+  };
+
+  const ContextMenuLanguageFilter = () => {
+    const categories = Object.values(NodeCategory);
+
+    const handleCategoryChange = (category: NodeCategory) => {
+      setSelectedCategory(category);
+    };
+
+    return (
+      <div className="category-filter">
+        {categories.map((category, index) => (
+          <S.CategoryLanguageFilter
+            category={category}
+            key={index}
+            className={selectedCategory === category ? 'active' : ''}
+            onClick={() => handleCategoryChange(category)}
+            title={category}
+          ></S.CategoryLanguageFilter>
+        ))}
+      </div>
+    );
+  };
+
+  const ContextMenu = ({
+    items,
+    onItemClick,
+    selectedCategory,
+  }: IContextMenu) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredItems = items.filter((item) => {
+      // Check if the item's category matches the selected category
+      const categoryMatch =
+        selectedCategory === NodeCategory.ALL ||
+        item.category === selectedCategory;
+
+      // Check if the item's name contains the search term (case-insensitive)
+      const searchTermMatch =
+        searchTerm.length === 0 ||
+        item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+      // Include the item in the filtered list if both conditions are met
+      return categoryMatch && searchTermMatch;
+    });
+
+    return (
+      <S.ContextMenu>
+        <ContextMenuLanguageFilter />
+        <MyFormField
+          name=""
+          placeholder="Search Node"
+          formFieldType={Enum_MyFormFieldType.input}
+          callback={(e) => setSearchTerm(e.target.value)}
+        />
+        <S.ContextMenuList>
+          {filteredItems.map((option, index) => (
+            <S.ContextMenuEntry
+              key={index}
+              onClick={() => onItemClick(option)}
+              category={option.category}
+            >
+              {option.name}
+            </S.ContextMenuEntry>
+          ))}
+        </S.ContextMenuList>
+        <S.ContextMenuTools>
+          <MyButtonIcon
+            onClick={() => handleCleanAll()}
+            icon={<DeleteForeverIcon />}
+          />
+        </S.ContextMenuTools>
+      </S.ContextMenu>
+    );
+  };
 
   const closeConnector = () => {
     const newConnector: vsConnector = {
@@ -251,8 +293,6 @@ export const Flutter = () => {
     setConnectors((prev) => [...prev, { ...newConnector }]);
     // update child from vsItem:
     const a = getNodeFromNodePin(newConnector.outputPinId);
-    //console.log(a);
-    //debugger;
 
     setVsItems((prevItems) => {
       return prevItems.map((item) => {
@@ -321,14 +361,14 @@ export const Flutter = () => {
               <S.NodeContent>
                 <S.NodeInputs>
                   <div>
-                    <NodePin id={`np-${id}-1`} type={EnumNodePinType.input} />
+                    <NodePin id={`${id}_np-1`} type={EnumNodePinType.input} />
                   </div>
                   <div>{JSON.stringify(properties)},</div>
                 </S.NodeInputs>
                 <S.NodeOutputs>
                   <div>
                     child:
-                    <NodePin id={`np-${id}-2`} type={EnumNodePinType.output} />
+                    <NodePin id={`${id}_np-2`} type={EnumNodePinType.output} />
                   </div>
                 </S.NodeOutputs>
               </S.NodeContent>
@@ -363,6 +403,11 @@ export const Flutter = () => {
     // setShowContextMenu(false);
   };
 
+  const handleCleanAll = () => {
+    setVsItems([]);
+    setConnectors([]);
+  };
+
   return (
     <>
       <S.Visual
@@ -372,12 +417,15 @@ export const Flutter = () => {
         //onClick={handleClick}
         //onMouseMove={handleMouseMove}
       >
-        <ContextMenu items={items} onItemClick={handleOptionClick} />
+        <ContextMenu
+          items={items}
+          onItemClick={handleOptionClick}
+          selectedCategory={selectedCategory}
+        />
         {vsItems.length > 0 && vsItems.map((i) => <Node {...i} key={i.id} />)}
         {connectors.length > 0 &&
           connectors.map((c) => <Connector {...c} key={c.id} />)}
       </S.Visual>
-      {/* TODO: filter flutter buttons; */}
       <S.WrapperGeneratedCode id="generatedCode"></S.WrapperGeneratedCode>
       {buttons()}
       <>{debug && `debug: ${JSON.stringify(connectors)}`}</>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { NodeCategory } from './flutter';
+import { appColor } from 'pages/globalStyles';
 
 export const WrapperGeneratedCode = styled.textarea`
   border: 1px solid grey;
@@ -8,7 +9,7 @@ export const WrapperGeneratedCode = styled.textarea`
   color: grey;
   max-width: 100%;
   width: 100%;
-  height: 500px;
+  height: 250px;
   background: black;
 `;
 
@@ -40,7 +41,9 @@ export const NodeName = styled.div<{ category: NodeCategory }>`
   background: ${(props) => {
     switch (props.category) {
       case NodeCategory.FLUTTER:
-        return 'Purple';
+        return `${appColor.pink.c1}`;
+      case NodeCategory.JAVASCRIPT:
+        return `${appColor.red.c1}`;
       default:
         return 'Grey';
     }
@@ -60,8 +63,44 @@ export const NodeContent = styled.div`
 export const NodeInputs = styled.div``;
 export const NodeOutputs = styled.div``;
 
+export const CategoryLanguageFilter = styled.button<{ category: NodeCategory }>`
+  background: ${(props) => {
+    switch (props.category) {
+      case NodeCategory.FLUTTER:
+        return `${appColor.pink.c1}`;
+      case NodeCategory.JAVASCRIPT:
+        return `${appColor.red.c1}`;
+      default:
+        return 'Grey';
+    }
+  }};
+  margin: 5px;
+  margin-bottom: 15px;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+
+  &.active {
+    box-shadow: 0 0 10px
+      ${(props) => {
+        switch (props.category) {
+          case NodeCategory.FLUTTER:
+            return `${appColor.pink.c1}`;
+          case NodeCategory.JAVASCRIPT:
+            return `${appColor.red.c1}`;
+          default:
+            return 'Grey';
+        }
+      }};
+  }
+`;
+
 export const ContextMenu = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 0;
   right: 0;
   width: 200px;
@@ -72,11 +111,10 @@ export const ContextMenu = styled.div`
   border-radius: 5px;
   min-width: 125px;
   z-index: 1;
+`;
 
-  & > div {
-    cursor: pointer;
-  }
-
+export const ContextMenuList = styled.div`
+  flex-grow: 1;
   &:hover > div {
     opacity: 0.2;
   }
@@ -89,14 +127,18 @@ export const ContextMenuEntry = styled.div<{ category: NodeCategory }>`
   color: ${(props) => {
     switch (props.category) {
       case NodeCategory.FLUTTER:
-        return 'Purple';
+        return `${appColor.pink.c1}`;
       case NodeCategory.JAVASCRIPT:
-        return 'Red';
+        return `${appColor.red.c1}`;
       default:
         return 'Grey';
     }
   }};
+
+  cursor: pointer;
 `;
+
+export const ContextMenuTools = styled.div``;
 
 export const NodePin = styled.div`
   display: inline-block;
