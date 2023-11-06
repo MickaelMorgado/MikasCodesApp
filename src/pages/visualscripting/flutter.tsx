@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { NodeCategory, items } from './nodes';
 import Draggable from 'react-draggable';
-import randomizedId, { Enum_ValidType, isValid } from 'utils';
+import randomizedId, { isValid } from 'utils';
 import * as S from './styles';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import { MyButtonIcon } from 'components/myForm/button';
@@ -36,6 +36,58 @@ const mousePosition: ICoordinates = {
   y: 0,
 };
 
+// DEPRECATED ---------------------------------------
+const textItem: vsItem = {
+  name: 'text',
+  code: 'Text("Hello, World")',
+  id: '',
+  position: { x: 0, y: 0 },
+  children: [],
+  category: NodeCategory.ALL,
+  properties: {},
+  description: '',
+};
+
+const rowItem: vsItem = {
+  name: 'row',
+  code: `Row(children:
+    __CHILDREN__
+)`,
+  children: [],
+  id: '',
+  position: { x: 0, y: 0 },
+  category: NodeCategory.ALL,
+  properties: {},
+  description: '',
+};
+
+const columnItem: vsItem = {
+  name: 'column',
+  code: `Column(children: 
+    __CHILDREN__
+)`,
+  children: [],
+  id: '',
+  position: { x: 0, y: 0 },
+  category: NodeCategory.ALL,
+  properties: {},
+  description: '',
+};
+
+const rootItem: vsItem = {
+  name: 'root',
+  code: `MyApp(
+    __CHILDREN__
+)`,
+  children: [],
+  id: '',
+  position: { x: 0, y: 0 },
+  category: NodeCategory.ALL,
+  properties: {},
+  description: '',
+};
+//---------------------------------------
+
 export interface Item {
   category: NodeCategory;
   name: string;
@@ -49,6 +101,7 @@ export interface Item {
 interface vsItem extends Item {
   id: string;
   position: ICoordinates;
+  children: vsItem[]; // just for testing
 }
 
 interface IContextMenu {
@@ -200,6 +253,27 @@ export const Flutter = () => {
     ) as HTMLTextAreaElement;
 
     let write = '';
+    let copiedVsItems = vsItems;
+
+    function generateCode(item: vsItem): string {
+      debugger;
+      let code = item.code;
+
+      if (item.children) {
+        const childCode = item.children
+          .map((child: vsItem) => generateCode(child))
+          .join(', ');
+        code = code.replace('__CHILDREN__', childCode);
+      }
+
+      return code;
+    }
+
+    const generatedCode =
+      copiedVsItems.length > 0 && generateCode(copiedVsItems[0]);
+    console.log(generatedCode);
+
+    /*
     const splitText = (text: string, by: string) => {
       const splitedCodeForInsertion = text.split(by);
       if (splitedCodeForInsertion.length > 1) {
@@ -217,7 +291,7 @@ export const Flutter = () => {
 
     const injectCode = (partial1: string, partial2: string, code: string) => {
       if (isValid(partial1) && isValid(partial2)) {
-        write = write + partial1 + code + partial2;
+        write = partial1 + code + partial2;
 
         return write;
       }
@@ -227,29 +301,44 @@ export const Flutter = () => {
       let copiedVsItems = vsItems;
 
       copiedVsItems.map((item) => {
-        const codeSplitter = '__child[0]__';
+        // If item has child:
+        const checkForChild = (item: vsItem) => {
+          const codeSplitter = '__child[0]__';
+          const { partial1, partial2 } = splitText(write, codeSplitter);
+          debugger;
+          if (isValid(item.child)) {
+            // Grab node id from InputPinId:
+            const getIdFromInputPin = item.child
+              ? item.child.inputPinId.split('_')[0]
+              : '';
+            if (isValid(getIdFromInputPin)) {
+              //copiedVsItems = removeVsItemById(copiedVsItems, getIdFromInputPin);
+              const childItem = vsItemById(getIdFromInputPin);
+              const genText = `${injectCode(
+                partial1,
+                partial2,
+                `${childItem?.code}`
+              )}`;
 
-        const { partial1, partial2 } = splitText(item.code, codeSplitter);
+              write = genText;
 
-        if (isValid(item.child) && isValid(partial1) && isValid(partial2)) {
-          const getIdFromInputPin = item.child
-            ? item.child.inputPinId.split('_')[0]
-            : '';
-          if (isValid(getIdFromInputPin)) {
-            copiedVsItems = removeVsItemById(copiedVsItems, getIdFromInputPin);
-            const genText = `${injectCode(
-              partial1,
-              partial2,
-              `${vsItemById(getIdFromInputPin)?.code}`
-            )}`;
+              debugger;
 
-            write = genText;
+              // Once code injected above, try to catch another child from this new vsItem:
+              isValid(childItem) && checkForChild(childItem!);
+            }
+          } else {
+            write = item.code;
           }
-        }
+        };
+        checkForChild(item);
       });
 
       generatedCodeElement.value = write;
     }
+    
+    */
+    generatedCodeElement.value = `${generatedCode}`;
   };
 
   const ContextMenuLanguageFilter = () => {
@@ -334,12 +423,21 @@ export const Flutter = () => {
     };
     setConnectors((prev) => [...prev, { ...newConnector }]);
     // update child from vsItem:
-    const a = getNodeFromNodePin(newConnector.outputPinId);
+    const parentItem = getNodeFromNodePin(newConnector.outputPinId);
+    const childItem = getNodeFromNodePin(newConnector.inputPinId);
+    const childAttributes = childItem?.dataset.props;
+    const childVsItem = JSON.parse(`${childAttributes}`);
+
+    // TODO: iterate trought all and apply all relative children for each one ...
 
     setVsItems((prevItems) => {
       return prevItems.map((item) => {
-        if (item.id === a!.id) {
-          return { ...item, child: { ...newConnector } };
+        if (item.id === parentItem!.id) {
+          return {
+            ...item,
+            child: { ...newConnector },
+            children: [childVsItem],
+          };
         }
         return item;
       });

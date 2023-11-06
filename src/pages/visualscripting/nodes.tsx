@@ -11,7 +11,7 @@ export const items: Item[] = [
     category: NodeCategory.JAVASCRIPT,
     description: 'Javascript',
     name: 'Document Ready',
-    code: `document.read({__child[0]__})`,
+    code: `document.read({__CHILDREN__})`,
     properties: {},
   },
   {
@@ -35,11 +35,11 @@ export const items: Item[] = [
     code: `class MyWidget extends StatelessWidget {
         final String name;
       
-        MyWidget({required this.name});
+        const MyWidget({super.key, required this.name});
       
         @override
         Widget build(BuildContext context) {
-          return __child[0]__;
+          return __CHILDREN__;
         }
       }`,
     properties: {
@@ -66,7 +66,7 @@ export const items: Item[] = [
       
         @override
         Widget build(BuildContext context) {
-          return __child[0]__;
+          return __CHILDREN__;
         }
       }`,
     properties: {},
@@ -79,7 +79,7 @@ export const items: Item[] = [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                __child[0]__
+                __CHILDREN__
             ],
           )`,
     properties: {
@@ -149,7 +149,7 @@ export const items: Item[] = [
         Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                __child[0]__
+                __CHILDREN__
             ],
         )
         `,
