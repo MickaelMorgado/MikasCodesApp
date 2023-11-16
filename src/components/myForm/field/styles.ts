@@ -8,7 +8,7 @@ export const MyFormField = styled.div`
   margin-bottom: 15px;
   justify-content: space-between;
 
-  & > :nth-child(1) {
+  & > label {
     width: 30%;
   }
 `;

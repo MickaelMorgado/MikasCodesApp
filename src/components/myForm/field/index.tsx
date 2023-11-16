@@ -108,15 +108,9 @@ export const MyFormField = ({
         return <Checkbox aria-label={name} onChange={(e) => callback(e)} />;
       case Enum_MyFormFieldType.file:
         return (
-          <Button
-            variant="contained"
-            component="label"
-          >
+          <Button variant="contained" component="label">
             Upload File
-            <input
-              type="file"
-              onChange={(e) => console.log(e.target.value)}
-            />
+            <input type="file" onChange={(e) => console.log(e.target.value)} />
           </Button>
         );
       case Enum_MyFormFieldType.input:
@@ -163,7 +157,7 @@ export const MyFormField = ({
   return (
     <>
       <S.MyFormField>
-        <InputLabel>{name}:</InputLabel>
+        {name !== '' && <InputLabel>{name}:</InputLabel>}
         <Tooltip title={tooltip}>
           {renderFieldBasedOnType(formFieldType)}
         </Tooltip>

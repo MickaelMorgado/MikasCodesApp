@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InvalidMessage from 'components/invalidMessage';
 
 export const randomizedId = () => {
-  return uuidv4();
+  return `${uuidv4()}`;
 };
 
 export enum Enum_StorageSlot {
@@ -28,6 +28,41 @@ export const setLocalStorageItem = (
 export const validation = {
   isValid: (array: any[]) => array.length > 0,
   invalidMessage: (message: string) => <InvalidMessage message={message} />,
+};
+
+/*
+export enum Enum_ValidType {
+  string,
+  array,
+}
+Example of setting types:
+  export const isValid = <T extends Enum_ValidType>(
+    type: T,
+    argument: T extends Enum_ValidType.string
+      ? string
+      : T extends Enum_ValidType.array
+      ? any[]
+      : never
+  ): boolean => {
+    switch (type) {
+      case Enum_ValidType.string:
+        return argument !== '';
+      case Enum_ValidType.array:
+        return argument.length > 0;
+      default:
+        return false;
+    }
+  };
+*/
+export const isValid = (argument: any): boolean => {
+  switch (typeof argument) {
+    case 'string':
+      return argument !== '';
+    case 'object':
+      return Array.isArray(argument) ? argument.length > 0 : true;
+    default:
+      return argument !== undefined;
+  }
 };
 
 // Format Date:
