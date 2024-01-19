@@ -4,8 +4,6 @@ import { NodeCategory, items } from './nodes';
 import Draggable from 'react-draggable';
 import randomizedId, { isValid } from 'utils';
 import * as S from './styles';
-import randomizedId, { isValid } from 'utils';
-import * as S from './styles';
 import MyFormField, { Enum_MyFormFieldType } from 'components/myForm/field';
 import { MyButtonIcon } from 'components/myForm/button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
