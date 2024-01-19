@@ -238,7 +238,15 @@ export const Flutter = () => {
   useEffect(() => {
     console.log('vsItems:', vsItems);
     console.log('connectors:', connectors);
-    AddCodeToGenFromVS(vsItems);
+
+    const delay = 1000; // Adjust the delay time in milliseconds as needed
+
+    const timeoutId = setTimeout(() => {
+      AddCodeToGenFromVS(vsItems);
+    }, delay);
+
+    // Clean up the timeout to avoid unnecessary calls
+    return () => clearTimeout(timeoutId);
   }, [vsItems, connectors]);
 
   const vsItemById = (id: string) => {
@@ -252,26 +260,30 @@ export const Flutter = () => {
       'generatedCode'
     ) as HTMLTextAreaElement;
 
-    let write = '';
-    let copiedVsItems = vsItems;
-
     function generateCode(item: vsItem): string {
-      debugger;
-      let code = item.code;
+      if (item != undefined) {
+        let code = item.code!;
+        let hasChildren = isValid(item.children);
 
-      if (item.children) {
-        const childCode = item.children
-          .map((child: vsItem) => generateCode(child))
-          .join(', ');
-        code = code.replace('__CHILDREN__', childCode);
+        if (hasChildren) {
+          console.log('I have children');
+          let child = item.children[0]; // it might not be the best way, because this ref is not state updated (its an old ref)
+          generateCode(child);
+          code = code.replace('__CHILDREN__', child.code);
+        }
+
+        return `${code}`;
       }
-
-      return code;
+      return '';
     }
 
-    const generatedCode =
-      copiedVsItems.length > 0 && generateCode(copiedVsItems[0]);
-    console.log(generatedCode);
+    const generatedCode = generateCode(vsItems[0]);
+
+    console.log(
+      `Big Log: ${JSON.stringify(vsItems)} ${JSON.stringify(
+        connectors
+      )} ${generatedCode}`
+    );
 
     /*
     const splitText = (text: string, by: string) => {
