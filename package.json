@@ -1,7 +1,7 @@
 {
   "name": "mikas-codes-app",
   "description": "same as MikasCodes but with Electron app",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "keywords": [
     "electron",
     "boilerplate",
@@ -90,7 +90,8 @@
     "fs": "^0.0.1-security",
     "latest-version": "^7.0.0",
     "mjml": "^4.13.0",
-    "node": "^19.6.1",
+    "node": "^20.5.0",
+    "npm": "^10.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
@@ -232,8 +233,8 @@
     "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "devEngines": {
-    "node": ">=14.x",
-    "npm": ">=7.x"
+    "node": ">=20.5.0",
+    "npm": ">=10.3.0"
   },
   "electronmon": {
     "patterns": [
