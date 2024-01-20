@@ -25,3 +25,6 @@ Handle termial environment variables:
 
   PS this command could be usefull to add a new line on file:
   (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /User/mickael/.zprofile
+
+
+Git commands like git reset
