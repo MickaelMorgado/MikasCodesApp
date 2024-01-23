@@ -15,6 +15,7 @@ import Note from 'components/note';
 import PaddedContent from 'components/paddedContent';
 import Description from 'components/description';
 import Header from 'components/header';
+import MDEditor from '@uiw/react-md-editor';
 
 export interface INote {
   id: string;
@@ -27,6 +28,7 @@ export const NotesApp = () => {
   const [notes, setNotes] = useState<INote[]>(JSON.parse(getInitialNotes));
   const [newNoteContent, setNewNoteContent] = useState('');
   const [filterBy, setFilterBy] = useState(sortBy.dateDESC.value);
+  const [value, setValue] = useState('**Hello world!!!**');
 
   const addNote = (newNote: INote) => {
     setNotes([...notes, newNote]);
@@ -40,7 +42,7 @@ export const NotesApp = () => {
     const newNote: INote = {
       id: randomizedId(),
       date: new Date(),
-      content: `${newNoteContent}`,
+      content: `${value}`,
     };
     addNote(newNote);
   };
@@ -110,11 +112,12 @@ export const NotesApp = () => {
       <br />
       <PaddedContent>
         <>
-          <MyFormField
+          {/* <MyFormField
             name={'Note content'}
             formFieldType={Enum_MyFormFieldType.textArea}
             callback={(e) => setNewNoteContent(e.target.value)}
-          />
+          /> */}
+          <MDEditor value={value} onChange={(v) => setValue(v ?? '')} />
           <Button variant="contained" onClick={() => handleAddNote()}>
             <Add />
           </Button>
@@ -137,7 +140,7 @@ export const NotesApp = () => {
       <Divider light />
       <br />
       <PaddedContent>
-        <Masonry columns={2} spacing={2}>
+        <Masonry columns={3} spacing={5}>
           {validation.isValid(notes) ? (
             <>{renderNotes(filterBy)}</>
           ) : (

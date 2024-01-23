@@ -6,6 +6,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import * as S from './styles';
 import { formatDate } from 'utils';
 import ResponsiveDialog from 'components/responsiveDialog';
+import MDEditor from '@uiw/react-md-editor';
 
 export interface INoteProps {
   id: string;
@@ -24,7 +25,11 @@ export const Note = (props: INoteProps) => {
         <>
           <S.Date>{formatDate(date)}</S.Date>
           <S.Content>
-            <ReactMarkdown>{content ? content : ''}</ReactMarkdown>
+            {/* <ReactMarkdown>{content ? content : ''}</ReactMarkdown> */}
+            <MDEditor.Markdown
+              source={content ? content : ''}
+              style={{ whiteSpace: 'pre-wrap' }}
+            />
           </S.Content>
           <S.Action>
             <ResponsiveDialog
