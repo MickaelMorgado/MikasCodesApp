@@ -27,11 +27,11 @@ Package the project:
 
         npm run rebuild
         npm run package
-        npm run publish (if mac: npm run publishFromMac)
+        npm run publish (if mac: npm run publishFromMac, if windows: npm run publishFromWindows)
 
         -or-
 
-        npm run release // to do everything at once (if mac: npm run releaseFromMac)
+        npm run release // to do everything at once (if mac: npm run releaseFromMac, if windows: npm run releaseFromWindows)
 
     Need to packaging for each OS on each OS, make sure to use specific flags for the scripts for current OS (--linux on linux system --mac on mac system)
     TODO: need to create a settings file to handle that.
