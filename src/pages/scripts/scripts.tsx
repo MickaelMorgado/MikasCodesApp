@@ -28,7 +28,7 @@ const scriptPath = './scripts/codeFiles';
 export const filePath = (scriptName: string) => `${scriptPath}/${scriptName}`;
 
 const dockerCommand = `${getPartialFromSettingsVariable(
-  Enum_SettingOption.DOCKERCOMPOSE
+  Enum_SettingOption.DOCKERCOMPOSE,
 )}`;
 
 const projectFolder = `${getSettings(Enum_SettingOption.PROJECTSFOLDER)}`;
@@ -123,7 +123,7 @@ export const scriptsCodes: IScriptItem[] = [
         )}
         initialFormFields={[]}
         renderedScript={(
-          formFields: IMyFormField[]
+          formFields: IMyFormField[],
         ) => `class formWithValidation {
     constructor() {
         this.form = document.querySelector("#program-form-4")
@@ -332,7 +332,7 @@ cd ../
             name: 'Docker Database container ID',
             formFieldType: Enum_MyFormFieldType.input,
             tooltip: `use ${getPartialFromSettingsVariable(
-              Enum_SettingOption.DOCKERCOMPOSE
+              Enum_SettingOption.DOCKERCOMPOSE,
             )} ps to check for any potencial database related container`,
             callback: () => {},
           },
@@ -359,7 +359,7 @@ cd ../
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
           let resultedScript = `docker cp '/home/${getSettings(
-            Enum_SettingOption.PCNAME
+            Enum_SettingOption.PCNAME,
           )}/Documents/dumps/${formFields[0].value}.sql' ${
             formFields[1].value ?? 'DOCKER_CONTAINER_ID'
           }:tmp/dump.sql
@@ -396,7 +396,7 @@ psql -U ${formFields[3].value ?? 'root'} -h localhost -d ${
           },
         ]}
         renderedScript={(
-          formFields: IMyFormField[]
+          formFields: IMyFormField[],
         ) => `import styled from "styled-components";
 
 export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
@@ -423,7 +423,7 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
           },
         ]}
         renderedScript={(
-          formFields: IMyFormField[]
+          formFields: IMyFormField[],
         ) => `import React from 'react';
 
 export interface I${formFields[0].value}Props {
@@ -588,7 +588,7 @@ export default ${formFields[0].value};
   ${getPartialFromSettingsVariable(Enum_SettingOption.FAVORITEEDITOR)} .
 
   IN TEXT EDITOR (${getPartialFromSettingsVariable(
-    Enum_SettingOption.FAVORITEEDITOR
+    Enum_SettingOption.FAVORITEEDITOR,
   )}):
 
   (before runing make sure of:)
@@ -633,14 +633,14 @@ export default ${formFields[0].value};
   IN TERMINAL 2:
 
     ${getPartialFromSettingsVariable(
-      Enum_SettingOption.DOCKERCOMPOSE
+      Enum_SettingOption.DOCKERCOMPOSE,
     )} exec web python manage.py migrate
     ${getPartialFromSettingsVariable(
-      Enum_SettingOption.DOCKERCOMPOSE
+      Enum_SettingOption.DOCKERCOMPOSE,
     )} exec web python manage.py createsuperuser
 
     ${getPartialFromSettingsVariable(
-      Enum_SettingOption.DOCKERCOMPOSE
+      Enum_SettingOption.DOCKERCOMPOSE,
     )} restart web
 
   IN BROWSER:
@@ -719,7 +719,7 @@ ${dockerCommand} exec web python manage.py compilemessages`;
           },
         ]}
         renderedScript={(
-          formFields: IMyFormField[]
+          formFields: IMyFormField[],
         ) => `import 'package:flutter/material.dart';
 
 class ${formFields[0].value} extends StatefulWidget {
@@ -786,10 +786,10 @@ git checkout -b "${formFields[1].value}"
 ${getPartialFromSettingsVariable(Enum_SettingOption.DOCKERCOMPOSE)} up
 
 ${getPartialFromSettingsVariable(
-  Enum_SettingOption.DOCKERCOMPOSE
+  Enum_SettingOption.DOCKERCOMPOSE,
 )} exec web python manage.py migrate
 ${getPartialFromSettingsVariable(
-  Enum_SettingOption.DOCKERCOMPOSE
+  Enum_SettingOption.DOCKERCOMPOSE,
 )} exec web python manage.py createsuperuser
 
 http://localhost:8000/admin/cms/page/
@@ -907,7 +907,7 @@ X = ${result}`;
             name: 'docker container',
             formFieldType: Enum_MyFormFieldType.input,
             tooltip: `${getPartialFromSettingsVariable(
-              Enum_SettingOption.DOCKERCOMPOSE
+              Enum_SettingOption.DOCKERCOMPOSE,
             )} ps`,
             defaultValue: 'boby',
             callback: () => {},
@@ -933,7 +933,7 @@ X = ${result}`;
             name: 'docker container',
             formFieldType: Enum_MyFormFieldType.input,
             tooltip: `${getPartialFromSettingsVariable(
-              Enum_SettingOption.DOCKERCOMPOSE
+              Enum_SettingOption.DOCKERCOMPOSE,
             )} ps`,
             callback: () => {},
           },
@@ -998,21 +998,53 @@ ${dockerCommand} stop
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          var profile = `/Users/${getSettings(Enum_SettingOption.PCNAME)}/.zshrc`;
+          var profile = `/Users/${getSettings(
+            Enum_SettingOption.PCNAME,
+          )}/.zshrc`;
           var currentSetup = '';
-          
-          var echo = currentSetup + `
+
+          var echo =
+            currentSetup +
+            `
           nano ${profile}
 
           the file should follow the following example:
-          export PATH="$PATH:/Users/${getSettings(Enum_SettingOption.PCNAME)}/development/flutter/bin"
+          export PATH="$PATH:/Users/${getSettings(
+            Enum_SettingOption.PCNAME,
+          )}/development/flutter/bin"
           export PATH="$PATH:${formFields[0].value}"
 
           to write directly on file: 
-          (echo; echo 'export PATH="$PATH:${formFields[0].value}"') >> ${profile}
+          (echo; echo 'export PATH="$PATH:${
+            formFields[0].value
+          }"') >> ${profile}
           `;
-          
+
           return echo;
+        }}
+      />
+    ),
+  },
+  {
+    title: 'Bat Snippets Example',
+    category: Enum_scriptsCategory.terminal,
+    component: (
+      <GeneratedScriptBase
+        description={() => <>Some .bat snippets</>}
+        initialFormFields={[]}
+        renderedScript={(formFields: IMyFormField[]) => {
+          return `@echo off
+
+set mainFolder="C:\Program Files (x86)\Common Files\Adobe\Adobe Desktop Common"
+set prefix="-old-"
+
+rename %mainFolder%\AdobeGenuineClient %prefix%AdobeGenuineClient
+rename %mainFolder%\LCC %prefix%LCC
+rename %mainFolder%\TCC %prefix%TCC
+
+echo Folders renamed successfully.
+pause
+`;
         }}
       />
     ),
