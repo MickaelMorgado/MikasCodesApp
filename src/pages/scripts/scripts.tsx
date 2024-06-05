@@ -8,7 +8,7 @@ import {
   Enum_MyFormFieldType,
   IMyFormField,
 } from 'components/myForm/field';
-import { Enum_StorageSlot, getLocalStorageItem } from 'utils';
+import { Enum_StorageSlot, getLocalStorageItem, isValid } from 'utils';
 import {
   Enum_SettingOption,
   getPartialFromSettingsVariable,
@@ -326,11 +326,13 @@ cd ../
           {
             name: 'Downloaded DB Name',
             formFieldType: Enum_MyFormFieldType.input,
+            defaultValue: 'project_db',
             callback: () => {},
           },
           {
             name: 'Docker Database container ID',
             formFieldType: Enum_MyFormFieldType.input,
+            defaultValue: 'postgres',
             tooltip: `use ${getPartialFromSettingsVariable(
               Enum_SettingOption.DOCKERCOMPOSE,
             )} ps to check for any potencial database related container`,
@@ -360,14 +362,30 @@ cd ../
         renderedScript={(formFields: IMyFormField[]) => {
           let resultedScript = `docker cp '/home/${getSettings(
             Enum_SettingOption.PCNAME,
-          )}/Documents/dumps/${formFields[0].value}.sql' ${
-            formFields[1].value ?? 'DOCKER_CONTAINER_ID'
+          )}/Documents/dumps/${
+            isValid(formFields[0].value)
+              ? formFields[0].value
+              : formFields[0].defaultValue
+          }.sql' ${
+            isValid(formFields[1].value)
+              ? formFields[1].value
+              : formFields[1].defaultValue
           }:tmp/dump.sql
 
-docker exec -ti ${formFields[1].value ?? 'DOCKER_CONTAINER_ID'} /bin/bash
+docker exec -ti ${
+            isValid(formFields[1].value)
+              ? formFields[1].value
+              : formFields[1].defaultValue
+          } /bin/bash
 
-psql -U ${formFields[3].value ?? 'root'} -h localhost -d ${
-            formFields[2].value ?? 'mysql'
+psql -U ${
+            isValid(formFields[3].value)
+              ? formFields[3].value
+              : formFields[3].defaultValue ?? 'root'
+          } -h localhost -d ${
+            isValid(formFields[2].value)
+              ? formFields[2].value
+              : formFields[2].defaultValue ?? 'mysql'
           } -f /tmp/dump.sql`;
 
           return `${resultedScript}`;
@@ -392,14 +410,19 @@ psql -U ${formFields[3].value ?? 'root'} -h localhost -d ${
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.name,
             tooltip: 'Dont use spaces',
+            defaultValue: 'MyComponent',
             callback: () => {},
           },
         ]}
-        renderedScript={(
-          formFields: IMyFormField[],
-        ) => `import styled from "styled-components";
+        renderedScript={(formFields: IMyFormField[]) => {
+          const field0 = isValid(formFields[0].value)
+            ? formFields[0].value
+            : formFields[0].defaultValue;
 
-export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
+          return `import styled from "styled-components";
+
+export const ${field0} = styled.div<\{  \}>\`\`;`;
+        }}
       />
     ),
   },
@@ -419,18 +442,22 @@ export const ${formFields[0].value} = styled.div<\{  \}>\`\`;`}
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.name,
             tooltip: 'Dont use spaces',
+            defaultValue: 'MyComponent',
             callback: () => {},
           },
         ]}
-        renderedScript={(
-          formFields: IMyFormField[],
-        ) => `import React from 'react';
+        renderedScript={(formFields: IMyFormField[]) => {
+          const field0 = isValid(formFields[0].value)
+            ? formFields[0].value
+            : formFields[0].defaultValue;
 
-export interface I${formFields[0].value}Props {
+          return `import React from 'react';
+
+export interface I${field0}Props {}
   id: string;
 }
 
-export const ${formFields[0].value} = ({ id }: I${formFields[0].value}Props) => {
+export const ${field0} = ({ id }: I${field0}Props) => {
   return (
     <>
 
@@ -438,8 +465,9 @@ export const ${formFields[0].value} = ({ id }: I${formFields[0].value}Props) => 
   );
 };
 
-export default ${formFields[0].value};
-`}
+export default ${field0};
+`;
+        }}
       />
     ),
   },
@@ -574,7 +602,9 @@ export default ${formFields[0].value};
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          var sshUrl = formFields[0].value;
+          var sshUrl = isValid(formFields[0].value)
+            ? formFields[0].value
+            : formFields[0].defaultValue;
 
           if (sshUrl != null) {
             if (sshUrl.indexOf('.git') > 0) {
@@ -694,6 +724,7 @@ export default ${formFields[0].value};
               ? `-i dengun_django_admin_relation`
               : ``
           } ${formFields[3].value == 'true' ? `-i dengun_webshop_package` : ``}
+
 ${dockerCommand} exec web python manage.py compilemessages`;
         }}
       />
@@ -715,21 +746,24 @@ ${dockerCommand} exec web python manage.py compilemessages`;
             name: 'Component name',
             formFieldType: Enum_MyFormFieldType.input,
             transformationType: Enum_MyFormFieldTransformationType.name,
+            defaultValue: 'MyComponent',
             callback: () => {},
           },
         ]}
-        renderedScript={(
-          formFields: IMyFormField[],
-        ) => `import 'package:flutter/material.dart';
+        renderedScript={(formFields: IMyFormField[]) => {
+          const field0 = isValid(formFields[0].value)
+            ? formFields[0].value
+            : formFields[0].defaultValue;
+          return `import 'package:flutter/material.dart';
 
-class ${formFields[0].value} extends StatefulWidget {
-  const ${formFields[0].value}({super.key});
+class ${field0} extends StatefulWidget {
+  const ${field0}({super.key});
 
   @override
-  State<${formFields[0].value}> createState() => _${formFields[0].value}State();
+  State<${field0}> createState() => _${field0}State();
 }
 
-class _${formFields[0].value}State extends State<${formFields[0].value}> {
+class _${field0}State extends State<${field0}> {
   bool _active = false;
 
   void _handleTapboxChanged(bool newValue) {
@@ -748,7 +782,8 @@ class _${formFields[0].value}State extends State<${formFields[0].value}> {
     );
   }
 }
-        `}
+        `;
+        }}
       />
     ),
   },
@@ -909,15 +944,17 @@ X = ${result}`;
             tooltip: `${getPartialFromSettingsVariable(
               Enum_SettingOption.DOCKERCOMPOSE,
             )} ps`,
-            defaultValue: 'boby',
+            defaultValue: 'web',
             callback: () => {},
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          return `${dockerCommand} exec ${formFields[0].value} python manage.py migrate
-          \n${dockerCommand} exec ${formFields[0].value} python manage.py createsuperuser
-          \n${dockerCommand} exec ${formFields[0].value} python manage.py compilemessages
-          \n${dockerCommand} exec ${formFields[0].value} python manage.py sync_translation_fields --noinput`;
+          const field0 = isValid(formFields[0].value)
+            ? formFields[0].value
+            : formFields[0].defaultValue;
+          return `${dockerCommand} exec ${field0} python manage.py migrate
+          \n${dockerCommand} exec ${field0} python manage.py createsuperuser
+          \n${dockerCommand} exec ${field0} python manage.py sync_translation_fields --noinput`;
         }}
       />
     ),
@@ -930,48 +967,25 @@ X = ${result}`;
         description={() => <>WIP Stop all docker projects</>}
         initialFormFields={[
           {
-            name: 'docker container',
+            name: 'projects to stop',
             formFieldType: Enum_MyFormFieldType.input,
             tooltip: `${getPartialFromSettingsVariable(
               Enum_SettingOption.DOCKERCOMPOSE,
             )} ps`,
+            defaultValue:
+              'alpenduradas, hubel-verde, rgf, sheratoncascaisresort, cars_and_cars, longevity, rolear, test, chrono-health, mapro, rolear_academy, uplive, goldentree, ombria, rolear_mais, valedoloboalgarve, hotelfaro, pine_cliffs, rolearon, hubel, pinecliffs_spa, rolegas, hubel_hpl, qdl, roques',
             callback: () => {},
           },
         ]}
         renderedScript={(formFields: IMyFormField[]) => {
-          const folders = [
-            'alpenduradas',
-            'hubel-verde',
-            'rgf',
-            'sheratoncascaisresort',
-            'cars_and_cars',
-            'longevity',
-            'rolear',
-            'test',
-            'chrono-health',
-            'mapro',
-            'rolear_academy',
-            'uplive',
-            'goldentree',
-            'ombria',
-            'rolear_mais',
-            'valedoloboalgarve',
-            'hotelfaro',
-            'pine_cliffs',
-            'rolearon',
-            'hubel',
-            'pinecliffs_spa',
-            'rolegas',
-            'hubel_hpl',
-            'qdl',
-            'roques',
-          ];
+          const folders = isValid(formFields[0].value)
+            ? formFields[0].value!.split(', ')
+            : formFields[0].defaultValue!.split(', ');
           var echo = '';
           for (const folderPath of folders) {
             echo =
               echo +
-              `
-cd
+              `cd
 cd ${projectFolder}/${folderPath}
 ${dockerCommand} stop
 
