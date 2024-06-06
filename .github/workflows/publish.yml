@@ -32,6 +32,8 @@ jobs:
           npm install
           npm run postinstall
           npm run build
+          npm run rebuild
+          npm run package
 
       - name: Publish releases
         env:
