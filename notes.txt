@@ -19,6 +19,7 @@ Run project development:
     nvm use v16.16.0
     npm start
 
+
 Package the project:
 
     Rebuild the app, then create/build/export, then publish a release update @https://github.com/MickaelMorgado/MikasCodesApp/releases
