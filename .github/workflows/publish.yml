@@ -27,11 +27,11 @@ jobs:
           node-version: 21.6.1
           cache: npm
 
-      - name: Install and build
-        run: |
-          npm install
-          npm run postinstall
-          npm run build
+      # - name: Install and build
+      #   run: |
+      #     npm install
+      #     npm run postinstall
+      #     npm run build
 
       - name: Publish releases
         env:
